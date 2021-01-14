@@ -1,3 +1,4 @@
+-- 0.01
 local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 local function Base64Decode(data)
     data = string.gsub(data, '[^'..b..'=]', '')
