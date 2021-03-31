@@ -1,18 +1,77 @@
 --[[
-Version: 11.5
 
 Usage:
 
-require "DamageLib"
+---- Add this to your Champion Script ----
 
-local Rdamage = getdmg("R",target,source)
--------------------------------------------------------
+>>>>>This check Users scripts Folder if the Lib available and download if Lib does not exist<<<<<
+
+if not file_manager:file_exists("PKDamageLib.lua") then
+	local file_name = "PKDamageLib.lua"
+	local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"   	
+	http:download_file(url, file_name)
+end
+
+>>>>>This command loads the lib into your script<<<<< 
+
+require "PKDamageLib" 
+ 
+
+
+---- PKDamageLib API ----
 
 params:
+getdmg("spell", target, source, stage)
 
-getdmg("SKILL",target,source,stagedmg,spelllvl)
+spell == "Q" or "W" or "E" or "R" or "QM" or "WM" or "EM"   <-- "QM" or "WM" or "EM" == like Nidalee Cougar Form
+target == I don't have to explain
+source == game.local_player
+stage == 1 or 2 / Check dmg table if there more stages
+
+>>>>>stage check example Ahri<<<<<<
+  ["Ahri"] = {
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 65, 90, 115, 140})[level] + 0.35 * source.ability_power end},
+    {Slot = "Q", Stage = 2, DamageType = 3, Damage = function(source, target, level) return ({40, 65, 90, 115, 140})[level] + 0.35 * source.ability_power end},
+  you see Ahri Q have 2 Stages ,,,, Stage = 1 and Stage = 2
+  
+  
+>>>>>>>Simble Example Killsteal function Akali E<<<<<<<
+
+local function KillSteal()
+	for i, target in ipairs(GetEnemyHeroes()) do     	
+		local Dist = myHero:distance_to(target.origin)
+		if target.object_id ~= 0 then	
+			local EDmg = getdmg("E", target, game.local_player, 1)		
+	
+			if EDmg > target.health then
+				>>>>CastE	
+			end		
+		end
+	end
+end	
+
 ]]
 
+-- [ AutoUpdate ]
+do  
+    local function AutoUpdate()
+		local Version = 1
+		local file_name = "PKDamageLib.lua"
+		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
+        local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
+		if tonumber(web_version) == Version then
+            console:log("PKDamageLib successfully loaded.....")
+        else
+			http:download_file(url, file_name)
+            console:log("New PKDamageLib Update available.....")
+			console:log("Please reload via F5.....")
+        end
+    
+    end
+    
+    AutoUpdate()
+
+end
 
 local function GetPercentHP(unit)
   return unit:health_percentage( )
