@@ -79,7 +79,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 3
+		local Version = 4
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -102,8 +102,9 @@ local function GetPercentHP(unit)
 end
 
 local function GotBuff(unit, buffname)
-    if unit:has_buff(buffname) then 
-		return 1
+    local Buff = unit:get_buff(buffname)
+	if Buff.count > 0 then 
+		return Buff.count
     end
 	return 0
 end
