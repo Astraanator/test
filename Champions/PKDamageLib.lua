@@ -73,13 +73,30 @@ local function KillSteal()
 	end
 end	
 
+--/////////////////////////////////////////////////////////////////////////////////////
+--/////////////////////////////////////////////////////////////////////////////////////
+
+--- Return if unit not killable or has buff like Sion ---
+
+--Example add to your code /// Global: IsKillable(unit) 
+
+local function CastQ()
+	for i, target in ipairs(GetEnemyHeroes()) do     	
+		if target.object_id ~= 0 then				
+			if IsKillable(target) then  <--- return true if killable
+				>>>>CastQ	
+			end		
+		end
+	end
+end	
+
 ]]
 
 
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 4
+		local Version = 5
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -380,7 +397,7 @@ local DamageLibTable = {
   ["Gragas"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 120, 160, 200, 240})[level] + 0.7 * source.ability_power end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({20, 50, 80, 110, 140})[level] + 0.6 * source.ability_power + 0.07 * target.max_health end},
-    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 130, 180, 230, 280})[level] + 0.6 * source.ability_power end},
+    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 125, 170, 215, 260})[level] + 0.6 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({200, 300, 400})[level] + 0.8 * source.ability_power end},
   },
 
@@ -403,12 +420,12 @@ local DamageLibTable = {
   ["Hecarim"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({60, 97, 134, 171, 208})[level] + 0.7 * source.bonus_attack_damage end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({20, 30, 40, 50, 60})[level] + 0.2 * source.ability_power end},
-    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({35, 65, 95, 125, 155})[level] + 0.5 * source.bonus_attack_damage end},
+    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({30, 50, 70, 90, 110})[level] + 0.5 * source.bonus_attack_damage end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({150, 250, 350})[level] + source.ability_power end},
   },
 
   ["Heimerdinger"] = {
-    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({50, 80, 110, 140, 170})[level] + 0.45 * source.ability_power end},
+    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({50, 75, 100, 125, 150})[level] + 0.45 * source.ability_power end},
     {Slot = "W", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({135, 180, 225})[source:get_spell_slot(SLOT_R).level] + 0.45 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 100, 140, 180, 220})[level] + 0.6 * source.ability_power end},
     {Slot = "E", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({100, 200, 300})[source:get_spell_slot(SLOT_R).level] + 0.6 * source.ability_power end},
@@ -551,7 +568,7 @@ local DamageLibTable = {
   },  
 
   ["Kindred"] = {
-    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({60, 80, 100, 120, 140})[level] + source.bonus_attack_damage * 0.75 end},
+    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({60, 85, 110, 135, 160})[level] + source.bonus_attack_damage * 0.75 end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({25, 30, 35, 40, 45})[level] + 0.2 * source.bonus_attack_damage + 0.015 * (target.max_health - target.health) + (GetBuffData(source, "kindredmarkofthekindredstackcounter").stacks/100) * (target.max_health - target.health) end},
     {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({80, 100, 120, 140, 160})[level] + 0.8 * source.bonus_attack_damage + 0.08 * (target.max_health - target.health) + (GetBuffData(source, "kindredmarkofthekindredstackcounter").stacks/200) * (target.max_health - target.health) end},
   },
@@ -858,7 +875,7 @@ local DamageLibTable = {
     {Slot = "W", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({80, 100, 120, 140, 160})[level] + 0.1 * source.bonus_attack_damage end}, -- without expended Grit
     {Slot = "W", Stage = 2, DamageType = 3, Damage = function(source, target, level) return ({80, 100, 120, 140, 160})[level] + 0.1 * source.bonus_attack_damage end}, -- True Damage without expended Grit
     {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({50, 70, 90, 110, 130})[level] + 0.6 * source.total_attack_damage end},
-    {Slot = "R", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({200, 300, 400})[level] + source.bonus_attack_damage end}, -- without Target BonusHealth
+    {Slot = "R", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({200, 300, 400})[level] + 1.2 * source.bonus_attack_damage end}, -- without Target BonusHealth
   },  
 
   ["Shaco"] = {
@@ -1092,8 +1109,8 @@ local DamageLibTable = {
   },  
 
   ["Xerath"] = {
-    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 120, 160, 200, 240})[level] + 0.75 * source.ability_power end},
-    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 90, 120, 150, 180})[level] + 0.6 * source.ability_power end},
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 110, 150, 190, 230})[level] + 0.85 * source.ability_power end},
+    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 95, 130, 165, 200})[level] + 0.6 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 110, 140, 170, 200})[level] + 0.45 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({200, 250, 300})[level] + 0.43 * source.ability_power end},
   },
@@ -1166,6 +1183,18 @@ local DamageLibTable = {
   }
 }
 
+--------------------- Global functions --------------------
+
+
+--- Return if unit killable or has buff like Sion ---
+function IsKillable(unit)
+	if unit:has_buff_type(15) or unit:has_buff_type(17) or unit:has_buff("sionpassivezombie") then
+		return false
+	end
+	return true
+end
+
+--- Calculate and return correct Damage ---
 function getdmg(spell, target, source, stage, level)
 	local source = source or game.local_player
 	local stage = stage or 1
@@ -1185,13 +1214,15 @@ function getdmg(spell, target, source, stage, level)
 			for v = #swagtable, 1, -1 do
 				local spells = swagtable[v]
 				if spells.Stage == stage then
-					if spells.DamageType == 1 then
-						return target:calculate_phys_damage(spells.Damage(source, target, level))
-					elseif spells.DamageType == 2 then
-						return target:calculate_magic_damage(spells.Damage(source, target, level))
-					elseif spells.DamageType == 3 then
-						return spells.Damage(source, target, level)
-					end
+					if IsKillable(target) then
+						if spells.DamageType == 1 then
+							return target:calculate_phys_damage(spells.Damage(source, target, level))
+						elseif spells.DamageType == 2 then
+							return target:calculate_magic_damage(spells.Damage(source, target, level))
+						elseif spells.DamageType == 3 then
+							return spells.Damage(source, target, level)
+						end
+					end	
 				end
 			end
 		end
@@ -1199,7 +1230,7 @@ function getdmg(spell, target, source, stage, level)
 	if spell == "AA" then
 		return target:calculate_phys_damage(source.total_attack_damage )
 	end
-	if spell == "IGNITE" then
+	if spell == "IGNITE" and IsKillable(target) then
 		return 50+20*source.level - (target.health_regen*3)
 	end
 	if spell == "SMITE" then
