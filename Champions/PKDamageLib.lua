@@ -96,7 +96,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 5
+		local Version = 6
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -158,7 +158,7 @@ local function GetBaseHealth(unit)
 end
 
 
--->>>>>>>>>>>>>>>>>>>> Version 11.8 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Version 11.10 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
   ["Aatrox"] = {
@@ -619,7 +619,7 @@ local DamageLibTable = {
 
   ["Lux"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 125, 170, 215, 260})[level] + 0.6 * source.ability_power end},
-    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 105, 150, 195, 240})[level] + 0.6 * source.ability_power end},
+    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 110, 160, 210, 260})[level] + 0.65 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({300, 400, 500})[level] + source.ability_power end},
   },
 
@@ -955,7 +955,7 @@ local DamageLibTable = {
   },
 
   ["Talon"] = {
-    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({60, 90, 115, 140, 165})[level] + 1.1 * source.bonus_attack_damage end},
+    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({60, 90, 115, 140, 165})[level] + source.bonus_attack_damage end},
     {Slot = "W", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({45, 60, 75, 90, 105})[level] + 0.55 * source.bonus_attack_damage end},--INITIAL DAMAGE
     {Slot = "W", Stage = 2, DamageType = 1, Damage = function(source, target, level) return ({45, 70, 95, 120, 145})[level] + 0.7 * source.bonus_attack_damage end},--RETURN DAMAGE
     {Slot = "R", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({90, 135, 180})[level] + source.bonus_attack_damage end},
@@ -1142,7 +1142,7 @@ local DamageLibTable = {
   },
   
   ["Yuumi"] = {
-    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 70, 100, 130, 160, 190})[level] + 0.3 * source.ability_power end},
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({50, 80, 110, 140, 170, 200})[level] + 0.3 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({240, 320, 400})[level] + 0.8 * source.ability_power end},
   },  
 
