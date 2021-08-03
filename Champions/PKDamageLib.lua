@@ -95,7 +95,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 13
+		local Version = 14
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -1205,6 +1205,7 @@ function getdmg(spell, target, source, stage, level)
 	local source = source or game.local_player
 	local stage = stage or 1
 	local swagtable = {}
+	local Buff = source:get_buff("8001EnemyDebuff")
 	if stage > 4 then stage = 4 end
 	if spell == "Q" or spell == "W" or spell == "E" or spell == "R" or spell == "QM" or spell == "WM" or spell == "EM" then
 		local level = level or source:get_spell_slot(({["Q"] = SLOT_Q, ["QM"] = SLOT_Q, ["W"] = SLOT_W, ["WM"] = SLOT_W, ["E"] = SLOT_E, ["EM"] = SLOT_E, ["R"] = SLOT_R})[spell]).level
@@ -1221,12 +1222,25 @@ function getdmg(spell, target, source, stage, level)
 				local spells = swagtable[v]
 				if spells.Stage == stage then
 					if IsKillable(target) then
+						
 						if spells.DamageType == 1 then
-							return target:calculate_phys_damage(spells.Damage(source, target, level))
+							if Buff.count > 0 and Buff.source_id == target.object_id then
+								return target:calculate_phys_damage(spells.Damage(source, target, level)) - target:calculate_phys_damage(spells.Damage(source, target, level))*0.3
+							else
+								return target:calculate_phys_damage(spells.Damage(source, target, level))
+							end
 						elseif spells.DamageType == 2 then
-							return target:calculate_magic_damage(spells.Damage(source, target, level))
+							if Buff.count > 0 and Buff.source_id == target.object_id then
+								return target:calculate_magic_damage(spells.Damage(source, target, level)) - target:calculate_magic_damage(spells.Damage(source, target, level))*0.3
+							else
+								return target:calculate_magic_damage(spells.Damage(source, target, level))
+							end
 						elseif spells.DamageType == 3 then
-							return spells.Damage(source, target, level)
+							if Buff.count > 0 and Buff.source_id == target.object_id then
+								return spells.Damage(source, target, level) - spells.Damage(source, target, level)*0.3
+							else
+								return spells.Damage(source, target, level)
+							end
 						end
 					end	
 				end
@@ -1234,10 +1248,18 @@ function getdmg(spell, target, source, stage, level)
 		end
 	end
 	if spell == "AA" then
-		return target:calculate_phys_damage(source.total_attack_damage )
+		if Buff.count > 0 and Buff.source_id == target.object_id then
+			return target:calculate_phys_damage(source.total_attack_damage) - target:calculate_phys_damage(source.total_attack_damage)*0.3
+		else
+			return target:calculate_phys_damage(source.total_attack_damage)
+		end
 	end
 	if spell == "IGNITE" and IsKillable(target) then
-		return 50+20*source.level - (target.health_regen*3)
+		if Buff.count > 0 and Buff.source_id == target.object_id then
+			return (50+20*source.level - (target.health_regen*3)) - (50+20*source.level - (target.health_regen*3)*0.3)
+		else
+			return 50+20*source.level - (target.health_regen*3)
+		end
 	end
 	if spell == "SMITE" then
 		if stage == 1 then
