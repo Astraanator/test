@@ -95,7 +95,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 21
+		local Version = 22
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -392,11 +392,10 @@ local DamageLibTable = {
 
   ["Gnar"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({5, 45, 85, 125, 165})[level] + 1.15 * source.total_attack_damage end},
-    {Slot = "QM", Stage = 2, DamageType = 1, Damage = function(source, target, level) return ({25, 70, 115, 160, 205})[level] + 1.4 * source.total_attack_damage end},
-    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({0, 10, 20, 30, 40})[level] + source.ability_power + ({6, 8, 10, 12, 14})[level] / 100 * target.max_health end},
-    {Slot = "WM", Stage = 2, DamageType = 1, Damage = function(source, target, level) return ({25, 55, 85, 115, 145})[level] + source.total_attack_damage end},
-    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({80, 115, 150, 185, 220})[level] + source.max_health * 0.06 end},
-    {Slot = "EM", Stage = 2, DamageType = 1, Damage = function(source, target, level) return ({80, 115, 150, 185, 220})[level] + source.max_health * 0.06 end},
+    {Slot = "QM", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({25, 70, 115, 160, 205})[level] + 1.4 * source.total_attack_damage end},
+    {Slot = "WM", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({25, 55, 85, 115, 145})[level] + source.total_attack_damage end},
+    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({50, 85, 120, 155, 190})[level] + source.max_health * 0.06 end},
+    {Slot = "EM", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({80, 115, 150, 185, 220})[level] + source.max_health * 0.06 end},
     {Slot = "R", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({200, 300, 400})[level] + source.ability_power + 0.5 * source.bonus_attack_damage end},
   },
 
