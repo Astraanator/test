@@ -95,7 +95,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 22
+		local Version = 23
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -141,7 +141,7 @@ local function GetBuffData(unit, buffname)
 end
 
 local function HasPoison(unit)
-	if unit:has_buff_type(23) then
+	if unit:has_buff_type(24) then
 		return true
 	end
 	return false
