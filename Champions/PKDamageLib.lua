@@ -95,7 +95,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 23
+		local Version = 24
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -157,7 +157,7 @@ local function GetBaseHealth(unit)
 end
 
 
--->>>>>>>>>>>>>>>>>>>> GameVersion 11.22 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> GameVersion 11.24 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
   ["Aatrox"] = {
@@ -581,7 +581,7 @@ local DamageLibTable = {
   ["Kled"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({90, 165, 240, 315, 390})[level] + source.bonus_attack_damage * 1.8 end},
     {Slot = "W", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({20, 30, 40, 50, 60})[level] + (({0.045, 0.05, 0.055, 0.06, 0.065})[level] + (0.05*source.bonus_attack_damage)) * target.max_health end},
-    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({35, 60, 85, 110, 135})[level] + source.bonus_attack_damage * 0.6 end},
+    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({35, 60, 85, 110, 135})[level] + source.bonus_attack_damage * 0.65 end},
   },
 
   ["Leblanc"] = {
@@ -610,6 +610,15 @@ local DamageLibTable = {
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 105, 140, 175, 210})[level] + 0.6 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({150, 250, 350})[level] + 0.75 * source.ability_power end},
   },
+  
+  ["Lillia"] = {
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({35, 50, 65, 80, 95})[level] + 0.4 * source.ability_power end},
+    {Slot = "Q", Stage = 2, DamageType = 3, Damage = function(source, target, level) return ({35, 50, 65, 80, 95})[level] + 0.4 * source.ability_power end},--outer edge/TrueDmg	
+    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 90, 110, 130, 150})[level] + 0.35 * source.ability_power end},--AoeDmg
+    {Slot = "W", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({210, 270, 330, 390, 450})[level] + 1.05 * source.ability_power end},--CenterDmg
+    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 95, 120, 145, 170})[level] + 0.45 * source.ability_power end},
+    {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({100, 150, 200})[level] + 0.4 * source.ability_power end},
+  },  
 
   ["Lucian"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({95, 130, 165, 200, 235})[level] + ({0.6, 0.75, 0.9, 1.05, 1.2})[level] * source.bonus_attack_damage end},
@@ -625,7 +634,7 @@ local DamageLibTable = {
   ["Lux"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 125, 170, 215, 260})[level] + 0.6 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 120, 170, 220, 270})[level] + 0.7 * source.ability_power end},
-    {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({300, 400, 500})[level] + source.ability_power end},
+    {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({300, 400, 500})[level] + source.ability_power + (target:has_buff("LuxIlluminatingFraulein") and 10+10*source.level or 0)end},
   },
 
   ["Malphite"] = {
