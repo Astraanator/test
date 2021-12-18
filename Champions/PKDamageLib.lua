@@ -95,7 +95,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 24
+		local Version = 25
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -149,7 +149,15 @@ end
 
 local function GetBaseHealth(unit)
     if unit.champ_name == "Chogath" then
-        return 574.04 + 80 * unit.level
+		local BonusHealth = 0
+		local ChampLvL = unit.level
+		local UltLvL = unit:get_spell_slot(SLOT_R).level		
+		if UltLvL >= 1 then
+			local BaseHealth = ({574,632,692,756,822,890,962,1036,1114,1194,1276,1362,1450,1542,1636,1733,1832,1935})[ChampLvL]
+			local FeastBonus = ({80, 120, 160})[UltLvL] * unit:get_buff("Feast").stacks2
+			BonusHealth = (math.ceil(unit.max_health) - BaseHealth - FeastBonus)
+		end     		
+		return BonusHealth
 		
     elseif unit.champ_name == "Volibear" then
         return 580 + 65 * unit.level		
@@ -290,7 +298,7 @@ local DamageLibTable = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 135, 190, 245, 300})[level] + source.ability_power end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({75, 125, 175, 225, 275})[level] + 0.7 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({22, 34, 46, 58, 70})[level] + 0.3 * source.ability_power + 0.03 * target.max_health end},
-    {Slot = "R", Stage = 1, DamageType = 3, Damage = function(source, target, level) return ({300, 475, 650})[level] + 0.5 * source.ability_power + 0.1 * (source.max_health - GetBaseHealth(source)) end},
+    {Slot = "R", Stage = 1, DamageType = 3, Damage = function(source, target, level) return ({300, 475, 650})[level] + 0.5 * source.ability_power + 0.1 * GetBaseHealth(source) end},
   },
 
   ["Corki"] = {
