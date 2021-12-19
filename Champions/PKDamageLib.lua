@@ -95,7 +95,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 25
+		local Version = 26
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -813,10 +813,10 @@ local DamageLibTable = {
   
   ["Reksai"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({21, 27, 33, 39, 45})[level] + 0.5 * source.bonus_attack_damage end},--UNBURROWED 
-    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({60, 95, 130, 165, 200})[level] + 0.5 * source.bonus_attack_damage + 0.7 * source.ability_power end},--BURROWED 		
+    {Slot = "Q", Stage = 2, DamageType = 1, Damage = function(source, target, level) return ({60, 95, 130, 165, 200})[level] + 0.5 * source.bonus_attack_damage + 0.7 * source.ability_power end},--BURROWED 		
     {Slot = "W", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({55, 70, 85, 100, 115})[level] + 0.8 * source.bonus_attack_damage end},--BURROWED   
     {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({50, 60, 70, 80, 90})[level] + 0.85 * source.bonus_attack_damage end},--UNBURROWED 
-    {Slot = "E", Stage = 1, DamageType = 3, Damage = function(source, target, level) return ({100, 120, 140, 160, 180})[level] + 1.7 * source.bonus_attack_damage end},--UNBURROWED + Max FURY 
+    {Slot = "E", Stage = 2, DamageType = 3, Damage = function(source, target, level) return ({100, 120, 140, 160, 180})[level] + 1.7 * source.bonus_attack_damage end},--UNBURROWED + Max FURY 
     {Slot = "R", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({100, 250, 400})[level] + 1.75 * source.bonus_attack_damage + ({20, 25, 30})[level] / 100 * (target.max_health - target.health) end},
   }, 
 
