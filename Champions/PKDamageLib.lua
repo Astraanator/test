@@ -95,7 +95,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 27
+		local Version = 28
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -111,6 +111,73 @@ do
     
     AutoUpdate()
 
+end
+
+local DmgReductTable = {
+  ["Braum"] = {buff = "braumshieldbuff", amount = function(target) return 1 - ({0.3, 0.325, 0.35, 0.375, 0.4})[target:get_spell_slot(SLOT_E).level] end}, 			--E
+  ["Alistar"] = {buff = "FerociousHowl", amount = function(target) return 1 - ({0.55, 0.66, 0.75})[target:get_spell_slot(SLOT_R).level] end}, 						--R
+  ["Galio"] = {buff = "galiowbuff", amount = function(target) return 1 - ({0.2, 0.25, 0.3, 0.35, 0.4})[target:get_spell_slot(SLOT_W).level] end, damageType = 2}, 	--W
+  ["Galio"] = {buff = "galiowbuff", amount = function(target) return 1 - ({0.1, 0.125, 0.15, 0.175, 0.2})[target:get_spell_slot(SLOT_W).level] end, damageType = 1},--W
+  ["Garen"] = {buff = "GarenW", amount = function(target) return 0.7 end},																							--W
+  ["Gragas"] = {buff = "gragaswself", amount = function(target) return 1 - ({0.1, 0.12, 0.14, 0.16, 0.18})[target:get_spell_slot(SLOT_W).level] end},				--W
+  ["Irelia"] = {buff = "ireliawdefense", amount = function(target) return 1 - ((40+30/17*(target.level-1))/100) end, damageType = 1},								--W
+  ["Irelia"] = {buff = "ireliawdefense", amount = function(target) return 1 - ((20+15/17*(target.level-1))/100) end, damageType = 2},  								--W
+  ["Malzahar"] = {buff = "malzaharpassiveshield", amount = function(target) return 0.1 end},																		--Passive
+  ["MasterYi"] = {buff = "Meditate", amount = function(target) return 1 - ({0.6, 0.625, 0.65, 0.675, 0.7})[target:get_spell_slot(SLOT_W).level] end},				--W
+  ["Warwick"] = {buff = "WarwickE", amount = function(target) return 1 - ({0.35, 0.40, 0.45, 0.50, 0.55})[target:get_spell_slot(SLOT_E).level] end},  				--E
+}
+
+local function DmgReduction(source, target, amount, DamageType)
+	local CalcDmg = amount
+	
+	if source.is_hero then
+		if source:has_buff("summonerexhaustdebuff") then
+			CalcDmg = CalcDmg * 0.6
+		end
+	end
+
+	if target.is_hero then
+
+		if DmgReductTable[target.champ_name] then
+			if target:has_buff(DmgReductTable[target.champ_name].buff) and (not DmgReductTable[target.champ_name].damagetype or DmgReductTable[target.champ_name].damagetype == DamageType) then
+				CalcDmg = CalcDmg * DmgReductTable[target.champ_name].amount(target)
+			end
+		end
+
+		if target.champ_name == "Amumu" and target:has_buff("Tantrum") and DamageType == 1 then --E
+			CalcDmg = CalcDmg - (({2, 4, 6, 8, 10})[target:get_spell_slot(SLOT_E).level] + 0.03 * target.bonus_armor + 0.03 * target.bonus_mr)
+		end
+		
+		if target.champ_name == "Leona" and target:has_buff("LeonaSolarBarrier") then --W
+			if CalcDmg / 2 < (({8, 12, 16, 20, 24})[target:get_spell_slot(SLOT_W).level]) then
+				CalcDmg = CalcDmg / 2
+			else
+				CalcDmg = CalcDmg - (({8, 12, 16, 20, 24})[target:get_spell_slot(SLOT_W).level])
+			end			
+		end	
+
+		if target.champ_name == "Fizz" then --Passive
+			if CalcDmg / 2 < (4+(0.01*target.ability_power)) then
+				CalcDmg = CalcDmg / 2
+			else
+				CalcDmg = CalcDmg - (4+(0.01*target.ability_power))
+			end
+		end		
+
+		if target.champ_name == "Kassadin" and DamageType == 2 then --Passive
+			CalcDmg = CalcDmg * 0.9
+		end
+		
+		if target:has_buff("4644shield") then  --Item /  Crown of the Shattered Queen
+			CalcDmg = CalcDmg * 0.25
+		end
+
+		if target:has_buff("4401maxstacked") and DamageType == 2 then  --Item /  Force of Nature
+			CalcDmg = CalcDmg * 0.8
+		end			
+
+	end
+	return CalcDmg
 end
 
 local function GetPercentHP(unit)
@@ -640,9 +707,9 @@ local DamageLibTable = {
   },
 
   ["Lux"] = {
-    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 125, 170, 215, 260})[level] + 0.6 * source.ability_power end},
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 120, 160, 200, 240})[level] + 0.6 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 120, 170, 220, 270})[level] + 0.7 * source.ability_power end},
-    {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({300, 400, 500})[level] + source.ability_power + (target:has_buff("LuxIlluminatingFraulein") and 10+10*source.level or 0)end},
+    {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({300, 400, 500})[level] + source.ability_power + (target:has_buff("LuxIlluminatingFraulein") and (10+10*source.level + 0.2*source.ability_power) or 0)end},
   },
 
   ["Malphite"] = {
@@ -1250,42 +1317,40 @@ function getdmg(spell, target, source, stage, level)
 						
 						if spells.DamageType == 1 then
 							if Buff.count > 0 and Buff.source_id == target.object_id then
-								return target:calculate_phys_damage(spells.Damage(source, target, level)) - target:calculate_phys_damage(spells.Damage(source, target, level))*0.3
+								local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
+								return DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(spells.Damage(source, target, level)), 1)
 							else
-								return target:calculate_phys_damage(spells.Damage(source, target, level))
+								return DmgReduction(source, target, target:calculate_phys_damage(spells.Damage(source, target, level)), 1)
 							end
 						elseif spells.DamageType == 2 then
 							if Buff.count > 0 and Buff.source_id == target.object_id then
-								return target:calculate_magic_damage(spells.Damage(source, target, level)) - target:calculate_magic_damage(spells.Damage(source, target, level))*0.3
+								local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
+								return DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(spells.Damage(source, target, level)), 2)
 							else
-								return target:calculate_magic_damage(spells.Damage(source, target, level))
+								return DmgReduction(source, target, target:calculate_phys_damage(spells.Damage(source, target, level)), 2)
 							end
 						elseif spells.DamageType == 3 then
-							if Buff.count > 0 and Buff.source_id == target.object_id then
-								return spells.Damage(source, target, level) - spells.Damage(source, target, level)*0.3
-							else
-								return spells.Damage(source, target, level)
-							end
+							return spells.Damage(source, target, level)
 						end
 					end	
 				end
 			end
 		end
 	end
+	
 	if spell == "AA" then
 		if Buff.count > 0 and Buff.source_id == target.object_id then
-			return target:calculate_phys_damage(source.total_attack_damage) - target:calculate_phys_damage(source.total_attack_damage)*0.3
+			local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
+			return DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(source.total_attack_damage), 1)
 		else
-			return target:calculate_phys_damage(source.total_attack_damage)
+			return DmgReduction(source, target, target:calculate_phys_damage(source.total_attack_damage), 1)
 		end
 	end
+	
 	if spell == "IGNITE" and IsKillable(target) then
-		if Buff.count > 0 and Buff.source_id == target.object_id then
-			return (50+20*source.level - (target.health_regen*3)) - (50+20*source.level - (target.health_regen*3)*0.3)
-		else
-			return 50+20*source.level - (target.health_regen*3)
-		end
+		return 50+20*source.level - (target.health_regen*3)
 	end
+	
 	if spell == "SMITE" then
 		if stage == 1 then
 			return 450 			-- SummSpellName == "SummonerSmite"
