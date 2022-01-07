@@ -95,7 +95,7 @@ end
 -- [ AutoUpdate ]
 do  
     local function AutoUpdate()
-		local Version = 29
+		local Version = 30
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -1325,9 +1325,9 @@ function getdmg(spell, target, source, stage, level)
 						elseif spells.DamageType == 2 then
 							if Buff.count > 0 and Buff.source_id == target.object_id then
 								local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
-								return DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(spells.Damage(source, target, level)), 2)
+								return DmgReduction(source, target, ReductionStackDmg * target:calculate_magic_damage(spells.Damage(source, target, level)), 2)
 							else
-								return DmgReduction(source, target, target:calculate_phys_damage(spells.Damage(source, target, level)), 2)
+								return DmgReduction(source, target, target:calculate_magic_damage(spells.Damage(source, target, level)), 2)
 							end
 						elseif spells.DamageType == 3 then
 							return spells.Damage(source, target, level)
