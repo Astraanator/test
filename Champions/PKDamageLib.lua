@@ -89,6 +89,17 @@ local function CastQ()
 	end
 end	
 
+--/////////////////////////////////////////////////////////////////////////////////////
+	------ITEM PassiveProc.Damage------
+--/////////////////////////////////////////////////////////////////////////////////////
+
+---Return only PassiveDmg from Items---
+getdmg_item(target, source)
+
+---Return PassiveItemDmg + AADmg---
+getdmg("AA", target, source, stage)
+  stage(1) = returns only AADmg
+  stage(2) = returns AADmg + ItemDmg
 ]]
 
 -- [ AutoUpdate ]
