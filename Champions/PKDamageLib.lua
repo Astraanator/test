@@ -91,11 +91,11 @@ end
 
 ]]
 
-
 -- [ AutoUpdate ]
+local Version = 33
 do  
     local function AutoUpdate()
-		local Version = 32
+		
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
@@ -106,7 +106,18 @@ do
             console:log("New PKDamageLib Update available.....")
 			console:log("Please reload via F5.....")
         end
-    
+		
+		if not file_manager:directory_exists("PussyFolder") then
+			file_manager:create_directory("PussyFolder")
+		end
+
+		if file_manager:directory_exists("PussyFolder") then
+			if not file_manager:file_exists("PussyFolder/PkMenu.png") then
+				local file_name = "PussyFolder/PkMenu.png"
+				local url = "https://raw.githubusercontent.com/Astraanator/test/main/Images/PkMenu.png"   	
+				http:download_file(url, file_name)
+			end	
+		end			  
     end
     
     AutoUpdate()
@@ -126,6 +137,25 @@ local DmgReductTable = {
   ["MasterYi"] = {buff = "Meditate", amount = function(target) return 1 - ({0.6, 0.625, 0.65, 0.675, 0.7})[target:get_spell_slot(SLOT_W).level] end},				--W
   ["Warwick"] = {buff = "WarwickE", amount = function(target) return 1 - ({0.35, 0.40, 0.45, 0.50, 0.55})[target:get_spell_slot(SLOT_E).level] end},  				--E
 }
+
+function GetDistanceSqr(p1, p2)
+	return (p1.x - p2.x) *  (p1.x - p2.x) + ((p1.z or p1.y) - (p2.z or p2.y)) * ((p1.z or p1.y) - (p2.z or p2.y)) 
+end
+
+local function GetDistance(p1, p2)
+	return math.sqrt(GetDistanceSqr(p1, p2))
+end
+
+local function GetAllyHeroes()
+	local _AllyHeroes = {}
+	players = game.players	
+	for i, unit in ipairs(players) do
+		if unit and not unit.is_enemy then
+			table.insert(_AllyHeroes, unit)
+		end
+	end
+	return _AllyHeroes
+end
 
 local function DmgReduction(source, target, amount, DamageType)
 	local CalcDmg = amount
@@ -1341,11 +1371,20 @@ function getdmg(spell, target, source, stage, level)
 	end
 	
 	if spell == "AA" then
-		if Buff.count > 0 and Buff.source_id == target.object_id then
-			local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
-			return DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(source.total_attack_damage), 1)
-		else
-			return DmgReduction(source, target, target:calculate_phys_damage(source.total_attack_damage), 1)
+		if stage == 2 then -- Calculate and return AA-Damage + Items PassiveDmg
+			if Buff.count > 0 and Buff.source_id == target.object_id then
+				local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
+				return DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(source.total_attack_damage), 1)+getdmg_item(target, source)
+			else
+				return DmgReduction(source, target, target:calculate_phys_damage(source.total_attack_damage), 1)+getdmg_item(target, source)
+			end
+		else -- Calculate and return AA-Damage
+			if Buff.count > 0 and Buff.source_id == target.object_id then
+				local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
+				return DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(source.total_attack_damage), 1)
+			else
+				return DmgReduction(source, target, target:calculate_phys_damage(source.total_attack_damage), 1)
+			end
 		end
 	end
 	
@@ -1361,4 +1400,457 @@ function getdmg(spell, target, source, stage, level)
 		end
 	end
 	return 0
+end
+
+local DmgItems = {	
+	['ArdentCenser'] = 3504,		
+	['BladeoftheRuinedKing'] = 3153,
+	['DeadMansPlate'] = 3742,		
+	["DivineSunderer"] = 6632,
+    ["DoransRing"] = 1056,
+    ["DoransShield"] = 1054,	
+	['DuskbladeofDraktharr'] = 6691,
+	["EssenceReaver"] = 3508,		
+	["Eclipse"] = 6692,				
+	['Evenshroud'] = 3001,			
+	['HextechAlternator'] = 3145, 	
+	['HorizonFocus'] = 4628,		
+	["ImperialMandate"] = 4005,		
+	['KircheisShard'] = 2015,		
+	["KrakenSlayer"] = 6672,		
+  --["LiandryAnguish"] = 6653,			--only for spells 
+	['LichBane'] = 3100,			
+	['LordDominiksRegards'] = 3036,	
+  --["LudensTempest"] = 6655,			--only for spells
+	['NashorsTooth'] = 3115,		
+  --["NightHarvester"] = 4636,			--spells/AA AP-Dmg =  Broken by riot // Dont give cooldown/buff ingame
+	["Noonquiver"] = 6670,
+	["ProwlersClaw"] = 6693,
+	["RelicShield"] = 3302,				
+	['RecurveBow'] = 1043,			
+	['RapidFirecannon'] = 3094,		
+	['Riftmaker'] = 4633,			
+	['Sheen'] = 3057, 				
+	['Stormrazor'] = 3095,
+	["SteelShoulderguards"] = 3854,	
+	['TrinityForce'] = 3078,
+	["TearoftheGoddess"] = 3070,      
+	["TheCollector"] = 6676, 		
+	['TitanicHydra'] = 3748,		
+	['WitsEnd'] = 3091,						
+}
+
+local CalcItemDmg = {
+	{Id = DmgItems.ArdentCenser, DamageType = 2, spell = "AA",
+		ItemDamage = function(source, target)
+			if source:has_buff("3504buff") then
+				return 5+15/17*(source.level-1)
+			end			
+			return 0
+		end
+	},
+	
+	{Id = DmgItems.BladeoftheRuinedKing, DamageType = 1, spell = "AA", 
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if source.is_melee then
+					return 0.1*target.health
+				else
+					return 0.06*target.health	
+				end
+				
+			elseif target.is_minion or target.is_jungle_minion then
+				
+				if source.is_melee then
+					return (0.1*target.health >= 61) and 60 or 0.1*target.health
+				else
+					return (0.06*target.health >= 61) and 60 or 0.06*target.health
+				end				
+			end	
+		end
+	},
+
+	{Id = DmgItems.BladeoftheRuinedKing, DamageType = 2, spell = "AA",
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if target:get_buff("item3153botrkstacks").stacks2 == 2 then
+					return 40+110/17*(source.level-1)
+				end
+			end	
+			return 0
+		end
+	},	
+	
+	{Id = DmgItems.DeadMansPlate, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			local Dmg1 = 0.4*source:get_item(3742).count2
+			local Dmg2 = source:get_item(3742).count2/100*source.base_attack_damage
+			return Dmg1+Dmg2
+		end
+	},	
+
+	{Id = DmgItems.DivineSunderer, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			if source:has_buff("6632buff") then
+				if target.is_hero or target.is_minion then
+					if source.is_melee then
+						return 0.12*target.max_health
+					else
+						return 0.09*target.max_health
+					end
+				
+				elseif target.is_jungle_minion then
+					
+					if source.is_melee then
+						return (0.12*target.max_health > 2.5*source.base_attack_damage) and 2.5*source.base_attack_damage or 0.12*target.max_health
+					else
+						return (0.09*target.max_health > 2.5*source.base_attack_damage) and 2.5*source.base_attack_damage or 0.09*target.max_health
+					end					
+				end
+			end			
+			return 0
+		end
+	},	
+	
+	{Id = DmgItems.DuskbladeofDraktharr, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if game.game_time > source:get_spell_slot(source:get_item(6691).spell_slot).current_cooldown then
+					if source.is_melee then
+						return 75+0.3*source.bonus_attack_damage
+					else
+						return 55+0.25*source.bonus_attack_damage
+					end
+				end	
+			end	
+			return 0
+		end
+	},
+	
+	{Id = DmgItems.DoransRing, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				return 5
+			end
+			return 0
+		end
+	},	
+
+	{Id = DmgItems.DoransShield, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				return 5
+			end
+			return 0
+		end
+	},		
+
+	{Id = DmgItems.EssenceReaver, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			if source:has_buff("3508buff") then
+				return source.base_attack_damage+0.4*source.bonus_attack_damage
+			end			
+			return 0
+		end
+	},
+	--[[
+	{Id = DmgItems.Eclipse, DamageType = 1, spell = "AA",   -- cant count second hit
+		ItemDamage = function(source, target)
+			if game.game_time > source:get_spell_slot(source:get_item(6692).spell_slot).current_cooldown then
+				return source.total_attack_damage+0.06*target.max_health
+			end			
+			return 0
+		end
+	},
+	]]
+	{Id = DmgItems.Evenshroud, DamageType = 1, spell = "AA",  ---for spells too
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if target:has_buff("item3001debuff") then
+					return 0.09*source.total_attack_damage
+				end
+			end	
+			return 0
+		end
+	},
+
+	{Id = DmgItems.HextechAlternator, DamageType = 2, spell = "AA",  ---for spells too
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if game.game_time > source:get_spell_slot(source:get_item(3145).spell_slot).current_cooldown then
+					return 50+75/17*(source.level-1)
+				end	
+			end	
+			return 0
+		end
+	},
+
+	{Id = DmgItems.HorizonFocus, DamageType = 1, spell = "AA",  ---for spells too
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if target:has_buff("4628marker") and target:get_buff("4628marker").source_id == source.object_id then
+					return 0.1*source.total_attack_damage
+				end	
+			end	
+			return 0
+		end
+	},
+
+	{Id = DmgItems.KircheisShard, DamageType = 2, spell = "AA", 
+		ItemDamage = function(source, target)
+			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
+				return 80
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgItems.KrakenSlayer, DamageType = 3, spell = "AA", 
+		ItemDamage = function(source, target)
+			if source:get_buff("6672buff").stacks2 == 2 then
+				return 60+(0.45*source.bonus_attack_damage)
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgItems.LichBane, DamageType = 2, spell = "AA", 
+		ItemDamage = function(source, target)
+			if source:has_buff("lichbane") then
+				return 1.5*source.base_attack_damage + 0.4*source.ability_power
+			end			
+			return 0
+		end
+	},	
+	
+	{Id = DmgItems.LordDominiksRegards, DamageType = 1, spell = "AA",  ---for ADspells too
+		ItemDamage = function(source, target)
+            if target.is_hero then
+				local DiffHP = math.abs(source.max_health - target.max_health)
+				return 0.0075 * DiffHP / 100 * source.total_attack_damage
+			end	
+			return 0
+		end
+	},	
+	
+	{Id = DmgItems.NashorsTooth, DamageType = 2, spell = "AA",
+		ItemDamage = function(source, target)
+			return 15+(0.2*source.ability_power)			
+		end
+	},
+	
+	{Id = DmgItems.Noonquiver, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				return 20
+			end
+			return 0
+		end
+	},	
+
+	{Id = DmgItems.ProwlersClaw, DamageType = 1, spell = "AA",		---for spells too
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if target:has_buff("6693amp") and target:get_buff("6693amp").source_id == source.object_id then
+					return 0.15*source.total_attack_damage
+				end
+			end	
+			return 0
+		end
+	},			
+	
+	{Id = DmgItems.RelicShield, DamageType = 3, spell = "AA",
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				for i, Ally in ipairs(GetAllyHeroes()) do
+					if Ally.object_id ~= source.object_id and GetDistance(Ally.origin, source.origin) < 1050 and Ally.is_alive then
+						local Buff = source:has_buff("talentreaperstacksone") or source:has_buff("talentreaperstackstwo") or source:has_buff("talentreaperstacksthree")
+						if Buff then
+							if source.is_melee then
+								if target.max_health * 0.5 > target.health then
+									return 99999
+								end								
+							else								
+								if target.max_health * 0.3 > target.health then
+									return 99999
+								end
+							end						
+						end
+					end
+				end
+			end	
+			return 0			
+		end
+	},	
+	
+	{Id = DmgItems.RecurveBow, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			return 15			
+		end
+	},
+
+	{Id = DmgItems.RapidFirecannon, DamageType = 2, spell = "AA", 
+		ItemDamage = function(source, target)
+			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
+				return 120
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgItems.Riftmaker, DamageType = 1, spell = "AA",		---for spells too
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if source:has_buff("4633stackcounter") then
+					return (source:get_buff("4633stackcounter").stacks2*0.03)*source.total_attack_damage
+				end
+			end	
+			return 0
+		end
+	},
+
+	{Id = DmgItems.Riftmaker, DamageType = 3, spell = "AA",		---for spells too
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if source:has_buff("4633enragebuff") then
+					return 0.09*source.total_attack_damage
+				end
+			end	
+			return 0
+		end
+	},
+
+	{Id = DmgItems.Sheen, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if source:has_buff("sheen") then
+				return source.base_attack_damage
+			end
+			return 0
+		end
+	},	
+	
+	{Id = DmgItems.Stormrazor, DamageType = 2, spell = "AA", 
+		ItemDamage = function(source, target)
+			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
+				return 120
+			end			
+			return 0
+		end
+	},
+	
+	{Id = DmgItems.SteelShoulderguards, DamageType = 3, spell = "AA",
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				for i, Ally in ipairs(GetAllyHeroes()) do
+					if Ally.object_id ~= source.object_id and GetDistance(Ally.origin, source.origin) < 1050 and Ally.is_alive then
+						local Buff = source:has_buff("talentreaperstacksone") or source:has_buff("talentreaperstackstwo") or source:has_buff("talentreaperstacksthree")
+						if Buff then
+							if source.is_melee then
+								if target.max_health * 0.5 > target.health then
+									return 99999
+								end								
+							else								
+								if target.max_health * 0.3 > target.health then
+									return 99999
+								end
+							end						
+						end
+					end
+				end
+			end	
+			return 0			
+		end
+	},	
+	
+	{Id = DmgItems.TearoftheGoddess, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				return 5
+			end
+			return 0
+		end
+	},	
+
+	{Id = DmgItems.TrinityForce, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if source:has_buff("3078trinityforce") then
+				return 2*source.base_attack_damage
+			end
+			return 0
+		end
+	},
+
+	{Id = DmgItems.TitanicHydra, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			local Bonus = 0.02*(source.max_health-source.base_health)
+			if source.is_melee then
+				return Bonus+5+(0.015*source.max_health)
+			else
+				return Bonus+3.75+(0.01125*source.max_health)
+			end
+		end
+	},
+
+	{Id = DmgItems.WitsEnd, DamageType = 2, spell = "AA",	
+		ItemDamage = function(source, target)
+			return ({15, 16.25, 17.5, 18.75, 20, 21.25, 22.5, 23.75, 25, 35, 45, 55, 65, 75, 76.25, 77.5, 78.75, 80})[source.level]
+		end
+	},
+}
+
+function getdmg_item(target, source)
+    if not source.is_hero or not target.is_hero then return 0 end
+	
+	local PhysicalDamage = 0
+    local MagicalDamage = 0
+    local TrueDamage = 0
+	local FullItemDmg = 0
+
+    for i = 1, #CalcItemDmg do
+        local item = CalcItemDmg[i]
+		
+		if source:has_item(item.Id) then
+			if item.DamageType == 1 then
+				PhysicalDamage = PhysicalDamage + item.ItemDamage(source, target)
+			elseif item.DamageType == 2 then
+				MagicalDamage = MagicalDamage + item.ItemDamage(source, target)
+			elseif item.DamageType == 3 then
+				TrueDamage = TrueDamage + item.ItemDamage(source, target)
+			end
+        end
+    end
+	
+	if target.is_hero then
+		if source.champ_name == "Ashe" and target:has_buff("ashepassiveslow") then
+			PhysicalDamage = PhysicalDamage + (0.1+0.75*source.crit_chance/100)*source.total_attack_damage
+		end
+	end	
+	
+	if target:has_buff("4005debuff") then  ---for spells too
+		if target:get_buff("4005debuff").source_id ~= source.object_id then 
+			MagicalDamage = MagicalDamage +	(90+60/17*(source.level-1))
+		end
+	end
+	
+	local Buff = source:get_buff("8001EnemyDebuff")
+	if Buff.count > 0 and Buff.source_id == target.object_id then
+		local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
+		FullItemDmg = 	DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(PhysicalDamage), 1)+
+						DmgReduction(source, target, ReductionStackDmg * target:calculate_magic_damage(MagicalDamage), 2)+
+						TrueDamage
+	else
+		FullItemDmg = 	DmgReduction(source, target, target:calculate_phys_damage(PhysicalDamage), 1)+
+						DmgReduction(source, target, target:calculate_magic_damage(MagicalDamage), 2)+
+						TrueDamage		
+	end
+	
+	if target.is_hero then
+		if source:has_item(6676) then --TheCollector // for spells too (Execute) under 0.5%
+			local FullAADmg = FullItemDmg + getdmg("AA", target, source)
+			if (target.health - FullAADmg)/target.max_health < 0.05 then
+				return 999999
+			end  
+		end	
+		return FullItemDmg
+	end	
 end
