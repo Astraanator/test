@@ -9,7 +9,7 @@ Data = {
 
     Champions = {
         Ahri = {
-            Changelog = "Lets go",
+            Changelog = "Lets go \n Next \n Next",
             Version = 0.4,
         }, 
         
