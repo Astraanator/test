@@ -9,8 +9,8 @@ Data = {
 
     Champions = {
         Ahri = {
-            Changelog = "Test//Test",
-            Version = 0.3,
+            Changelog = "Lets go",
+            Version = 0.4,
         }, 
         
         Caitlyn = {
