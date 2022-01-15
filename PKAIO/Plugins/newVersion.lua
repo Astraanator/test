@@ -11,7 +11,12 @@ Data = {
         Ahri = {
             Changelog = "Test//Test",
             Version = 0.3,
-        },        
+        }, 
+        
+        Caitlyn = {
+            Changelog = "",
+            Version = 0.1,
+        },         
     },
 }
 return Data
