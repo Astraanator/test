@@ -9,8 +9,8 @@ Data = {
 
     Champions = {
         Ahri = {
-            Changelog = "",
-            Version = 0.2,
+            Changelog = "Test//Test",
+            Version = 0.3,
         },        
     },
 }
