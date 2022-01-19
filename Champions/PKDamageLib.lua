@@ -103,7 +103,7 @@ getdmg("AA", target, source, stage)
 ]]
 
 -- [ AutoUpdate ]
-local Version = 33
+local Version = 34
 do  
     local function AutoUpdate()
 		
@@ -646,7 +646,7 @@ local DamageLibTable = {
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({15, 30, 45, 60, 75})[level] + 0.25 * source.ability_power + 0.5 * source.total_attack_damage end},   
 	{Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({25, 37.5, 50})[level] + 0.19 * source.ability_power end}, -- calc for 1 Dagger
     {Slot = "R", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({375, 562.5, 750})[level] + 2.85 * source.ability_power end},
-	{Slot = "R", Stage = 3, DamageType = 1, Damage = function(source, target, level) return 0.16 * source.bonus_attack_damage + 0.128 * source.bonus_attack_speed end}, -- calc for 1 Dagger
+	{Slot = "R", Stage = 3, DamageType = 1, Damage = function(source, target, level) return (0.16 + 0.128 * source.attack_speed) * source.bonus_attack_damage end}, -- calc for 1 Dagger
   },
 
   ["Kayle"] = {
