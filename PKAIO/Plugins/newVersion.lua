@@ -79,6 +79,11 @@ Data = {
             Changelog = "",
             Version = 0.1,
         },
+		
+        Katarina = {
+            Changelog = "",
+            Version = 0.1,
+        },		
 
         Kalista = {
             Changelog = "",
