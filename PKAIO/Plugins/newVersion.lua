@@ -179,6 +179,11 @@ Data = {
             Changelog = "",
             Version = 0.1,
         },
+		
+        Xerath = {
+            Changelog = "",
+            Version = 0.1,
+        },		
 
         XinZhao = {
             Changelog = "",
