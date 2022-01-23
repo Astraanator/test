@@ -103,19 +103,15 @@ getdmg("AA", target, source, stage)
 ]]
 
 -- [ AutoUpdate ]
-local Version = 35
+local Version = 36
 do  
     local function AutoUpdate()
 		
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"        
         local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
-		if tonumber(web_version) == Version then
-            console:log("PKDamageLib successfully loaded.....")
-        else
+		if tonumber(web_version) ~= Version then
 			http:download_file(url, file_name)
-            console:log("New PKDamageLib Update available.....")
-			console:log("Please reload via F5.....")
         end
 		
 		if not file_manager:directory_exists("PussyFolder") then
@@ -1253,7 +1249,7 @@ local DamageLibTable = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 110, 150, 190, 230})[level] + 0.85 * source.ability_power end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 95, 130, 165, 200})[level] + 0.6 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 110, 140, 170, 200})[level] + 0.45 * source.ability_power end},
-    {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({200, 250, 300})[level] + 0.43 * source.ability_power end},
+    {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({200, 250, 300})[level] + 0.45 * source.ability_power end},
   },
 
   ["XinZhao"] = {
