@@ -103,7 +103,7 @@ getdmg("AA", target, source, stage)
 ]]
 
 -- [ AutoUpdate ]
-local Version = 36
+local Version = 37
 do  
     local function AutoUpdate()
 		
@@ -269,7 +269,7 @@ local function GetBaseHealth(unit)
 end
 
 
--->>>>>>>>>>>>>>>>>>>> GameVersion 12.2 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> GameVersion 12.3 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
   ["Aatrox"] = {
@@ -278,11 +278,11 @@ local DamageLibTable = {
   },
 
   ["Ahri"] = {
-    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 65, 90, 115, 140})[level] + 0.35 * source.ability_power end},
-    {Slot = "Q", Stage = 2, DamageType = 3, Damage = function(source, target, level) return ({40, 65, 90, 115, 140})[level] + 0.35 * source.ability_power end},
-    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 65, 90, 115, 140})[level] + 0.3 * source.ability_power end},
-    {Slot = "W", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({12, 19.5, 27, 34.5, 42})[level] + 0.09 * source.ability_power end},
-    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 90, 120, 150, 180})[level] + 0.4 * source.ability_power end},
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 65, 90, 115, 140})[level] + 0.4 * source.ability_power end},
+    {Slot = "Q", Stage = 2, DamageType = 3, Damage = function(source, target, level) return ({40, 65, 90, 115, 140})[level] + 0.4 * source.ability_power end},
+    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 85, 110, 135, 160})[level] + 0.3 * source.ability_power end},
+    {Slot = "W", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({18, 25.5, 33, 40.5, 48})[level] + 0.09 * source.ability_power end},
+    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 110, 140, 170, 200})[level] + 0.6 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 90, 120})[level] + 0.35 * source.ability_power end},
   },
 
@@ -700,7 +700,7 @@ local DamageLibTable = {
 
   ["Leblanc"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({65, 90, 115, 140, 165})[level] + 0.4 * source.ability_power end},
-    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({75, 115, 155, 195, 235})[level] + 0.6 * source.ability_power end},
+    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({75, 110, 145, 180, 215})[level] + 0.6 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({50, 70, 90, 110, 130})[level] + 0.3 * source.ability_power end},
   },
 
@@ -804,7 +804,7 @@ local DamageLibTable = {
   ["Nami"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({75, 130, 185, 240, 295})[level] + 0.5 * source.ability_power end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 110, 150, 190, 230})[level] + 0.5 * source.ability_power end},
-    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({25, 40, 55, 70, 85})[level] + 0.2 * source.ability_power end},
+    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({20, 35, 50, 65, 80})[level] + 0.2 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({150, 250, 350})[level] + 0.6 * source.ability_power end},
   },
 
@@ -902,7 +902,7 @@ local DamageLibTable = {
   ["Quinn"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({20, 45, 70, 95, 120})[level] + (({0.8, 0.9, 1.0, 1.1, 1.2})[level] * source.total_attack_damage) + 0.5 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({40, 70, 100, 130, 160})[level] + 0.2 * source.bonus_attack_damage end},
-    {Slot = "R", Stage = 1, DamageType = 1, Damage = function(source, target, level) return 0.4 * source.total_attack_damage end},
+    {Slot = "R", Stage = 1, DamageType = 1, Damage = function(source, target, level) return 0.7 * source.total_attack_damage end},
   },
   
   ["Rakan"] = {
@@ -1137,7 +1137,7 @@ local DamageLibTable = {
   },
 
   ["TwistedFate"] = {
-    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 105, 150, 195, 240})[level] + 0.65 * source.ability_power end},
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 100, 140, 180, 220})[level] + 0.7 * source.ability_power end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 60, 80, 100, 120})[level] + source.total_attack_damage + 0.9 * source.ability_power end},--Blue Card
     {Slot = "W", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({30, 45, 60, 75, 90})[level] + source.total_attack_damage + 0.6 * source.ability_power end},--Red Card
     {Slot = "W", Stage = 3, DamageType = 2, Damage = function(source, target, level) return ({15, 22.5, 30, 37.5, 45})[level] + source.total_attack_damage + 0.5 * source.ability_power end},--Gold Card
@@ -1332,7 +1332,7 @@ local DamageLibTable = {
 
 --- Return if unit killable or has buff like Sion ---
 function IsKillable(unit)
-	if unit:has_buff_type(16) or unit:has_buff_type(18) or unit:has_buff("sionpassivezombie") then
+	if unit:has_buff_type(16) or unit:has_buff_type(18) or unit:has_buff_type(38) or unit:has_buff("sionpassivezombie") then
 		return false
 	end
 	return true
@@ -1468,17 +1468,17 @@ local CalcItemDmg = {
 		ItemDamage = function(source, target)
 			if target.is_hero then
 				if source.is_melee then
-					return 0.1*target.health
+					return 0.12*target.health
 				else
-					return 0.06*target.health	
+					return 0.08*target.health	
 				end
 				
 			elseif target.is_minion or target.is_jungle_minion then
 				
 				if source.is_melee then
-					return (0.1*target.health >= 61) and 60 or 0.1*target.health
+					return (0.12*target.health >= 61) and 60 or 0.12*target.health
 				else
-					return (0.06*target.health >= 61) and 60 or 0.06*target.health
+					return (0.08*target.health >= 61) and 60 or 0.08*target.health
 				end				
 			end	
 		end
