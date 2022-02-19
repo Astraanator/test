@@ -103,7 +103,7 @@ getdmg("AA", target, source, stage)
 ]]
 
 -- [ AutoUpdate ]
-local Version = 37
+local Version = 38
 do  
     local function AutoUpdate()
 		
@@ -269,7 +269,7 @@ local function GetBaseHealth(unit)
 end
 
 
--->>>>>>>>>>>>>>>>>>>> GameVersion 12.3 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> GameVersion 12.4 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
   ["Aatrox"] = {
@@ -550,7 +550,7 @@ local DamageLibTable = {
   },
   
   ["Illaoi"] = {
-    {Slot = "W", Stage = 1, DamageType = 1, Damage = function(source, target, level) return 0.02 * source.total_attack_damage / 100 + ({0.03, 0.035, 0.04, 0.045, 0.05})[level] * target.max_health end},
+    {Slot = "W", Stage = 1, DamageType = 1, Damage = function(source, target, level) return 0.04 * source.total_attack_damage / 100 + ({0.03, 0.035, 0.04, 0.045, 0.05})[level] * target.max_health end},
     {Slot = "R", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({150, 250, 350})[level] + 0.5 * source.bonus_attack_damage end},
   },  
 
@@ -804,7 +804,7 @@ local DamageLibTable = {
   ["Nami"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({75, 130, 185, 240, 295})[level] + 0.5 * source.ability_power end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 110, 150, 190, 230})[level] + 0.5 * source.ability_power end},
-    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({20, 35, 50, 65, 80})[level] + 0.2 * source.ability_power end},
+    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({25, 40, 55, 70, 85})[level] + 0.2 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({150, 250, 350})[level] + 0.6 * source.ability_power end},
   },
 
@@ -931,7 +931,12 @@ local DamageLibTable = {
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 105, 140, 175, 210})[level] + 0.6 * source.ability_power end}, -- if mounted  
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 120, 160, 200, 240})[level] + 0.3 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({120, 200, 280})[level] + 1.1 * source.ability_power end},
-  },  
+  },
+
+  ["Renata"] = {
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 125, 170, 215, 260})[level] + 0.8 * source.ability_power end}, 		  
+    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({65, 95, 125, 155, 185})[level] + 0.55 * source.ability_power end},
+  },   
 
   ["Renekton"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({65, 100, 135, 170, 205})[level] + 0.8 * source.bonus_attack_damage end},
@@ -1291,8 +1296,8 @@ local DamageLibTable = {
   },
   
   ["Zeri"] = {
-    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({1.43, 2.14, 2.86, 3.57, 4.29})[level] + 0.157 * source.total_attack_damage end}, -- per bullet
-    {Slot = "Q", Stage = 2, DamageType = 1, Damage = function(source, target, level) return ({10, 15, 20, 25, 30})[level] + 1.1 * source.total_attack_damage end}, -- Full Dmg
+    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({1.29, 1.86, 2.43, 3, 3.57})[level] + 0.157 * source.total_attack_damage end}, -- per bullet
+    {Slot = "Q", Stage = 2, DamageType = 1, Damage = function(source, target, level) return ({9, 13, 17, 21, 25})[level] + 1.1 * source.total_attack_damage end}, -- Full Dmg
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 75, 110, 145, 180})[level] + source.total_attack_damage + 0.6 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({150, 250, 350})[level] + 0.8 * source.bonus_attack_damage + 0.8 * source.ability_power end},
   },  
