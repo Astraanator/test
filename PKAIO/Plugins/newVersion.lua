@@ -124,6 +124,11 @@ Data = {
             Changelog = "",
             Version = 0.1,
         },
+		
+        Renata = {
+            Changelog = "",
+            Version = 0.1,
+        },		
 
         Riven = {
             Changelog = "",
