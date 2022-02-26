@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 0.5,
+        Version = 0.6,
     },
 
     Champions = {
@@ -127,7 +127,7 @@ Data = {
 		
         Renata = {
             Changelog = "",
-            Version = 0.3,
+            Version = 0.4,
         },		
 
         Riven = {
