@@ -103,7 +103,7 @@ getdmg("AA", target, source, stage)
 ]]
 
 -- [ AutoUpdate ]
-local Version = 38
+local Version = 39
 do  
     local function AutoUpdate()
 		
@@ -269,7 +269,7 @@ local function GetBaseHealth(unit)
 end
 
 
--->>>>>>>>>>>>>>>>>>>> GameVersion 12.4 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> GameVersion 12.5 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
   ["Aatrox"] = {
@@ -280,8 +280,8 @@ local DamageLibTable = {
   ["Ahri"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 65, 90, 115, 140})[level] + 0.4 * source.ability_power end},
     {Slot = "Q", Stage = 2, DamageType = 3, Damage = function(source, target, level) return ({40, 65, 90, 115, 140})[level] + 0.4 * source.ability_power end},
-    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 85, 110, 135, 160})[level] + 0.3 * source.ability_power end},
-    {Slot = "W", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({18, 25.5, 33, 40.5, 48})[level] + 0.09 * source.ability_power end},
+    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({50, 75, 100, 125, 150})[level] + 0.3 * source.ability_power end},
+    {Slot = "W", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({15, 22.5, 30, 37.5, 45})[level] + 0.09 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({80, 110, 140, 170, 200})[level] + 0.6 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 90, 120})[level] + 0.35 * source.ability_power end},
   },
@@ -774,8 +774,8 @@ local DamageLibTable = {
   },
 
   ["MasterYi"] = {
-    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({25, 60, 95, 130, 165})[level] + 0.9 * source.total_attack_damage end},
-    {Slot = "E", Stage = 1, DamageType = 3, Damage = function(source, target, level) return ({30, 40, 50, 60, 70})[level] + 0.35 * source.bonus_attack_damage end},
+    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({30, 60, 90, 120, 150})[level] + 0.6 * source.total_attack_damage end},
+    {Slot = "E", Stage = 1, DamageType = 3, Damage = function(source, target, level) return ({30, 38, 46, 54, 62})[level] + 0.35 * source.bonus_attack_damage end},
   },
 
   ["MissFortune"] = {
