@@ -77,7 +77,7 @@ Data = {
 
         Jinx = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 		
         Katarina = {
@@ -102,7 +102,7 @@ Data = {
 
         KogMaw = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 
         MasterYi = {
@@ -142,7 +142,7 @@ Data = {
 
         Samira = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 
         Senna = {
@@ -167,7 +167,7 @@ Data = {
 
         Twitch = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 
         Vayne = {
