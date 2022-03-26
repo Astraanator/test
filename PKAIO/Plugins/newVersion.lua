@@ -182,7 +182,7 @@ Data = {
 
         Viktor = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 		
         Xerath = {
