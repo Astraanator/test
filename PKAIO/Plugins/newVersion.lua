@@ -23,7 +23,12 @@ Data = {
         Brand = {
             Changelog = "",
             Version = 0.1,
-        },  		
+        },  
+		
+        Cassiopeia = {
+            Changelog = "",
+            Version = 0.1,
+        }, 		
         
         Caitlyn = {
             Changelog = "",
