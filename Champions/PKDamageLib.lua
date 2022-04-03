@@ -103,7 +103,7 @@ getdmg("AA", target, source, stage)
 ]]
 
 -- [ AutoUpdate ]
-local Version = 40
+local Version = 41
 do  
     local function AutoUpdate()
 		
@@ -145,13 +145,24 @@ local DmgReductTable = {
   ["Warwick"] = {buff = "WarwickE", amount = function(target) return 1 - ({0.35, 0.40, 0.45, 0.50, 0.55})[target:get_spell_slot(SLOT_E).level] end},  				--E
 }
 
-function GetDistanceSqr(p1, p2)
+local function GetDistanceSqr(p1, p2)
 	return (p1.x - p2.x) *  (p1.x - p2.x) + ((p1.z or p1.y) - (p2.z or p2.y)) * ((p1.z or p1.y) - (p2.z or p2.y)) 
 end
 
 local function GetDistance(p1, p2)
 	return math.sqrt(GetDistanceSqr(p1, p2))
 end
+
+local function GetEnemyHeroes()
+	local _EnemyHeroes = {}
+	players = game.players	
+	for i, unit in ipairs(players) do
+		if unit and unit.is_enemy then
+			table.insert(_EnemyHeroes, unit)
+		end
+	end	
+	return _EnemyHeroes
+end	
 
 local function GetAllyHeroes()
 	local _AllyHeroes = {}
@@ -269,7 +280,7 @@ local function GetBaseHealth(unit)
 end
 
 
--->>>>>>>>>>>>>>>>>>>> GameVersion 12.5 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> GameVersion 12.6 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
   ["Aatrox"] = {
@@ -417,7 +428,7 @@ local DamageLibTable = {
   ["Darius"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({50, 80, 110, 140, 170})[level] + (({1.0, 1.1, 1.2, 1.3, 1.4})[level] * source.total_attack_damage) end},
     {Slot = "W", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({0.4, 0.45, 0.5, 0.55, 0.6})[level] * source.total_attack_damage end},
-    {Slot = "R", Stage = 1, DamageType = 3, Damage = function(source, target, level) return ({100, 200, 300})[level] + 0.75 * source.bonus_attack_damage end},
+    {Slot = "R", Stage = 1, DamageType = 3, Damage = function(source, target, level) return ({125, 250, 375})[level] + 0.75 * source.bonus_attack_damage end},
   },
 
   ["Diana"] = {
@@ -536,9 +547,9 @@ local DamageLibTable = {
   },  
 
   ["Hecarim"] = {
-    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({60, 97, 134, 171, 208})[level] + 0.85 * source.bonus_attack_damage end},
+    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({60, 90, 120, 150, 180})[level] + 0.85 * source.bonus_attack_damage end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({20, 30, 40, 50, 60})[level] + 0.2 * source.ability_power end},
-    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({30, 50, 70, 90, 110})[level] + 0.55 * source.bonus_attack_damage end},
+    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({30, 45, 60, 75, 90})[level] + 0.55 * source.bonus_attack_damage end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({150, 250, 350})[level] + source.ability_power end},
   },
 
@@ -580,7 +591,7 @@ local DamageLibTable = {
 
   ["Jax"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({65, 105, 145, 185, 225})[level] + source.bonus_attack_damage + 0.6 * source.ability_power end},
-    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 75, 110, 145, 180})[level] + 0.6 * source.ability_power end},
+    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({50, 85, 120, 155, 190})[level] + 0.6 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({55, 80, 105, 130, 155})[level] + 0.5 * source.bonus_attack_damage end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({100, 140, 180})[level] + 0.7 * source.ability_power end},
   },
