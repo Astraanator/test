@@ -27,7 +27,7 @@ Data = {
 		
         Cassiopeia = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         }, 		
         
         Caitlyn = {
@@ -57,7 +57,7 @@ Data = {
 
         Fiora = {
             Changelog = "",
-            Version = 0.4,
+            Version = 0.5,
         },
 
         Gangplank = {
@@ -77,7 +77,7 @@ Data = {
 
         Irelia = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 
         Jinx = {
