@@ -79,6 +79,11 @@ Data = {
             Changelog = "",
             Version = 0.4,
         },
+		
+        Jax = {
+            Changelog = "",
+            Version = 0.1,
+        },		
 
         Jinx = {
             Changelog = "",
