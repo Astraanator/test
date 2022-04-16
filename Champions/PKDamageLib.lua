@@ -103,7 +103,7 @@ getdmg("AA", target, source, stage)
 ]]
 
 -- [ AutoUpdate ]
-local Version = 43
+local Version = 44
 do  
     local function AutoUpdate()
 		
@@ -133,7 +133,13 @@ do
 			local file_name = "EvadeCore.lua"
 			local url = "https://raw.githubusercontent.com/Ark223/EvadeCore/main/EvadeCore.lua"   	
 			http:download_file(url, file_name)	
-		end	
+		end
+
+		if not file_manager:file_exists("Evade.lua") then
+			local file_name = "Evade.lua"
+			local url = "https://raw.githubusercontent.com/Ark223/Bruhwalker/main/Evade.lua"   	
+			http:download_file(url, file_name)	
+		end		
 		
 		if not file_manager:file_exists("Prediction.lib") then
 		   local file_name = "Prediction.lib"
