@@ -77,7 +77,7 @@ Data = {
 
         Irelia = {
             Changelog = "",
-            Version = 0.4,
+            Version = 0.5,
         },
 		
         Jax = {
