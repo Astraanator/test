@@ -2,7 +2,7 @@
 
 Usage:
 
----- Add this to your Champion Script ----
+---- Add this to your Lua ----
 
 >>>>> This check Users scripts Folder if the Lib available and download if Lib does not exist <<<<<
 -----------------------------------------------------------------------------------------------------
@@ -13,16 +13,9 @@ if not file_manager:file_exists("PKDamageLib.lua") then
 end
 -----------------------------------------------------------------------------------------------------
 
-
-
-
->>>>> With this command your script has access to the PKDamageLib <<<<< 
-----------------------------
-require "PKDamageLib" 
----------------------------- 
-
-
-
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
 
 ---- PKDamageLib API ----
 
@@ -36,9 +29,9 @@ spell == "Q" or "W" or "E" or "R" or "QM" or "WM" or "EM"
 		 "IGNITE" <-- calculate Ignite damage
 		 "SMITE" <-- calculate Smite damage ///// stage 1 = "SummonerSmite" ///// stage 2 = "S5_SummonerSmiteDuel" or spellName == "S5_SummonerSmitePlayerGanker" ////
 		 
-target == I don't have to explain
+target == game_object
 
-source == game.local_player
+source == game_object
 
 stage == 1 or 2 / Check DamageLibTable if there more stages for your Champion Spell
 
@@ -72,12 +65,13 @@ local function KillSteal()
 	end
 end	
 
---/////////////////////////////////////////////////////////////////////////////////////
---/////////////////////////////////////////////////////////////////////////////////////
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
 
 --- Return if unit not killable or has buff like Sion ---
 
---Example add to your code /// Global: IsKillable(unit) 
+--Example add to your code /// IsKillable(unit) 
 
 local function CastQ()
 	for i, target in ipairs(GetEnemyHeroes()) do     	
@@ -89,8 +83,13 @@ local function CastQ()
 	end
 end	
 
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+
+
 --/////////////////////////////////////////////////////////////////////////////////////
-	------ITEM PassiveProc.Damage------
+	------ITEM PassiveProc.Damage API------
 --/////////////////////////////////////////////////////////////////////////////////////
 
 ---Return only PassiveDmg from Items---
@@ -100,10 +99,59 @@ getdmg_item(target, source)
 getdmg("AA", target, source, stage)
   stage(1) = returns only AADmg
   stage(2) = returns AADmg + ItemDmg
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>> INCOMING DAMAGE API <<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>> BY BEN AND PUSSYKATE <<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+
+-> GetIncomingDmg(game_object, hittime)
+- game_object[myHero or Ally]
+- hittime[Time-Before-Hit]  > Time from when the Spell Dmg should be calculated (default value = 0.1) <
+
+Return all incoming damages[number]  (Minion-Dmgs, Tower-Dmgs, Champion-Dmgs) 
+
+-----------Example-------------
+local IncDmg = GetIncomingDmg(myHero, 0.2)
+if IncDmg > 0 then
+	local HpAfterDmg = myHero.health - IncDmg
+	if IncDmg >= myHero.health and HpAfterDmg > 0 then
+		console:log(tostring("Incoming-Dmg: "..IncDmg))
+	end
+end
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+>>>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<
+
+>>>>>>>>>>>>>>> Get CCSpells API <<<<<<<<<<<<<<<<<<<<
+
+-> GetCCSpells(game_object)
+- game_object[myHero or Ally]
+
+Return if CC Spell[boolean]
+Return Time-Before-Hit[number]
+Return Spell-Name[string]
+
+
+-----------Example-------------
+local IsCC, Hittime, Name = GetCCSpells(myHero)
+if IsCC then
+	console:log(tostring("CC-SpellName: "..Name))
+	console:log(tostring("Time-Before-Hit: "..tonumber(string.format("%.2f", Hittime)))) 
+end
 ]]
 
 -- [ AutoUpdate ]
-local Version = 44
+local Version = 45
 do  
     local function AutoUpdate()
 		
@@ -1905,4 +1953,4 @@ function getdmg_item(target, source)
 	end	
 end
 
-client:load("2YeqWWlngvjiOs5eckKxo0IGgYAGSamz4GTse31aGyszbS5niABL61CYb9xlNSzha7MR3E1jBHmWUrxtN5FKxEXBh3rQ53OgEZG5PyaFhkVi0WY4x4qACKyJljKsGwUvvRTQVNlQuEH7IsHP1E9pN1ug vFKh2ZNj2iz64D5IBPjMSdItJfjOdCnXnKB3SPphR9eSVCW90UxgIhocAJhPQm6LCS69d1nKxcAhVQ651UiINKz9XOja8RClYLym39nf1JqOVBz1k8jkWVHjJ3p28d7 GrR4QBf1m1kA4mvd06DAid29MQpfbvDLNFkgIIZbbs5Ak9o0rTjbu9A3ZJ+VSYxW4XzZAq4bEaY3polOdD79Cp+NsypOwWmZUTKTGXo0IAEJQZQ4XPQfml6bZM8ZGGmPAA661UiCoplGCznZ8VnkE gmnTQu7UIOZ5CreHvi2DzhJzm33 9bGrkggBFOX2Jyuczeh2DzEqv cPoubDM29Ui0Mfga8rPrSVAO1Z5VP1AfJtNhn h3fTbfOdMbdassZfu3QGfGG3ogLSuhLqsaUYunALRgs9WJUIKNGZeemDk AEwb9TvjEFejsBmb2az9W7jcJoD7YdK0RzNgnBr0Z5H10lxhXDx533l14p6WWa NClxKmQwx48ubjmIydduIHEhtbOye9Jg6sYncSYm1kNrM8PvIv1AfJtNhiswqKDsaUTsIVl70KQh2EjsGGuB4rztgL nb0Tu90 8s3ZJYgaO4WvhOn97aEgsdvqv6AAYWXqtYsdz 2HfZ7Rm5jrk6I5Mg14IrTk13EXliGKMg33zO4OPIE1j4U13M0btyuDBbLNG6Y6p bovt8i2FXlbtsXICL2zOyoPrljq LlFeigMiyY W4vmbUJxaFKsg5ElNj7w maCgcKKIL4tcgqpWGYBs25NcfryfW26dXT79eMGKwHzhU5ei7UxKYqp wmyC7pJQWrzinTQs1Qm1ZlM0UqxRSrzhtOg19OfMmXeh1Rf1mYpja9BK42DzEqv 88vubjFd34f0JD7IwQm1kdrxLDuXrBEeicHh2rvbj55aVOoXkCugZEsBFXoam3siu7p5rF7PQqv9qLCt8JO0 ah22j LH9dXd7RCGCPkEF8iLJsa2UEXXHPKPZR7d75k1eNtrlt1qMKxEisimbNhpiKrXqa mWzHUVsOAvOZYGPd5WMAE00anD90vbze3UkvN2wcb252uoPOr7yGvkDM4Ziin7mr0TubgqscYunuqTo4Z1FamK7hnig5vcICOap mY8v3JW0adMfXL52Wma ennYMmqPFRQjsyjdIUua177bRpo7 Hhzn4Et7JoDpRH219kimDD3 PvzOWQanPaiA5t2mwrx4lvI1xm6VJ1KsDgfL3CLORRutQjdrbmN1Rv3rTfaSBwf3EMjG3zcpc5X0anIVP70Jfi1AaCWmes3SPfgLVedE7lmkLRUWlnZ 7K4S3een5aaFTvRMmriVl501asa2Yzayu6dSZVkE108RC7UVlnOlBKNV532GZk54HI04V6NCHc3U1jAmoly4cld4mHm G09vYuU6i1FXlfgoIYbSkq2ihv3MKgNrAaM4ZG5WrLQdCOCOa3bk3junop4ZSnNSq7gSbli mndFBgVCXFUmk7D4JDgmOyFgCyA8ozYN562E9S62yGa3FlNSzPd8NV7eWulX1ns2ZjM6NOOUPvSmLM5M70036aAgqyHUVsOAzNZ4cAZYpXmd kA6oygMPift4792bjbMskIUlA017ualpwfJY2Imm2pK55aUYxIY3jvJsuOjeA WaB4RPt5nmYYVyn 1cA0MhNeVeHgWSeFgDeXAEzYN562E9S62yGa3FlNiylIRJR7UHnlXeJ3rdf1ZVx3EDw6SqLONvh2 WJ 3jahihn3CL+b0SFI5SCmd9gbvb3gMH0d4Rp0J7eMrIq1kQQr1vvWRFDM3pHjHeqpjblPQqraeGYsZ8lyYeFGDpBRFmJhvdhYUlgl0rr9M1LJRnyRAmyeGq9WdzncwqFPB062rKhdMYDMk3adJlm6ePnmY4St8JnO5lMzOGMJgbEh GgMFB6a2zegExx0Gj45ODAI4mKldqyanklvbDC20pps8sqbwUt11RFzHipGvRGGDs1gWlhqpLubEmCaYYY6oYp2d11 07wirfwhSRnIBTgXGYptsQEdfRHgGvodGqPMDUwbMc0iYhekH7ub9BuGDuYIRlMlZXpzX8Pg7FrOV5KNV9oimDmOOPoO39yAQqyHekHrWwyk89zZWBm6YquWPUtgnyJLNdbvMYrZnoE00ly1MLo SQFgoFNjCUhr4XDZ0K3LUqxs5ss2ZTv 3FB3RDzjv0wKO gNkHRg25ID4I1Hgjaem8yAynRCMzrjk9ajDp7IM3m WSjcRBEmd1yAxC7gr9wxJkKxEzojmYyg32g04G79XPoPEhj2mjpzGCmZ49Y08qpX8EogMHNOtlpe82sZL8 xEFAOHzJaQZsf3tCQGFmqKpuIFGrZdTeUjrJsdrtGG7shb6u4RmfbVqfmq2BgYAwQ6YAV2DegGPU ALnYMmqPEhajrXsY2C59XXaXdRT7dDs9ocFtLlixJFMOATr6XzNRtDj3NqRXVeohEVq1CfDyOq6I11m6VRgbvklt6m1FXkzs2bhRv8sxB0m013jPv1yMZAy52i1c4isKAyVIAlevJMyPj17JCqv4MHvQFtHCO KNUHRg2xX0 JENGfafmpjWdQ7aNgr41Nl61mqLtOm Gj IRJR7UHomYXT3rFh3JljOTqCjGLKhJ30N4OcXXX5fUQeETakAOXEZpWd9Edi9bYjvu7H2JBQsM2sC6rOrOkQrViJALlxM3pDimvvbj55aVOoXkCugZEsBErGV2u8iv7hjwWfY0hgoKEttmo7D4I1HWjj109iXQDfIwDA5YRi6DppIMuD93znZ7Us6jLsl2mFv2RtM5Fh3EXmh1ZC43ZhO9Zd9G1ngwwe3GQCl c6KdpX08pJXLAzgFm1FXkzU1UqbSXlEQBuO2HvJbFuh3tj5VwAq4cxbAUCbYYY0G79yVGnWWUrNrHRO8GtcedJNUHRUWkEJQZG4XHkOmX9bYo9ZLqFjEVhiHUxbMY5GDYYIOID6dak6DXk0nBt2jo1rOCMJQayOJzoO4OkJmL9iEl0OVjDzOcyb06NzYd0Gs390sGy135a0IQDI8IA2eoPrViJAFkrMZJG5X7wZKXodEa5ZcYxuJ2s2UaG GY7NsY9OsReYUUkTG600oBTdwZMfWuzFQCyA8o0RwitPB0617mtdIq+NSzja7AD6dak6HrJvLRrOBha1Eq3SCrh44HnO4VhGGnahk8nxGjC5LSQCdlX08qp bQEtLaySZBftsUCbLjlzwBZGLZnA6kUGctDhmdLQdCOZUUnC8dHUZ2uPSuQXWUrHFmJI6qkb1xglWTo82dWcdoHgmjkeiTe AEwcwXvjlMdY7KYR2Uq XjCa79Mjjaz8ESU4IAqxKRz2kvokCaHONPvrnpy9W46VUdw10btyuDBbGCdyY0uA6nJULjELLFdusfLaLbu104A02LfbwVJgJ3hOHepcjlPCO MCdasf3YtPQGfGGaB3PPt5nFpIA6oVLdDv8VWTUJhhyYmNSGlJBTwKpWvRkFnh8qwZ2FaW2DhYbcEleXvk3TnvLFh049CNUik62KGW3by176e mrkggwe3GQCl c6KdpX08ql wQlU6i1FXlftsUCbLjlEQBv1rLE LcrOVJzimRxqKcpOkCkbYCdf0202ieobHGo3Rrf5vKrYU3lVI2vus9ab sHg22hLH97aEgsdsCBTgAzJV HZ2UpAQmyC7ZR7SuJmXiIUlkrAZNN1l5yiGKnhN7nzOWka3XnfU5lzGwyk89zZWlD0yqyXMU1ub2yd35 9M8lIpwq1kQ=")
+client:load("2YeqWWlngvjiOs5eckKxo0IGgYAGSamz4GTse31aGyszbS5niABL61CYb9xlNSzha7MR3E1jBHmWUrxtN5FKxEXBh3rQ53OgEZG5PyaFhkVi0WY4x4qACKyJljKsGwUvvRTQVNlQuEH7IsHP1E9pN1ug vFKh2ZNj2iz64D5IBPjMSdItJfjOdCnXnKB3SPphR9eSVCW90UxgIhocAJhPQm6LCS69d1nKxcAhVQ651UiINKz9XOja8RClYLym39nf1JqOVBz1k8jkWVHjJ3p28d7 GrR4QBf1m1kA4mvd06DAid29MQpfbvDLNFkgIIZbbs5Ak9o0rTjbu9A3ZJ+VSYxW4XzZAq4bEaY3polOdD79Cp+NsypOwWmZUTKTGXo0IAEJQZQ4XPQfml6bZM8ZGGmPAA661UiCoplGCznZ8VnkE gmnTQu7UIOZ5CreHvi2DzhJzm33 9bGrkggBFOX2Jyuczeh2DzEqv cPoubDM29Ui0Mfga8rPrSVAO1Z5VP1AfJtNhn h3fTbfOdMbdassZfu3QGfGG3ogLSuhLqsaUYunALRgs9WJUIKNGZeemDk AEwb9TvjEFejsBmb2az9W7jcJoD7YdK0RzNgnBr0Z5H10lxhXDx533l14p6WWa NClxKmQwx48ubjmIydduIHEhtbOye9Jg6sYncSYm1kNrM8PvIv1AfJtNhiswqKDsaUTsIVl70KQh2EjsGGuB4rztgL nb0Tu90 8s3ZJYgaO4WvhOn97aEgsdvqv6AAYWXqtYsdz 2HfZ7Rm5jrk6I5Mg14IrTk13EXliGKMg33zO4OPIE1j4U13M0btyuDBbLNG6Y6p bovt8i2FXlbtsXICL2zOyoPrljq LlFeigMiyY W4vmbUJxaFKsg5ElNj7w maCgcKKIL4tcgqpWGYBs25NcfryfW26dXT79eMGKwHzhU5ei7UxKYqp wmyC7pJQWrzinTQs1Qm1ZlM0UqxRSrzhtOg19OfMmXeh1Rf1mYpja9BK42DzEqv 88vubjFd34f0JD7IwQm1kdrxLDuXrBEeicHh2rvbj55aVOoXkCugZEsBFXoam3siu7p5rF7PQqv9qLCt8JO0 ah22j LH9dXd7RCGCPkEF8iLJsa2UEXXHPKPZR7d75k1eNtrlt1qMKxEisimbNhpiKrXqa mWzHUVsOAvOZYGPd5WMAE00anD90vbze3UkvN2wcb252uoPOr7yGvkDM4Ziin7mr0TubgqscYunuqTo4Z1FamK7hnig5vcICOap mY8v3JW0adMfXL52Wma ennYMmqPFRQjsyjdIUua177bRpo7 Hhzn4Et7JoDpRH219kimDD3 PvzOWQanPaiA5t2mwrx4lvI1xm6VJ1KsDgfL3CLORRutQjdrbmN1Rv3rTfaSBwf3EMjG3zcpc5X0anIVP70Jfi1AaCWmes3SPfgLVedE7lmkLRUWlnZ 7K4S3een5aaFTvRMmriVl501asa2Yzayu6dSZVkE108RC7UVlnOlBKNV532GZk54HI04V6NCHc3U1jAmoly4cld4mHm G09vYuU6i1FXlfgoIYbSkq2ihv3MKgNrAaM4ZG5WrLQdCOCOa3bk3junop4ZSnNSq7gSbli mndFBgVCXFUmk7D4JDgmOyFgCyA8ozYN562E9S62yGa3FlNSzPd8NV7eWulX1ns2ZjM6NOOUPvSmLM5M70036aAgqyHUVsOAzNZ4cAZYpXmd kA6oygMPift4792bjbMskIUlA017ualpwfJY2Imm2pK55aUYxIW3jvHUDKkHs GmGPwPhibijdA KN0UDf8FQJSaVZ3zaeGOhGXUwbMc0iYhekHleU9qq GvDY75IQV6gmnTQu7UqxGAKxEmsiAe1hN7jN3B6aGeoNB0eKm6nAOqEOI6zBQm0WMMngMOMe Jfg8ssKFvOrels18GgVnwrgoBHhGVAo4q5IEaxIYaufZsy3Qnsbmur4InzgRqqbFCom7dH2IkNJUeNHgiydWf6ajwwbwPFhE9PVqGnb2KZ 0fedNlTjkSp6EhE4HBf1pQy20LsiGnRgN70AtSn 3j V09s3HUzyKT6a4WI08pJAFrJUFjVT8Nmg2EqIs7l3FJ7OVmJAFl5ei9D1GwJok8lPQqCajaqtKUo2kWcTGaA4KPvYvqYKFqvnCHSUWk7VgZDgGvD1WiaGV3ncSLviExohLYYLsUm WS6Cro67dak0Ry7Ullj1pQ2rV1okHLQhpzDF8SlXWDhQABS0WbphOqOakRG6XSwXLAsabDL2XpbtsXICb661kN6017uGtdwh1tM42wuojmsREQqKZGfupkl4UCn9Ga7ivjt5HpICUamTKUpu9RhcgBDhkfegCS+GVDnYMmqPEd7i1JsZ8uyXV7Pa75IQU6gzHTXvKRt35VQHED3PDUqOKKg3Nma iHPg1dj2kstAP4mPfBK6Y0uXprJtv7B13w7sMsYdvsyOQAexLfpbwRAfi2yh36h00lCCeavbjCftFIp2ETL W2nUHywI6qqb0ChmGYEt9MEQ6Zd4WLPe30VREY Kx9njkdakHUtcsas9W2eCro7Kd5vAjPD3HBx05lK1F5ri3Gyg32g04G79XPoPEV0NW2pav5xajyGAjmvbwPo2Hiy2N8AUWsnZ8IE00ly1MLo SQgZ3tL5Vew64D5KFqycQ e7lHwyYLBXCqGfRjshwSmb1F66KIBg1RTTUJhPHzkfyC6NV3nawD6kEli6XilY2QqJmv7dRZR6kqgBHvJtlkHrTk2rOCMhWVBXNZnxK569Wa9WE1lxCDkl c6Z42B8ZSr9LAsuRfNgJ5ptMfYLrI5NVJtO2OsGwNCeiFKi2Fwr0moYVC3ZexnUVHKs8rs mFQHFiKIL0sZy KNULRsMVWcfiRNDY622XiX 8DbwXa6VJoJlakb9xl9Su6aRZVjQHpzjPNuLFn2qMG0EcBi2LRQZzk1DtyAWrbNEhj2miyx55lZj6zzepgWL8k0tjRYtFis2Xmav2D1wkm3Lfl 8AVGcs1gWlho4cDbwUmaYuruIfuOd7sGDPfNrHD4LqYbFauTmYptsQEbUiQgy37139ebEYmcTTriEwjkruqa2FlWW3 IRlIkEdulX1ns2ZjM6NOOUPvSnDKh OgE056KyHPfEVsrgvNZYDvbKOSzdhgNHEptbLWe3c72EIlZMYp1UcuxqGiJrBa2jRF5XdtW4zqckXsCy HUTvJs8rs HCsfLWggv0wbwUh97dxvsVDdgZDgGujgmXh9dTnYMmqPEhajrXsY2C59XXaXdRT7dDs9o5Furdj3I9HOASbWSrh44HnO4Vj 2Pf4UNYM2wo5P9uZj5Y08pJAFrJUFi1d3Y7sM2wbnbmN1Rv3rTfaSBwf3EMgXagbkc5b0u3dYuhsBI01Y1BAg QHFiJgL hREQnTHmos25HSUoFNCq61X1gaZMsZtHp5Ux947uZdMYkWXPPY7RO5jXhzXTLgXhmO0JNAAT35XzF54OprnpyAQragFNjrgvNZYCPUpyJBUF9Gvklub6M13NQs36jXSUBOUxyAsLs SQrTf8ySCZipK8lIjtlIYYwUjrJs8qQASpnNvflibcsYUC0l1lte9NU0 VKQnLhe386Na3nMITnikQ6Pq2gIMYDAgiyC1o6K Gg6HvJur8sNZNh0Vgo43DO53vsAuSh 3W6UR0eBiMlyu8mIIVw6YdyA6nJUFi1FZA70MojcbezNUN602XlVSNH3iFKRnatpq8lPRPjMQqftpXgyDOpGGYFNv3phptHCO JNZ Mt2cEQ6ZagG7PLHlYGY8wbsTnikQ667KYZMQsIFLhbdUPQZXhAnrJvHwe0JVQ1wCji3yySHmJrXpyAWrj3YRrOyLc5ODAYnSHmQFrGuQEtLa2FXkzU22sZpvOrOlr1rOJA6kU3icCIgJmpK8OCe NCdOtulIpBUHIX3yCYLjugLdsIEauTKIEf2lWdMFZ4XPuemcicb4wbcDBilMdTYpuMIllbGDnZcZmS qgmHl8UVlnOlBTO11y0WbMg37uxOWdXW zHOkH0W9kc4vEbn2DzEqv 88puQ7hg4Jog3Xedvoq1eoPrViJ9L5uV39FODnhojmoREQqIUhe2Fno4Ye XXyPfMPzRIJnKhpuYGHz4YkOZa7JhHHa2DH9WdAqXSX7kE9552GYY2CwV2P7b7JK7 nBm4XTa1ls0Z9MAAT35XzF54OprnpyAW1hh0UIrQvNZ4DAYnSHmQF9GvoufPPL2FAh0MMwaSIDOUQbN7DsWQ9shjZN3231r4XoaZYnYdQfg51oGdjF 0Qwgbjvh8BedEuy 6h82Y8WJOM1HQjaem8yAynQZMmqJelairFICYPyW27jcccP7avsz3qMvL9x3KJH1kurhWVBXNZnzZpzAXPaiFVw1iMtyu5Kbjdu0E0uXprK3HZtZDo+7pa+P9a+Eh4+Eo2+N94+TGb+Vjr+3Hl+PhTaPVl67GD8FVCeNDleUsu8VsB6PBl80HTfUp4+Qxr+Uj2+Sjl+NB7+P l+Wh4+WoT+PpT+NjuXPOAuXVC8cEKv7Iw6EGwpEBOaWDmpVKuKEq9+Nj +Uh4+Eje+brl+PH5+cB9+N97+792+SKwY7JD6PsDcEBwdEIu8NswiT0EpVDU93YG+PhT+PBT+7ma+FB +NjT+U92+V99+PhT+0nqf7JwvQRUpUDuXSDOXNVzePtOdWBwXWIl6CpT+Nj2+Pu8+XB +ckh+7o4+Em4+Ehl+WjU+Vqu8EKBXNDCXUBw6EDHbbLOdP1xlcVB8NszK792+Sq4+7pa+P9a+Eh4+Eo2+N94+TGb+Vjr+31OcPBlaPVl67GD8FVCeNDleUsu8VsB6Pyd+0nq+7p4+Qxr+Uj2+Sjl+NB7+P l+Wh4+WoT6PJlcNDuXPOAuXVC8cEKv7Iw6EGwpEBOaJjU+Vq2+Eq9+Nj +Uh4+Eje+brl+PH5+cB9+N9z87supSKwY7JD6PsDcEBwdEIu8NswiT0E2Vjr+3Hl+PhT+PBT+7ma+FB +NjT+U92+V99+PBl80HTf7JwvQRUpUDuXSDOXNVzePtOdWyozSXPeVM7uayzcZ8VMjETvzXeNtrdi1ZcG3EXB62LhRJzo04WP9W7aPQB3135kk XAI4mBzEdyXHzgsHzQ24RRusaedvou2wBB1nztcHBM2pZHjm31pq0lYUUnIYGttqXg2YryXSqqfvDu5RZsLgTgm6lus2NNZ UyVXzeLGDoGWgsduDA509ih1UlRMQsIHP7cxhIlUCgyHznvLlrOVk2rhl+WjU+Vq2+Eq9+Nj +Uh4+Eje+brl+PH5+cBB8Nsz87supSKwY7JD6PsDcEBwdEIu8NswVTGb+Vjr+3Hl+PhT+PBT+7ma+FB +NjT+U92+VsB6PBl80HTf7JwvQRUpUDuXSDOXNVzePqG+Wh4+WoT+PpT+Nj2+Pu8+XB +ckh+7o4+Em4pEBOaWDmpVKu8EKBXNDCXUBw6EDHbbLOdCJ2r0E41 bQ0sL7MLNdbvMssYRfy1UlAO7PtXnha2jRF5XdtW4zudFGsbdJnUjspPAHzWXC70v735MOGaVFg0mXE0MFS0QZF3WZaOmv7 dYmdwDz6QAiPLmfc9GZ 3bacvlMlUG+cTOX0MRmOZ4y3Eq66Xz0g4PzxK56KCHagkQIrWIzk XyI4iDBZWp LXg7HzGd4RQs28jIvfDxBAABVmJ v9u2iEygWsk54isIBPjMSdHtJfjOdCnaGYGNsYg1b0hdEYyZortvEhnZa7F4XOje31eXjoBKGGPJelbi8xeXElla2rebRBWiYe06HzS0LluNZlQ2wzokmvC50nz09qh HTdg1RxzCvt5O9BCElXyd3gaRwptvvRdN9Q6rYnbL2Z1Yhv3Hfw SMAM0bySCZipK8lc0isbYmxsJf0EDXw WK1gPfpjrmub1BpTHTg0MhNeVeHgWSg22XiX 8zYN9rikNUPMGmZ2TOAQiyCro6Kdrul15RgDA7xJlMNY9w6yqJONbl3NWiXynof0lq1HYsya8AcpyJBUBgbvIygRThOJBps8sqbwUt11QAN7DzbvVJOcsyIgIKcjmpCO MCyajtpXJsyqRAW7shb7linF7IE3hm0gCuMxFf iQhwmy2mqnGYnzIwzrjk86h1Tea3qm9XHoKRlIkEelAzyEgL8IrTlHOgTr6XzNRtjzM90jXW7UNEFsOCMNz9gnb4my8Ymlabap0wPG2347UmrHCLsrxEhr2r6uWRhsfjJxhm3ucfSdPQplQjunvJE52AOnWWUrNvflibcsYUC0l1lte9NU0 VKQnX7eGD GYIBZsTu6VJkSruhdMa7XV7ocRZPjUazzHmn0I07xGMy3Ezoige1IXiJ03 9PG7cNB0e0WfndOitI0tumj00Xv4n2rH Lpw7vMMwZR25AABuO2HvIFoUGcs2IQIKcjPEZUapIY7jupeuOdT79XOs2SLw5LCqLlOhmKIs0MFS0QZG4XHkOmX9bYo9ZLqFjEVhiHUYY3ysXXP5a7UDXa6gBHTWg7VYAp9A0kcmkFZH5Jz00N0jAgqyHOkIrQvNZ4DsI4izAEcuWLQ0sMXD0 Nmg2EqLbsEM0F73L7hbwRs2oAyjGFmpEGOCO MCdasf3YtPQGfGGaB3PPt5nFpIEuyl7YGg2QtZf3K3177gX9kVjI7dwXphZ9 51QfZ8Jt9GTnbJADlYLym39n2VoHrTk1OUPC6Qe1IXiJr2Sh 3W6UQBmOXUz8uXpd4mfmcdzavYstr3ReN9Q0J77IsHlNU5qxHHRG8BGgDw1IQIKQdClIAqrZeyt3pMj4Yr9XVYGhvTshr xbEY0THmg0JEEZ sCNCHMLiTkayrQCGCPJOk6PHqmZ3yAJmD9dRpo7cezAH9QtH5x1J9hxBhbPDyy433kxJOuGiHkheoHrQvNZYCmI0CCmeOvJbIjvvjj229puM2qbrbE1E96xIY9GsMr2icCOC7TWGTAcgqxadlIUTrJs8r0PGQuNsYg0RCtdAq+0WYCs2wEZ sCNGbagG9iXQk0bwq6SABP52ylZ3FxGGfacxbMQYey6EO8UVkHrTlH1k5HiW3yVZzp1tSt Wi6PwBRGGbrZoCPCdmzzEVKAFnJgL3CFXozU22sZpvOOU5qrVmJA6lxfpQygSUh4jvDbYQsbEattlIp2AHwaGuwhcKoXR0YRUUlm1IVs25NcfsRPDClPDShGZUoccvrkAkePLGtCm O9WW6Q7hVjh7pznzTtnBY0JVMreCMJWbEOLDn2tdC9Waeg04s0XYjAPcEcKWd6ZWoXL7KUFi1F3lkf6YrZnHdxElAN5PtXnACMZoGQHewrpcDSEa3cQPv2VvwBBWwIztwPbDygSGwZUF6962Af79FeaeN22DPgGX99ibrYMin60UdX13wb6Qu mjkbtADlYLym39n2VoHrTlD1F5oJga1IXjp1tSt Wi6UQBn1mYIy4umKWCvAEywabYk6bLzeNN6f32YbQfm3FRnN7rfXvFE2ilDQE3oqKqSaUUsbjTq0KYh3EjsbC CR8yKIFpHZUUkNULRU2VS0OM14W3 FgCiJdQCbd5BiEUViLYlKNGAa3Pna79KSYrul15RgDknrjlQOV94jmUyg33jGN6cGAvagkQ=")
