@@ -7,7 +7,7 @@ Data = {
     Champions = {
         Ahri = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 
         Akali = {
@@ -32,7 +32,7 @@ Data = {
         
         Caitlyn = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         }, 
 
         Camille = {
