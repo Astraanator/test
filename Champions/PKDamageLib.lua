@@ -151,7 +151,7 @@ end
 ]]
 
 -- [ AutoUpdate ]
-local Version = 46
+local Version = 47
 do  
     local function AutoUpdate()
 		
@@ -944,7 +944,7 @@ local DamageLibTable = {
   ["Ornn"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({20, 45, 70, 95, 120})[level] + 1.1 * source.total_attack_damage end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({0.12, 0.13, 0.14, 0.15, 0.16})[level] * target.max_health end},
-    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({80, 125, 170, 215, 260})[level] + 0.4 * source.armor + 0.4 * source.bonusMagicResist end},
+    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({80, 125, 170, 215, 260})[level] + 0.4 * source.armor + 0.4 * source.bonus_mr end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({125, 175, 225})[level] + 0.2 * source.ability_power end},
   },  
 
