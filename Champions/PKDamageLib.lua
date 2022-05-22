@@ -151,7 +151,7 @@ end
 ]]
 
 -- [ AutoUpdate ]
-local Version = 48
+local Version = 49
 do  
     local function AutoUpdate()
 		
@@ -965,9 +965,9 @@ local DamageLibTable = {
   },
   
   ["Pyke"] = {
-    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({85, 135, 185, 235, 285})[level] + 0.6 * source.bonus_attack_damage end},
+    {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({100, 150, 200, 250, 300})[level] + 0.6 * source.bonus_attack_damage end},
     {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({105, 135, 165, 195, 225})[level] + source.bonus_attack_damage end},
-    {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({250, 250, 250, 250, 250, 250, 290, 330, 370, 400, 430, 450, 470, 490, 510, 530, 540, 550})[source.level] + 0.8 * source.bonus_attack_damage + 1.5 * source.armor_pen end},
+    {Slot = "R", Stage = 1, DamageType = 3, Damage = function(source, target, level) return ({250, 250, 250, 250, 250, 250, 290, 330, 370, 400, 430, 450, 470, 490, 510, 530, 540, 550})[source.level] + 0.8 * source.bonus_attack_damage + 1.5 * source.lethality end},
   }, 
 
   ["Qiyana"] = {
@@ -1460,7 +1460,21 @@ function getdmg(spell, target, source, stage, level)
 								return DmgReduction(source, target, target:calculate_magic_damage(spells.Damage(source, target, level)), 2)
 							end
 						elseif spells.DamageType == 3 then
-							return spells.Damage(source, target, level)
+							if source.champ_name == "Pyke" then
+								local ExecuteDmg = spells.Damage(source, target, level)
+								if ExecuteDmg > target.health then
+									return 999999
+								else
+									if Buff.count > 0 and Buff.source_id == target.object_id then
+										local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
+										return DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(spells.Damage(source, target, level)), 1) /2
+									else
+										return DmgReduction(source, target, target:calculate_phys_damage(spells.Damage(source, target, level)), 1) /2
+									end								
+								end
+							else
+								return spells.Damage(source, target, level)
+							end	
 						end
 					end	
 				end
