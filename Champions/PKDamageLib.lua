@@ -151,7 +151,7 @@ end
 ]]
 
 -- [ AutoUpdate ]
-local Version = 49
+local Version = 50
 do  
     local function AutoUpdate()
 		
