@@ -9,6 +9,11 @@ Data = {
             Changelog = "",
             Version = 0.3,
         },
+		
+        Anivia = {
+            Changelog = "",
+            Version = 0.1,
+        },		
 
         Akali = {
             Changelog = "",
