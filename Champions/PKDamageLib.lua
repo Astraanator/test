@@ -151,7 +151,7 @@ end
 ]]
 
 -- [ AutoUpdate ]
-local Version = 50
+local Version = 51
 do  
     local function AutoUpdate()
 		
@@ -394,7 +394,7 @@ local DamageLibTable = {
   ["Anivia"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({50, 70, 90, 110, 130})[level] + 0.25 * source.ability_power end},
     {Slot = "Q", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({60, 95, 130, 165, 200})[level] + 0.45 * source.ability_power end},
-    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return (({50, 80, 110, 140, 170})[level] + 0.5 * source.ability_power) * (GotBuff(target, "chilled") and 2 or 1) end},
+    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return (({50, 75, 100, 125, 150})[level] + 0.6 * source.ability_power) * (target:has_buff("aniviachilled") and 2 or 1) end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({30, 45, 60})[level] + 0.125 * source.ability_power end},
     {Slot = "R", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({90, 135, 180})[level] + 0.375 * source.ability_power end},
   },
@@ -755,7 +755,7 @@ local DamageLibTable = {
   ["Kalista"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({20, 85, 150, 215, 280})[level] + source.total_attack_damage end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return (({14, 15, 16, 17, 18})[level] / 100) * target.max_health end},
-    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) local count = GotBuff(target, "kalistaexpungemarker") if count > 0 then return (({20, 30, 40, 50, 60})[level] + 0.7 * (source.total_attack_damage)) + ((count - 1)*(({10, 16, 22, 28, 34})[level]+({0.23, 0.27, 0.315, 0.36, 0.405})[level] * (source.total_attack_damage))) end; return 0 end},	
+    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) local count = GotBuff(target, "kalistaexpungemarker") if count > 0 then return (({20, 30, 40, 50, 60})[level] + 0.7 * source.total_attack_damage) + ((count-1)*(({10, 16, 22, 28, 34})[level]+({0.232, 0.2755, 0.319, 0.3625, 0.406})[level] * (source.total_attack_damage))) end; return 0 end},	
   },  
   
   ["Kayn"] = {
