@@ -151,7 +151,7 @@ end
 ]]
 
 -- [ AutoUpdate ]
-local Version = 51
+local Version = 52
 do  
     local function AutoUpdate()
 		
@@ -755,7 +755,7 @@ local DamageLibTable = {
   ["Kalista"] = {
     {Slot = "Q", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({20, 85, 150, 215, 280})[level] + source.total_attack_damage end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return (({14, 15, 16, 17, 18})[level] / 100) * target.max_health end},
-    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) local count = GotBuff(target, "kalistaexpungemarker") if count > 0 then return (({20, 30, 40, 50, 60})[level] + 0.7 * source.total_attack_damage) + ((count-1)*(({10, 16, 22, 28, 34})[level]+({0.232, 0.2755, 0.319, 0.3625, 0.406})[level] * (source.total_attack_damage))) end; return 0 end},	
+    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) local count = GotBuff(target, "kalistaexpungemarker") if count > 0 then return (({20, 30, 40, 50, 60})[level] + 0.7 * source.total_attack_damage) + (count-1) * ((({10, 16, 22, 28, 34})[level])+(({0.23, 0.27, 0.31, 0.36, 0.40})[level] * source.total_attack_damage)) end; return 0 end},	
   },  
   
   ["Kayn"] = {
