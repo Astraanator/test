@@ -1672,7 +1672,7 @@ local CalcItemDmg = {
 				if source.is_melee then
 					return source.total_attack_damage+0.06*target.max_health
 				else
-					ource.total_attack_damage+0.03*target.max_health	
+					source.total_attack_damage+0.03*target.max_health	
 				end
 			end			
 			return 0
