@@ -433,7 +433,14 @@ local DamageLibTable = {
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 90, 120, 150, 180})[level] + 0.4 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({175, 325, 475})[level] + 0.6 * source.ability_power end},
   },
-
+	
+  ["Belveth"] = {
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({10, 15, 20, 25, 30})[level] + 1.1 * source.total_attack_damage end},
+    {Slot = "W", Stage = 1, DamageType = 1, Damage = function(source, target, level) return ({70, 110, 150, 190, 230})[level] + source.total_attack_damage + 1.25 * source.ability_power end},
+    {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({8, 11, 14, 17, 20})[level] + -- scaling based on attack speed, dealing dmg based on target missing health end},
+    {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({150, 200, 250})[level] + source.ability_power end},
+  },
+	
   ["Blitzcrank"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({90, 140, 190, 240, 290})[level] + 1.2 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return source.total_attack_damage end},
