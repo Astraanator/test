@@ -151,7 +151,7 @@ end
 ]]
 
 -- [ AutoUpdate ]
-local Version = 54
+local Version = 55
 do  
     local function AutoUpdate()
 		
@@ -1423,7 +1423,7 @@ local DamageLibTable = {
 
 --- Return if unit killable or has buff like Sion ---
 function IsKillable(unit)
-	if unit:has_buff_type(16) or unit:has_buff_type(18) or unit:has_buff_type(38) or unit:has_buff("sionpassivezombie") then
+	if unit:has_buff_type(18) or unit:has_buff_type(38) or unit:has_buff("sionpassivezombie") then
 		return false
 	end
 	return true
