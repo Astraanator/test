@@ -62,7 +62,7 @@ Data = {
 
         Fiora = {
             Changelog = "",
-            Version = 0.5,
+            Version = 0.6,
         },
 
         Gangplank = {
