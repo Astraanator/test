@@ -37,7 +37,7 @@ Data = {
         
         Caitlyn = {
             Changelog = "",
-            Version = 0.3,
+            Version = 0.4,
         }, 
 
         Camille = {
@@ -192,7 +192,7 @@ Data = {
 
         Vex = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 
         Viktor = {
