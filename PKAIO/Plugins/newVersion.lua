@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 0.8,
+        Version = 0.9,
     },
 
     Champions = {
@@ -92,7 +92,7 @@ Data = {
 
         Jinx = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 		
         Katarina = {
@@ -107,7 +107,7 @@ Data = {
 
         Kayn = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 
         Khazix = {
@@ -127,7 +127,7 @@ Data = {
 
         Mordekaiser = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 
         Morgana = {
@@ -152,7 +152,7 @@ Data = {
 
         Ryze = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 
         Samira = {
@@ -227,7 +227,7 @@ Data = {
 
         Zyra = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },		
     },
 }
