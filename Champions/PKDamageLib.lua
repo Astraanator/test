@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 61
+local Version = 62
 do  
     local function AutoUpdate()
 		
@@ -176,13 +176,13 @@ do
 		
 		if not file_manager:file_exists("EvadeCore.lua") then
 			local file_name = "EvadeCore.lua"
-			local url = "https://raw.githubusercontent.com/Ark223/EvadeCore/main/EvadeCore.lua"   	
+			local url = "https://raw.githubusercontent.com/Ark223/EvadeCore/main/EvadeCore.lua" 
 			http:download_file(url, file_name)	
 		end
 
 		if not file_manager:file_exists("Evade.lua") then
 			local file_name = "Evade.lua"
-			local url = "https://raw.githubusercontent.com/Ark223/Bruhwalker/main/Evade.lua"   	
+			local url = "https://raw.githubusercontent.com/Ark223/Bruhwalker/main/Evade.lua" 
 			http:download_file(url, file_name)	
 		end		
 		
@@ -652,7 +652,7 @@ local DamageLibTable = {
 
   ["Janna"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 85, 110, 135, 160})[level] + 0.35 * source.ability_power end},
-    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 100, 130, 160, 190})[level] + 0.5 * source.ability_power + (({0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35})[source.level] * source.ms) end},
+    {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 100, 130, 160, 190})[level] + 0.5 * source.ability_power + (({0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35})[source.level] * source.move_speed) end},
   },
 
   ["JarvanIV"] = {
