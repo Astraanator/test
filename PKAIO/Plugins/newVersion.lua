@@ -37,7 +37,7 @@ Data = {
         
         Caitlyn = {
             Changelog = "",
-            Version = 0.4,
+            Version = 0.5,
         }, 
 
         Camille = {
@@ -132,7 +132,7 @@ Data = {
 
         Morgana = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 
         Rengar = {
@@ -157,7 +157,7 @@ Data = {
 
         Samira = {
             Changelog = "",
-            Version = 0.3,
+            Version = 0.4,
         },
 
         Senna = {
