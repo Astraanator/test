@@ -48,7 +48,12 @@ Data = {
         DrMundo = {
             Changelog = "",
             Version = 0.1,
-        }, 
+        },
+		
+        Ezreal = {
+            Changelog = "",
+            Version = 0.1,
+        },		
 
         Fiora = {
             Changelog = "",
