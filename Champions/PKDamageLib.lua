@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 62
+local Version = 63
 do  
     local function AutoUpdate()
 		
@@ -345,7 +345,7 @@ local function GetBaseHealth(unit)
 end
 
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 12.19 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 12.20 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
   ["Aatrox"] = {
@@ -433,7 +433,7 @@ local DamageLibTable = {
 
   ["Blitzcrank"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({105, 155, 205, 255, 305})[level] + 1.2 * source.ability_power end},
-    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return 2 * source.total_attack_damage + 0.25 * source.ability_power end},
+    {Slot = "E", Stage = 1, DamageType = 1, Damage = function(source, target, level) return 1.75 * source.total_attack_damage + 0.25 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({275, 400, 525})[level] + 1.25 * source.ability_power end},
   },
 
@@ -531,7 +531,7 @@ local DamageLibTable = {
 
   ["Elise"] = {
     {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({40, 75, 110, 145, 180})[level] + (0.04 + 0.03 / 100 * source.ability_power) * target.health end},
-    {Slot = "QM", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({70, 105, 140, 175, 210})[level] + (0.08 + 0.03 / 100 * source.ability_power) * (target.max_health - target.health) end},
+    {Slot = "Q", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({70, 105, 140, 175, 210})[level] + (0.08 + 0.03 / 100 * source.ability_power) * (target.max_health - target.health) end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({60, 105, 150, 195, 240})[level] + 0.95 * source.ability_power end},
   },
 
@@ -611,7 +611,7 @@ local DamageLibTable = {
   },
   
   ["Gwen"] = {
-    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({10, 14, 18, 22, 26})[level] + 0.05 * source.ability_power end}, --- noraml dmg each snap
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({10, 15, 20, 25, 30})[level] + 0.05 * source.ability_power end}, --- noraml dmg each snap
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return 15 + 0.2 * source.ability_power end}, -- Bonus attack dmg for next aa
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({35, 65, 95})[level] + 0.1 * source.ability_power + (((0.008 * source.ability_power / 100) + 0.01) * target.max_health) end}, --First Cast
     {Slot = "R", Stage = 2, DamageType = 2, Damage = function(source, target, level) return ({105, 195, 285})[level] + 0.3 * source.ability_power + (((0.024 * source.ability_power / 100) + 0.03) * target.max_health) end}, --Second Cast
@@ -1397,7 +1397,7 @@ local DamageLibTable = {
   },
 
   ["Ziggs"] = {
-    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({85, 135, 185, 235, 285})[level] + 0.65 * source.ability_power end},
+    {Slot = "Q", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({95, 145, 195, 245, 295})[level] + 0.65 * source.ability_power end},
     {Slot = "W", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({70, 105, 140, 175, 210})[level] + 0.5 * source.ability_power end},
     {Slot = "E", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({30, 70, 110, 150, 190})[level] + 0.3 * source.ability_power end},
     {Slot = "R", Stage = 1, DamageType = 2, Damage = function(source, target, level) return ({300, 450, 600})[level] + 1.1 * source.ability_power end},
