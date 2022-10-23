@@ -197,7 +197,7 @@ Data = {
 
         Vex = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 
         Viktor = {
