@@ -7,7 +7,7 @@ Data = {
     Champions = {
         Ahri = {
             Changelog = "",
-            Version = 0.3,
+            Version = 0.4,
         },
 		
         Anivia = {
@@ -52,7 +52,7 @@ Data = {
 
         Draven = {
             Changelog = "",
-            Version = 0.3,
+            Version = 0.4,
         },
 
         DrMundo = {
@@ -67,7 +67,7 @@ Data = {
 		
         Ezreal = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         }, 		
 
         Fiora = {
@@ -167,7 +167,7 @@ Data = {
 
         Samira = {
             Changelog = "",
-            Version = 0.4,
+            Version = 0.5,
         },
 
         Senna = {
@@ -182,7 +182,7 @@ Data = {
 
         Sylas = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 
         Thresh = {
@@ -207,7 +207,7 @@ Data = {
 
         Viktor = {
             Changelog = "",
-            Version = 0.6,
+            Version = 0.7,
         },
 		
         Xerath = {
