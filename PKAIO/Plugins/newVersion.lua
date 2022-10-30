@@ -52,7 +52,7 @@ Data = {
 
         Draven = {
             Changelog = "",
-            Version = 0.4,
+            Version = 0.5,
         },
 
         DrMundo = {
@@ -127,7 +127,7 @@ Data = {
 
         KogMaw = {
             Changelog = "",
-            Version = 0.3,
+            Version = 0.4,
         },
 
         MasterYi = {
@@ -207,7 +207,7 @@ Data = {
 
         Viktor = {
             Changelog = "",
-            Version = 0.7,
+            Version = 0.8,
         },
 		
         Xerath = {
