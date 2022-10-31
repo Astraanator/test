@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 0.9,
+        Version = 0.10,
     },
 
     Champions = {
@@ -129,6 +129,11 @@ Data = {
             Changelog = "",
             Version = 0.4,
         },
+		
+        Leona = {
+            Changelog = "",
+            Version = 0.1,
+        },	
 
         MasterYi = {
             Changelog = "",
