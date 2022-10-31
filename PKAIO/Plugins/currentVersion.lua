@@ -109,6 +109,11 @@ Data = {
             Changelog = "",
             Version = 0.1,
         },
+		
+        Leona = {
+            Changelog = "",
+            Version = 0.1,
+        },
 
         MasterYi = {
             Changelog = "",
