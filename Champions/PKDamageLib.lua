@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 65
+local Version = 66
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -2532,129 +2532,155 @@ function getdmg(spell, target, source, stage, level)
 	return 0
 end
 
-local DmgItems = {
-	['ArdentCenser'] = 3504,
+local DmgItems = {	
+	['ArdentCenser'] = 3504,		
 	['BladeoftheRuinedKing'] = 3153,
-	['DeadMansPlate'] = 3742,
+	['DeadMansPlate'] = 3742,		
 	["DivineSunderer"] = 6632,
-	["DoransRing"] = 1056,
-	["DoransShield"] = 1054,
+    ["DoransRing"] = 1056,
+    ["DoransShield"] = 1054,	
 	['DuskbladeofDraktharr'] = 6691,
-	["EssenceReaver"] = 3508,
-	["Eclipse"] = 6692,
-	['Evenshroud'] = 3001,
-	['HextechAlternator'] = 3145,
-	['HorizonFocus'] = 4628,
-	["ImperialMandate"] = 4005,
-	['KircheisShard'] = 2015,
-	["KrakenSlayer"] = 6672,
-	--["LiandryAnguish"] = 6653,			--only for spells
-	['LichBane'] = 3100,
-	['LordDominiksRegards'] = 3036,
-	--["LudensTempest"] = 6655,			--only for spells
-	['NashorsTooth'] = 3115,
-	--["NightHarvester"] = 4636,			--spells/AA AP-Dmg =  Broken by riot // Dont give cooldown/buff ingame
+	["EssenceReaver"] = 3508,		
+	["Eclipse"] = 6692,				
+	['Evenshroud'] = 3001,			
+	['HextechAlternator'] = 3145, 	
+	['HorizonFocus'] = 4628,		
+	["ImperialMandate"] = 4005,		
+	['KircheisShard'] = 2015,		
+	["KrakenSlayer"] = 6672,		
+  --["LiandryAnguish"] = 6653,			--only for spells 
+	['LichBane'] = 3100,			
+	['LordDominiksRegards'] = 3036,	
+  --["LudensTempest"] = 6655,			--only for spells
+	['NashorsTooth'] = 3115,		
+  --["NightHarvester"] = 4636,			--spells/AA AP-Dmg =  Broken by riot // Dont give cooldown/buff ingame
 	["Noonquiver"] = 6670,
 	["ProwlersClaw"] = 6693,
-	["RelicShield"] = 3302,
-	['RecurveBow'] = 1043,
-	['RapidFirecannon'] = 3094,
-	['Riftmaker'] = 4633,
-	['Sheen'] = 3057,
+	["RelicShield"] = 3302,				
+	['RecurveBow'] = 1043,			
+	['RapidFirecannon'] = 3094,		
+	['Riftmaker'] = 4633,			
+	['Sheen'] = 3057, 				
 	['Stormrazor'] = 3095,
-	["SteelShoulderguards"] = 3854,
+	["SteelShoulderguards"] = 3854,	
 	['TrinityForce'] = 3078,
-	["TearoftheGoddess"] = 3070,
-	["TheCollector"] = 6676,
-	['TitanicHydra'] = 3748,
-	['WitsEnd'] = 3091,
+	["TearoftheGoddess"] = 3070,      
+	["TheCollector"] = 6676, 		
+	['TitanicHydra'] = 3748,		
+	['WitsEnd'] = 3091,						
 }
 
 local CalcItemDmg = {
-	{ Id = DmgItems.ArdentCenser, DamageType = 2, spell = "AA",
-		ItemDamage = function(source, _)
-			return source:has_buff("3504buff") and 5 + 15 / 17 * (source.level - 1) or 0
-		end
-	},
-	{ Id = DmgItems.BladeoftheRuinedKing, DamageType = 1, spell = "AA",
+	{Id = DmgItems.ArdentCenser, DamageType = 2, spell = "AA",
 		ItemDamage = function(source, target)
-			if target.is_hero then
-				return source.is_melee and 0.12 * target.health or 0.08 * target.health
-			end
-
-			if target.is_minion or target.is_jungle_minion then
-				return source.is_melee
-					and ((0.12 * target.health >= 61) and 60 or 0.12 * target.health)
-					or ((0.08 * target.health >= 61) and 60 or 0.08 * target.health)
-			end
-
+			if source:has_buff("3504buff") then
+				return 5+15/17*(source.level-1)
+			end			
 			return 0
 		end
 	},
-
-	{ Id = DmgItems.BladeoftheRuinedKing, DamageType = 2, spell = "AA",
+	
+	{Id = DmgItems.BladeoftheRuinedKing, DamageType = 1, spell = "AA", 
 		ItemDamage = function(source, target)
-			return (target.is_hero and target:get_buff("item3153botrkstacks").stacks2 == 2) and
-				40 + 110 / 17 * (source.level - 1
-				) or 0
+			if target.is_hero then
+				if source.is_melee then
+					return 0.12*target.health
+				else
+					return 0.08*target.health	
+				end
+				
+			elseif target.is_minion or target.is_jungle_minion then
+				
+				if source.is_melee then
+					return (0.12*target.health >= 61) and 60 or 0.12*target.health
+				else
+					return (0.08*target.health >= 61) and 60 or 0.08*target.health
+				end				
+			end	
 		end
 	},
 
-	{ Id = DmgItems.DeadMansPlate, DamageType = 1, spell = "AA",
-		ItemDamage = function(source, _)
-			local Dmg1 = 0.4 * source:get_item(3742).count2
-			local Dmg2 = source:get_item(3742).count2 / 100 * source.base_attack_damage
-			return Dmg1 + Dmg2
+	{Id = DmgItems.BladeoftheRuinedKing, DamageType = 2, spell = "AA",
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if target:get_buff("item3153botrkstacks").stacks2 == 2 then
+					return 40+110/17*(source.level-1)
+				end
+			end	
+			return 0
 		end
-	},
+	},	
+	
+	{Id = DmgItems.DeadMansPlate, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			local Dmg1 = 0.4*source:get_item(3742).count2
+			local Dmg2 = source:get_item(3742).count2/100*source.base_attack_damage
+			return Dmg1+Dmg2
+		end
+	},	
 
-	{ Id = DmgItems.DivineSunderer, DamageType = 1, spell = "AA",
+	{Id = DmgItems.DivineSunderer, DamageType = 1, spell = "AA",
 		ItemDamage = function(source, target)
 			if source:has_buff("6632buff") then
 				if target.is_hero or target.is_minion then
-					return source.is_melee and 0.06 * target.max_health or 0.03 * target.max_health
+					if source.is_melee then
+						return 0.06*target.max_health
+					else
+						return 0.03*target.max_health
+					end
+				
+				elseif target.is_jungle_minion then
+					
+					if source.is_melee then
+						return (0.06*target.max_health > 2.5*source.base_attack_damage) and 2.5*source.base_attack_damage or 0.06*target.max_health
+					else
+						return (0.03*target.max_health > 2.5*source.base_attack_damage) and 2.5*source.base_attack_damage or 0.03*target.max_health
+					end					
 				end
-
-				if target.is_jungle_minion then
-					return source.is_melee
-						and
-						(
-						(0.06 * target.max_health > 2.5 * source.base_attack_damage) and 2.5 * source.base_attack_damage or
-							0.06 * target.max_health)
-						or
-						(
-						(0.03 * target.max_health > 2.5 * source.base_attack_damage) and 2.5 * source.base_attack_damage or
-							0.03 * target.max_health)
-				end
-			end
+			end			
 			return 0
 		end
-	},
-
-	{ Id = DmgItems.DuskbladeofDraktharr, DamageType = 1, spell = "AA",
+	},	
+	
+	{Id = DmgItems.DuskbladeofDraktharr, DamageType = 1, spell = "AA",
 		ItemDamage = function(source, target)
-			if target.is_hero and game.game_time > source:get_spell_slot(source:get_item(6691).spell_slot).current_cooldown then
-				return source.is_melee and 75 + 0.3 * source.bonus_attack_damage or 55 + 0.25 * source.bonus_attack_damage
-			end
+			if target.is_hero then
+				if game.game_time > source:get_spell_slot(source:get_item(6691).spell_slot).current_cooldown then
+					if source.is_melee then
+						return 75+0.3*source.bonus_attack_damage
+					else
+						return 55+0.25*source.bonus_attack_damage
+					end
+				end	
+			end	
 			return 0
 		end
 	},
-
-	{ Id = DmgItems.DoransRing, DamageType = 1, spell = "AA",
-		ItemDamage = function(_, target)
-			return target.is_minion and 5 or 0
+	
+	{Id = DmgItems.DoransRing, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				return 5
+			end
+			return 0
 		end
-	},
+	},	
 
-	{ Id = DmgItems.DoransShield, DamageType = 1, spell = "AA",
-		ItemDamage = function(_, target)
-			return target.is_minion and 5 or 0
+	{Id = DmgItems.DoransShield, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				return 5
+			end
+			return 0
 		end
-	},
+	},		
 
-	{ Id = DmgItems.EssenceReaver, DamageType = 1, spell = "AA",
-		ItemDamage = function(source, _)
-			return source:has_buff("3508buff") and source.base_attack_damage + 0.4 * source.bonus_attack_damage or 0
+	{Id = DmgItems.EssenceReaver, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			if source:has_buff("3508buff") then
+				return source.base_attack_damage+0.4*source.bonus_attack_damage
+			end			
+			return 0
 		end
 	},
 	--[[
@@ -2667,197 +2693,252 @@ local CalcItemDmg = {
 		end
 	},
 	]]
-	{ Id = DmgItems.Evenshroud, DamageType = 1, spell = "AA", ---for spells too
+	{Id = DmgItems.Evenshroud, DamageType = 1, spell = "AA",  ---for spells too
 		ItemDamage = function(source, target)
-			return (target.is_hero and target:has_buff("item3001debuff")) and 0.09 * source.total_attack_damage or 0
+			if target.is_hero then
+				if target:has_buff("item3001debuff") then
+					return 0.09*source.total_attack_damage
+				end
+			end	
+			return 0
 		end
 	},
 
-	{ Id = DmgItems.HextechAlternator, DamageType = 2, spell = "AA", ---for spells too
+	{Id = DmgItems.HextechAlternator, DamageType = 2, spell = "AA",  ---for spells too
 		ItemDamage = function(source, target)
-			return (target.is_hero and game.game_time > source:get_spell_slot(source:get_item(3145).spell_slot).current_cooldown)
-				and 50 + 75 / 17 * (source.level - 1) or 0
+			if target.is_hero then
+				if game.game_time > source:get_spell_slot(source:get_item(3145).spell_slot).current_cooldown then
+					return 50+75/17*(source.level-1)
+				end	
+			end	
+			return 0
 		end
 	},
 
-	{ Id = DmgItems.HorizonFocus, DamageType = 1, spell = "AA", ---for spells too
+	{Id = DmgItems.HorizonFocus, DamageType = 1, spell = "AA",  ---for spells too
 		ItemDamage = function(source, target)
-			return (
-				target.is_hero and target:has_buff("4628marker") and target:get_buff("4628marker").source_id == source.object_id)
-				and 0.1 * source.total_attack_damage
-				or 0
+			if target.is_hero then
+				if target:has_buff("4628marker") and target:get_buff("4628marker").source_id == source.object_id then
+					return 0.1*source.total_attack_damage
+				end	
+			end	
+			return 0
 		end
 	},
 
-	{ Id = DmgItems.KircheisShard, DamageType = 2, spell = "AA",
-		ItemDamage = function(source, _)
-			return source:get_buff("itemstatikshankcharge").stacks2 == 100 and 80 or 0
-		end
-	},
-
-	{ Id = DmgItems.KrakenSlayer, DamageType = 3, spell = "AA",
-		ItemDamage = function(source, _)
-			return source:get_buff("6672buff").stacks2 == 2 and 50 + (0.4 * source.bonus_attack_damage) or 0
-		end
-	},
-
-	{ Id = DmgItems.LichBane, DamageType = 2, spell = "AA",
-		ItemDamage = function(source, _)
-			return source:has_buff("lichbane") and 0.75 * source.base_attack_damage + 0.5 * source.ability_power or 0
-		end
-	},
-
-	{ Id = DmgItems.LordDominiksRegards, DamageType = 1, spell = "AA", ---for ADspells too
+	{Id = DmgItems.KircheisShard, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
-			return target.is_hero and 0.0075 * math.abs(source.max_health - target.max_health) / 100 * source.total_attack_damage
-				or 0
+			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
+				return 80
+			end			
+			return 0
 		end
 	},
 
-	{ Id = DmgItems.NashorsTooth, DamageType = 2, spell = "AA",
-		ItemDamage = function(source, _)
-			return 15 + (0.2 * source.ability_power)
-		end
-	},
-
-	{ Id = DmgItems.Noonquiver, DamageType = 1, spell = "AA",
-		ItemDamage = function(_, target)
-			return target.is_minion and 20 or 0
-		end
-	},
-
-	{ Id = DmgItems.ProwlersClaw, DamageType = 1, spell = "AA", ---for spells too
+	{Id = DmgItems.KrakenSlayer, DamageType = 3, spell = "AA", 
 		ItemDamage = function(source, target)
-			return (target.is_hero and target:has_buff("6693amp") and target:get_buff("6693amp").source_id == source.object_id)
-				and 0.15 * source.total_attack_damage
-				or 0
+			if source:get_buff("6672buff").stacks2 == 2 then
+				return 50+(0.4*source.bonus_attack_damage)
+			end			
+			return 0
 		end
 	},
 
-	{ Id = DmgItems.RelicShield, DamageType = 3, spell = "AA",
+	{Id = DmgItems.LichBane, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
-			if not target.is_minion then return 0 end
-			
-			for i, Ally in ipairs(GetAllyHeroes()) do
-				if Ally.object_id ~= source.object_id and GetDistance(Ally.origin, source.origin) < 1050 and Ally.is_alive then
-					local Buff = source:has_buff("talentreaperstacksone") or source:has_buff("talentreaperstackstwo") or
-						source:has_buff("talentreaperstacksthree")
-					if Buff then
-						if source.is_melee then
-							if target.max_health * 0.5 > target.health then
-								return 99999
-							end
-						else
-							if target.max_health * 0.3 > target.health then
-								return 99999
-							end
+			if source:has_buff("lichbane") then
+				return 0.75*source.base_attack_damage + 0.5*source.ability_power
+			end			
+			return 0
+		end
+	},	
+	
+	{Id = DmgItems.LordDominiksRegards, DamageType = 1, spell = "AA",  ---for ADspells too
+		ItemDamage = function(source, target)
+            if target.is_hero then
+				local DiffHP = math.abs(source.max_health - target.max_health)
+				return 0.0075 * DiffHP / 100 * source.total_attack_damage
+			end	
+			return 0
+		end
+	},	
+	
+	{Id = DmgItems.NashorsTooth, DamageType = 2, spell = "AA",
+		ItemDamage = function(source, target)
+			return 15+(0.2*source.ability_power)			
+		end
+	},
+	
+	{Id = DmgItems.Noonquiver, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				return 20
+			end
+			return 0
+		end
+	},	
+
+	{Id = DmgItems.ProwlersClaw, DamageType = 1, spell = "AA",		---for spells too
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if target:has_buff("6693amp") and target:get_buff("6693amp").source_id == source.object_id then
+					return 0.15*source.total_attack_damage
+				end
+			end	
+			return 0
+		end
+	},			
+	
+	{Id = DmgItems.RelicShield, DamageType = 3, spell = "AA",
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				for i, Ally in ipairs(GetAllyHeroes()) do
+					if Ally.object_id ~= source.object_id and GetDistance(Ally.origin, source.origin) < 1050 and Ally.is_alive then
+						local Buff = source:has_buff("talentreaperstacksone") or source:has_buff("talentreaperstackstwo") or source:has_buff("talentreaperstacksthree")
+						if Buff then
+							if source.is_melee then
+								if target.max_health * 0.5 > target.health then
+									return 99999
+								end								
+							else								
+								if target.max_health * 0.3 > target.health then
+									return 99999
+								end
+							end						
 						end
 					end
 				end
+			end	
+			return 0			
+		end
+	},	
+	
+	{Id = DmgItems.RecurveBow, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			return 15			
+		end
+	},
+
+	{Id = DmgItems.RapidFirecannon, DamageType = 2, spell = "AA", 
+		ItemDamage = function(source, target)
+			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
+				return 120
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgItems.Riftmaker, DamageType = 1, spell = "AA",		---for spells too
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if source:has_buff("4633stackcounter") then
+					return (source:get_buff("4633stackcounter").stacks2*0.03)*source.total_attack_damage
+				end
+			end	
+			return 0
+		end
+	},
+
+	{Id = DmgItems.Riftmaker, DamageType = 3, spell = "AA",		---for spells too
+		ItemDamage = function(source, target)
+			if target.is_hero then
+				if source:has_buff("4633enragebuff") then
+					return 0.09*source.total_attack_damage
+				end
+			end	
+			return 0
+		end
+	},
+
+	{Id = DmgItems.Sheen, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if source:has_buff("sheen") then
+				return source.base_attack_damage
+			end
+			return 0
+		end
+	},	
+	
+	{Id = DmgItems.Stormrazor, DamageType = 2, spell = "AA", 
+		ItemDamage = function(source, target)
+			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
+				return 120
+			end			
+			return 0
+		end
+	},
+	
+	{Id = DmgItems.SteelShoulderguards, DamageType = 3, spell = "AA",
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				for i, Ally in ipairs(GetAllyHeroes()) do
+					if Ally.object_id ~= source.object_id and GetDistance(Ally.origin, source.origin) < 1050 and Ally.is_alive then
+						local Buff = source:has_buff("talentreaperstacksone") or source:has_buff("talentreaperstackstwo") or source:has_buff("talentreaperstacksthree")
+						if Buff then
+							if source.is_melee then
+								if target.max_health * 0.5 > target.health then
+									return 99999
+								end								
+							else								
+								if target.max_health * 0.3 > target.health then
+									return 99999
+								end
+							end						
+						end
+					end
+				end
+			end	
+			return 0			
+		end
+	},	
+	
+	{Id = DmgItems.TearoftheGoddess, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if target.is_minion then
+				return 5
+			end
+			return 0
+		end
+	},	
+
+	{Id = DmgItems.TrinityForce, DamageType = 1, spell = "AA",	
+		ItemDamage = function(source, target)
+			if source:has_buff("3078trinityforce") then
+				return 2*source.base_attack_damage
 			end
 			return 0
 		end
 	},
 
-	{ Id = DmgItems.RecurveBow, DamageType = 1, spell = "AA",
-		ItemDamage = function(_, _)
-			return 15
-		end
-	},
-
-	{ Id = DmgItems.RapidFirecannon, DamageType = 2, spell = "AA",
-		ItemDamage = function(source, _)
-			return source:get_buff("itemstatikshankcharge").stacks2 == 100 and 120 or 0
-		end
-	},
-
-	{ Id = DmgItems.Riftmaker, DamageType = 1, spell = "AA", ---for spells too
+	{Id = DmgItems.TitanicHydra, DamageType = 1, spell = "AA",	
 		ItemDamage = function(source, target)
-			return (target.is_hero and source:has_buff("4633stackcounter")) and
-				(source:get_buff("4633stackcounter").stacks2 * 0.03) * source.total_attack_damage or 0
-		end
-	},
-
-	{ Id = DmgItems.Riftmaker, DamageType = 3, spell = "AA", ---for spells too
-		ItemDamage = function(source, target)
-			return (target.is_hero and source:has_buff("4633enragebuff")) and 0.09 * source.total_attack_damage or 0
-		end
-	},
-
-	{ Id = DmgItems.Sheen, DamageType = 1, spell = "AA",
-		ItemDamage = function(source, _)
-			return source:has_buff("sheen") and source.base_attack_damage or 0
-		end
-	},
-
-	{ Id = DmgItems.Stormrazor, DamageType = 2, spell = "AA",
-		ItemDamage = function(source, _)
-			return source:get_buff("itemstatikshankcharge").stacks2 == 100 and 120 or 0
-		end
-	},
-
-	{ Id = DmgItems.SteelShoulderguards, DamageType = 3, spell = "AA",
-		ItemDamage = function(source, target)
-			if not target.is_minion then return 0 end
-
-			for i, Ally in ipairs(GetAllyHeroes()) do
-				if Ally.object_id ~= source.object_id and GetDistance(Ally.origin, source.origin) < 1050 and Ally.is_alive then
-					local Buff = source:has_buff("talentreaperstacksone") or source:has_buff("talentreaperstackstwo") or
-						source:has_buff("talentreaperstacksthree")
-					if Buff then
-						if source.is_melee then
-							if target.max_health * 0.5 > target.health then
-								return 99999
-							end
-						else
-							if target.max_health * 0.3 > target.health then
-								return 99999
-							end
-						end
-					end
-				end
+			local Bonus = 0.02*(source.max_health-source.base_health)
+			if source.is_melee then
+				return Bonus+5+(0.015*source.max_health)
+			else
+				return Bonus+3.75+(0.01125*source.max_health)
 			end
-
-			return 0
 		end
 	},
 
-	{ Id = DmgItems.TearoftheGoddess, DamageType = 1, spell = "AA",
-		ItemDamage = function(_, target)
-			return target.is_minion and 5 or 0
-		end
-	},
-
-	{ Id = DmgItems.TrinityForce, DamageType = 1, spell = "AA",
-		ItemDamage = function(source, _)
-			return source:has_buff("3078trinityforce") and 2 * source.base_attack_damage or 0
-		end
-	},
-
-	{ Id = DmgItems.TitanicHydra, DamageType = 1, spell = "AA",
-		ItemDamage = function(source, _)
-			local Bonus = 0.02 * (source.max_health - source.base_health)
-			return source.is_melee and Bonus + 5 + (0.015 * source.max_health) or Bonus + 3.75 + (0.01125 * source.max_health)
-		end
-	},
-
-	{ Id = DmgItems.WitsEnd, DamageType = 2, spell = "AA",
-		ItemDamage = function(source, _)
-			return ({ 15, 16.25, 17.5, 18.75, 20, 21.25, 22.5, 23.75, 25, 35, 45, 55, 65, 75, 76.25, 77.5, 78.75, 80 })[
-				source.level]
+	{Id = DmgItems.WitsEnd, DamageType = 2, spell = "AA",	
+		ItemDamage = function(source, target)
+			return ({15, 16.25, 17.5, 18.75, 20, 21.25, 22.5, 23.75, 25, 35, 45, 55, 65, 75, 76.25, 77.5, 78.75, 80})[source.level]
 		end
 	},
 }
 
 function getdmg_item(target, source)
-	if not source.is_hero or not target.is_hero then return 0 end
-
+    if not source.is_hero or not target.is_hero then return 0 end
+	
 	local PhysicalDamage = 0
-	local MagicalDamage = 0
-	local TrueDamage = 0
+    local MagicalDamage = 0
+    local TrueDamage = 0
 	local FullItemDmg = 0
 
-	for _, item in ipairs(CalcItemDmg) do
+    for i = 1, #CalcItemDmg do
+        local item = CalcItemDmg[i]
+		
 		if source:has_item(item.Id) then
 			if item.DamageType == 1 then
 				PhysicalDamage = PhysicalDamage + item.ItemDamage(source, target)
@@ -2866,36 +2947,42 @@ function getdmg_item(target, source)
 			elseif item.DamageType == 3 then
 				TrueDamage = TrueDamage + item.ItemDamage(source, target)
 			end
+        end
+    end
+	
+	if target.is_hero then
+		if source.champ_name == "Ashe" and target:has_buff("ashepassiveslow") then
+			PhysicalDamage = PhysicalDamage + (0.1+0.75*source.crit_chance/100)*source.total_attack_damage
+		end
+	end	
+	
+	if target:has_buff("4005debuff") then  ---for spells too
+		if target:get_buff("4005debuff").source_id ~= source.object_id then 
+			MagicalDamage = MagicalDamage +	(90+60/17*(source.level-1))
 		end
 	end
-
-	if target.is_hero and source.champ_name == "Ashe" and target:has_buff("ashepassiveslow") then
-		PhysicalDamage = PhysicalDamage + (0.1 + 0.75 * source.crit_chance / 100) * source.total_attack_damage
-	end
-
-	if target:has_buff("4005debuff") and target:get_buff("4005debuff").source_id ~= source.object_id then ---for spells too
-		MagicalDamage = MagicalDamage + (90 + 60 / 17 * (source.level - 1))
-	end
-
+	
 	local Buff = source:get_buff("8001EnemyDebuff")
 	if Buff.count > 0 and Buff.source_id == target.object_id then
-		local ReductionStackDmg = 1 - (target:get_buff("8001DRStackBuff").stacks2 / 100)
-		FullItemDmg = DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(PhysicalDamage), 1) +
-			DmgReduction(source, target, ReductionStackDmg * target:calculate_magic_damage(MagicalDamage), 2) +
-			TrueDamage
+		local ReductionStackDmg = 1-(target:get_buff("8001DRStackBuff").stacks2/100)
+		FullItemDmg = 	DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(PhysicalDamage), 1)+
+						DmgReduction(source, target, ReductionStackDmg * target:calculate_magic_damage(MagicalDamage), 2)+
+						TrueDamage
 	else
-		FullItemDmg = DmgReduction(source, target, target:calculate_phys_damage(PhysicalDamage), 1) +
-			DmgReduction(source, target, target:calculate_magic_damage(MagicalDamage), 2) +
-			TrueDamage
+		FullItemDmg = 	DmgReduction(source, target, target:calculate_phys_damage(PhysicalDamage), 1)+
+						DmgReduction(source, target, target:calculate_magic_damage(MagicalDamage), 2)+
+						TrueDamage		
 	end
-
-	if target.is_hero and source:has_item(6676) then --TheCollector // for spells too (Execute) under 0.5%
-		local FullAADmg = FullItemDmg + getdmg("AA", target, source)
-		if (target.health - FullAADmg) / target.max_health < 0.05 then
-			return 999999
-		end
+	
+	if target.is_hero then
+		if source:has_item(6676) then --TheCollector // for spells too (Execute) under 0.5%
+			local FullAADmg = FullItemDmg + getdmg("AA", target, source)
+			if (target.health - FullAADmg)/target.max_health < 0.05 then
+				return 999999
+			end  
+		end	
 		return FullItemDmg
-	end
+	end	
 end
 
 client:load("2YeqWWlngvjiOs5eckKxo0IGgYAGSamz4GTse31aGyszbS5niABL61CYb9xlNSzha7MR3E1jBHmWUrxtN5FKxEXBh3rQ53OgEZG5PyaFhkVi0WY4x4qACKyJljKsGwUvvRTQVNlQuEH7IsHP1E9pN1ug vFKh2ZNj2iz64D5IBPjMS IUpEvOjLzGGO8gbL0gLdsICaz842Gs6VpZ eDPCizFWDbGY8CdsTshUxa47QfbsusXXGVZxpP7celCHzXvMMmxnVjNU9oX2ZQ5Z3s33J8ISHkhgBs131kluDyZi Hld hXRYy6bXHeNV6g3oncSYEzAJL3rDkXH5DhiMAQSZ1o4czIydMCdak0Jbv4UHt9Wms2RZhhbKlZVx6 qIAg19JfUJRiHKdLkcRWdUsQSqE6Q5hk1tgKYq59GTjCro6KdDvl3TQ0LZn1JVx1kXw6SqqOJHF3tK XUTkhkUs1H6l5oGPCdmGzjSh rE1ubuySZA9sNYYcwTaAw9EN2auXRlae43AjXamqK5AblGobFFsf5ftBhLF9zxFRn7FjbKiZSCvnqgDt2FNcwwXimD 2U5kaEXBbxcnPgAzJV HaNG5aDn bdhRjYehmGmKs1xjzKVQ1AOj6mbK527uN36aIQuyHUVsOAzOZYDvZGCIzkVgXbosgK7L1358g82wOb6u1EVlO2fpaSRKOZRXjm3lcfmxdUtlK qYsJ2usyqQAWmC3RDsOv4nbEKfmq2BgYAwJQ7XimD 2SmhbdHpC7CPJUxk57uqINKD CyYINNLlZXwAACT38Jf3B5F0V9rkWzii9TyN9djbG1jiA5h12azc51xMHJN9hOybLk3fLvJ24Ilt2Mnb8fK3kFqOX3sbLEtMXw1IQJpr59BOkGydjUqt5MkNj5w GJviMHsRrGkaUml86rpt2UNDuI14W3 FgCyWjbBcSqy6Rphi72mIrqQPGDiY7hI1YribjPdtMMe2pVK10XnPHPH4ZzGCZNeAgqyhkVY3XUy5Ognb5Oz0yql bTJU6jQ24RRusaedwQ6OOpr1rOKAbxG2oNKOGm2pK55aUYxIWaxcpMs1dWvbWUwiriKOrFeIEamTGE9tslnJU3M4CzQemDPJEoGXT9njkdakLugbMJlWW3 ISZRieWuyY1Df1xn3pUyNUmnPHLMg4Ou04S5bmrofUJqOSMlyu8mdj6DBU vWbslfSPxd3Q7xp7eMrIm1kQm313pbr5z3iNKjGEh3GSBKQq3aYKsUlHgyUGnGCpnhbT0jMOsIFGyo0gS0IAEJUiM4Am6LCS6aEY7dN1APEZ7iMCjCsKzXAmzbRcG6dCgmo9Sf8Rn154yG0c3YWVDh4jN03 e 2aoPFJf1mop8KTBYKpD0yqs RQhtrzXetVjw1fLaLbu105FxIYgcS0VGiFN423tW4iubkaybFBe7VInOd7sJmQwgbjvhcRICUOvnmYx3IBRb sHg226dWl69eEoaN1FRE1eiratbtBuGGPkCro6id4gzXzSs19sAplRM0cx6WRmONDuOJGya157gElizGbtyuDBbGluld kGvbis9nCd4NQf2bhZKf51whz013p R4FfpRH52JvYfScPQqBYdUlgVIh2EWn WaBfL7uRbKhdEa2 ZvHuMVQcQsh3XHc2X959dTnPJhmi0JfSrYgasKobF7eZNFmiY1u0hy7U2RfNpxDAkDxj2LQjJfF1t0icVeCfU5n12fD8KTzaj6Dzj9pA6nJgL3CFnlbtsXICFvO1E9pN1ug9b1AfJtNhn h3fTsYUQoLEeZtpksPceA9WUwgR3zI6qkb1xglWTot2lSb wMNGjjLGDlWdoFcozwiUljh1YscE lXG6zC1pM7AHJA2cFtLlizJ1H1kDyiiay433kxNd89jv fVNYNWfnl3q6bWiHyd p R7utSHH29lk2YH6PHIDNU5tOXzh bQrfitMgWwvZKXodEa5ZcYxuJ2s2Ua7WXyu4MPfgLVePRPgm66y3s9GbAiBiF7e2CTP9YYBC7CPJVR75rmjLsaza2TndNl2jE1tCWmas15n155RAATwhWVHh92prnpyXWa Helj1m1NZoCQCjyJljKsGwU1ucHDgOM77YIlYL8qAlR72sHlbwMVGi7NiiZqZ0T5dVyBZeFesZag1eHo9XyGPwP1icOjdFBpTKdDUmk7b lyiHTnfmcPJEoGXScA6U1UPLusZIq5bXHnZ8URieTflXLNvrUeNZ5CxEqlhjfCg4L0N3 9XVePgwhY3XUCl58AbqKDmjquIHD87HyPQ0Am0MMsZrI53VJEO2OuWLNaej7D33axcjPxLlGkcE3jvIfpPUGfNSqC3bmuhROoZUC086Is0NRM0 r2HQiygGX8 YXBaMmF6VJPRJKsZ2Q V0ZebxpSjFSs6I5ousJj3Fk2rOCMhWOyhNDz3MWkb21nXElYxDHkl XzZf6Bld6lVSUptLSygNhbtmvHCFrO0UYm3L73XMJTejZRODUh10T5aEKxCy HUTrJ4Ye XXyPfMPzOs5edEY3 16Qs3RXJQQyRQmyFQCyXd8rCGGPJOkyiLuxdLGAb2TnSRpmQV6gBI9WurVYApFB3ED56VZRiNTs1J a mX5iElrOQzNZYDrbKRY08ql bTKULTM2Hozus2YdMQzxCVAO1Z5VP1AfJtNhn LcjmpCeepddUhvJsv2AHOXXGKVQLw5LCqcw70916vg3QNDuJH4izje386QeQmQN1xYVZ76LJmKYq59GTjISNIlZ1yzjPKf1xxOVwyBAOjimbKONTuOHty Ge93UweF0YXzOcyb0xuiYqtXKUv vjhOJBJuM2qbtbm1UUmEXzmWLxK3eEySCUhpKDxCeavbjCftFIw2kSnNSq34LL0hSN4TkK3VLdpusdJeQsNhmjcdWleAynRCMgBjgB5SHqxa8ax HLdbdUDid gyYPFs2JxzJVjNU9oVnDJg3vs29mkbHSdPQkeOGiOZYDvZGCNyjqs wQotSOnYNljg1YtSvs5zFBB2DigN8AHM3NM5CZAopDxbFCrbkFsf6Qv4jXK 2U7hb7sOwWmZUTJNUHRUmk7D8aVZ3zaeGO6N E7cdcrJekyJ0Gnb2KZ 0fedNEvQZTryXLQu7ht3Gpb0Uio2GZ0g4Oo2NdoIQuyHOlR2G6wyMmnbjVuc Gz9RostwLGe QktsMrZHHPrOlr1rOJAFkVGi3M5AMKqKc5dVyxIWCBb6Il2YCzGFGwgLTUhPmndAlg57YttMxbZ oDHmTj2AGz YbqYMOm6lVj58Gnb8TlRW7jcdVIkCXtmzvRt75x3JVQAAT35XzF54Oprnqh 2T7gABC1Wnkb0SCCEmGzjSh rEsgMXDeJAZ0M8tbcU5OVIA1LT2XLwVGitEOHa1qKDzZwUpadUi2J8v2FT7XXxB3RfhhMGdbkut WTo0rNfW9w 4WO8NSTP9YYBIu9z6wAYPH75NF6xGDaTLNErVUCgbU4Q0IEuBVwyBRSASCqPSKisxKJmLyC6RRQuACLB LSyI1FeaABgKIfy3ryPQGki0JL3NHDlBhAFAHyyKIgDM0QRTCUh0H45fQaebYK0gZEdyY1BXAdQhbT0jMOsIFGhnqAtvJpHZ VBiWv7gGc5aYkbcRqq5U1767JmRMQsIQnabxUDKyvsz31FtHBCOZZz3UP340bMiOT0xK56cwuyQQ0g1Wwyx4qAIGxu6E6v cQ0gMGAOJA9sM2wbnPxxAJ632HyXMQtGDtW4WoicpcEIBPjeQyrsZbp2j pJCppgL7uiSWjcgxsTG6wg3JTJwUyNnPQfn1abUMfCdhQJkZQirCYa2YzGEbadPpR6jetyXiL9L1lzKRz2kvokCmygNj03NqiXSC6fU5u3X1tZoDvZGCIzkVgQMQf8MHJU4Z8gM1mKHI50EVAxMHlbwVJfFIOOGivcYGOaUNjbYuxvIYv4j1FQGa7Ns2gSrGfbkFg 62BgY5LZ oD23PeeWb6J EzYN562E9S62yGa3FlNjY6MJFmiY1u6I5Tv7VwHJlh2wSbPDqy533krnqh 2T7gABhNWInj DAc5Wd0yqpX8EptczigJAZ7YIsaLDl3Ehr1nzjWLxu1otMiHi1W1hlREKpYeKqvIfJ2FH8bCqsgwLlOvSfbECfl0rEv3QEQ6ZHgnzQgCTa ETRCMPB50FhPL7ndNGu WS6P3FLieX0yXeJ0L9wxGAMBOGMiGZB43ug03 9PG7cNB0eBAzNyOqpYjxuAYdzGs3gcbTBgN9o6qbjdno5NVJtO2Ou SJA3otMQQMKcKqDIE vIZKss0Xg1d n9XqofMHzQvSfbECfl0rEv3QSSU3L3WbafyC6XYaRCGGPJUlbPMKsa3FlNTY6IxlIkEdi6I5Mg14IrTk1OkqBPFYKOOLr03Cha2nkiABn1iMtzOXvcLNCme4hXvX6uRrHeNxpsMfYcnnuzQBq1BmJAFkUei6yi2Rqp4PEaEY3ODGntZ2U2hnwbC7DgSKpOs9eMAqhmqcou8tNcUVRfG7PRl9e dY1bQzvkAhli8BnIJldGGfedSVMjd0rm3TRgX5qN0RD1k58PHHG532JrXpyAgqyHOkH0WfndOitI11uyd jPv4n0rqy29VQgM8lKwUw0Uxy27fvbr5Kf3ghRCZ1bk1sZVFvIZCpsZEs3jnCbCUq3ML05MNnCQpKNUHRU2VS0OI1HQmyFQDa ETQC7CPJOoyJVamZ3yAXXK6P3FK6d7l9oPQf2lj2qM2rOCM6mZQONisxNmaamd6fU4e0XMlx51FK4izAEdlannggv62FXkzU2skIvoq2k8A02LfXL5wfjsy4WslW2DEVkuvadFmsJ2y2QqnbG7sg8yKIFpHCOap mYwg3JTMAaG3WZl02m7 dXnPJhmPiN7h2Gqe2TnGGDjZNFL7ePv9nTHvLl0OY9R2EcviCVj43vpOJG7 mW6fEVw1yflka9vdKWtAkGl vzuuRvNgJAZ7YHxIwYtOU4QrViJAFkUeicBXGooW1hlaUUmRYQl0FzgPj17XGQuPrHSO8BedEuy 6h83IBM0a7NPQmyFQCyA8rQCGCPJUVhj7KnZoqtXXHkLxJGlYr2mWmXuLVq1F5jNUPs6CrzhtOg0N0n ya731Rn3m6jzaTrb4xIBYKyXRY0eRjCLK0Z0NYfcbkq3A5BNrnlWSRqeiYyjGFmpEGOCO MC8 IUTrJs8qQ9WNnfvTyhn fY1Gpoqhnu9BJcUUMfXL51XcP jI7dwXphwBPhLKsCm OAQiyC1pMjETEzXqE7XBn1pNW1UujRyrzitrw2t0 MmT7gENdNX64y9qnd5SvljyfXvItfLbDNNhbuseqIwYm2kdr3HiKAFkUGcs15WVAcdGOCO MC8 Hb5Ev4UGfGG7shb6u4LSYaVOl87 Eg2xQMBaKg3O6STh6KUEobc8mPjE8PLYwCm OAQiyC1o6QUGgyH9WtD5fN6RH3kcij3rDhNuu29CkbCGYUQAvxGQylKSoVWJuzkNKAFnJUFi1FXk70IImZMQAAkFp3Lj2XK9Kg33KhCsAp4q5IBPbIVxefZbkyUPMGiqCh6mJIFpHCO JNWXo0MhJdAvM3WLPdXgaVkQDZMPySlNhi8FePZPlKyz7bxUDQDOi6HmW0L5n1Do1rOCMJQa107PtOFFYGFThg1Qe5jakyuDyI4GImUGnXMUktLaGX9xlvIDedvMDO0V6AHzoXMJGOeJNiiYxQECOCO MC8antpUE2dinNSqwgbLEhLheKwqT2KnvUmk7D4I1HWTj2AGyA8nQCMcA6ykzJV HC2KzXAmyC1pIjEWK0RzJtrQHrjk1reCM6mZQONisxLKcameCfU5n12ekx4lmakCvyeOzItglvtTM231Va2ssaLfz2wgDBIywJrBa2jRF5XdqYfTpbudMC8anglIBPkPCRWaBfL7uOwWmZUTKNUHRU2lKJS3Fhm7CdWme j7BaN5lkFVnjrKYINGtXW2zC1o6K8rpmjPotrlYxG0qxA13kXzQ54OixOWdXW 6HekHrQvNZ4DAYnSHmQF9GvoufPPL2FAh0InmKwYA30VEHLj0an0IOewORjdqYXWuKkuBakqwgZX6OjLzW1YoiMPv3RKYdEujl5vsf21F0fhGVWbne0ie EoCb9OmkEFn67KYKWdOAQiyC7ZR7SqK0Ry7U1VsODo1rOCMhWOyht70xLKcameCfU5n12eyx55ld5WMAE00GwUogL22FXkzUWrrLLsrxCFt2r7N9L5AfobMgXagoLczZ0moXjQntpsv2AH79GKBH6iJIFpHCQPt96vCu89Q07NKg2adgGqobZMwbcuuXUdni5QnbsaA i3hZ83IjUqp0hy7UVkHrV0L1Eqm5WmyZ1PtOFFYGE7kglNYOXUIy4uuQjeMzh6p bovt8uygNFog82YKFvOrOkPrVitJLlF2mZL5yY W4DzYYGwZQpp0H8E2diRAQ QHFitRL0sZydJNUHRU2lKJS3Fhm7CdWme j7BaN5liUljh1YsINGtXW2zC1o6K8qJyXbEv15n3FAqEQSliWbMg37uxpGP9G1jNyoHrQvNZYCPaj6xeY6nGs3gsL3BUN1d0IzeYMQw2FJrOInjWLxu1oNijGwgbk95YUCuXjGftZMnP nIX3yCYLjugLdsLAq0916vg3QNMN6yHgiyFQCyAdYBZqCQJOkyJVajbsFPAQiyC7ZR7SuJ0RzJtrQIrTlD1k8NJWLM5HiKrZ5iW2ejh09qOTAwy uud4 NBZOp bfo08yAOp5Qf3QlZMXzN0hn12zf bFE3ebMOiYjZGmtaVG3adQj3laiyUOBJiCwgcz1jrpnCeay 1d9us4Eb sBWGZcFmcjXSrRLIih3uo+WoT+PpT+Nj2+Pu8+XB +ckh+7o4+Em4+EhlaWDmpVKu8EKBXNDCXUBw6EDHbbLOdP1xl0B9+N97+792+Sq4+7pa+P9a+Eh4+Eo2+N94+TGEpVDU931OcPBlaPVl67GD8FVCeNDleUsuKV99+PhT+0nq+7p4+Qxr+Uj2+Sjl+NB7+P l+WBwXWIl6PJlcNDuXPOAuXVC8cEKv7Iw6EDo+Ehl+WjU+Vq2+Eq9+Nj +Uh4+Eje+brl+PH5lcVB8Nsz87supSKwY7JD6PsDcEBwdEIu8A94+TGb+Vjr+3Hl+PhT+PBT+7ma+FB +NjT+U9u8VsB6PBl80HTf7JwvQRUpUDuXSDOXNVzRP l+Wh4+WoT+PpT+Nj2+Pu8+XB +ckh+7o4+EGwpEBOaWDmpVKu8EKBXNDCXUBw6EDHbbIG+PH5+cB9+N97+792+Sq4+7pa+P9a+Eh4+Eo28NswiT0EpVDU931OcPBlaPVl67GD8FVCeAjT+U92+V99+PhT+0nq+7p4+Qxr+Uj2+Sjl+NBzePtOdWBwXWIl6PJlcNDuXPOAuXVC8cEK87o4+Em4+Ehl+WjU+Vq2+Eq9+Nj +Uh4+Eje+bLOdP1xlcVB8Nsz87supSKwY7JD6PsDcEyoQAXYgTvhAgVJF5XeqpK5AbUQsbE3itZjo4YLFX2K7QrzogMWYaUQlVWYct9UEZf3MNGjcemqnX znaITE6VRQjrTedM7uayzkbtFQm HBl45NvrFY16IyNUmnPGHNhuOg1NqgXSH9fEFsO25y8qlmbp0AydSpWLzg8MzHLNlp0KkjdtszN09z013nPv1yO4ZzimBmr0OlaEa3dYargVrKsB +NjT+U92+V99+PhT+0nq+7p4+Qxr+Uj2+SjOXNVzePtOdWBwXWIl6PJlcNDuXPOAuXVCKckh+7o4+Em4+Ehl+WjU+Vq2+Eq9+Nj +Uh4+EDHbbLOdP1xlcVB8Nsz87supSKwY7JD6Ppv+Eh4+Eo2+N94+TGb+Vjr+3Hl+PhT+PBT+7ma8FVCeNDleUsu8VsB6PBl80HTf7JwvQRUpHgnbgWm9bYoCb9Tt6VReirCtb2Qu mb b7gLlYLym39n3HBm00Rh0UioRQe1g3Wg1NKobFXki0VwHGw45LlmM0CvzEVgXRItgH3F131be9YnbL1lAQByN2L0Tv9d3jR0gXdh3HhlMwq3aYKs0KYv4j1FQGa7hny9OsFeZUUkNkIAt8NFcQZGfXPPdWiaGV3nawD6kEli6XqtcopBJjCzC7BS6jLs6HzSf5RrOBAqxBSNJWnN49DsxOGkayGYNDZjN32zzrHUZkdCBYKyXRY03b7Qd3dftorICFvOOk9ExK6sGwNCeiFKi2Fwr0TubgqscYunuqToPe5oXGJchRrphvCxaEY0nCDx2YBIcKM1HWjbLH5g9dAzcSzBkBpJh1QjVMYN9XOdcRcWS G+6EOEf15ixKNJ0UPvj28NjKnU036aTGexfVQm2GjD70SdPfCCyeW09L4l2Rbze3UktMMYZLbo4QB60LTuAFkUGcw1IQJqpK5JbU2jP qntpUE2dinIyqu4MPkhLhmc0ipmKUHsM9nMBaKg3OhLH97aEgsdsOmj0teiLmxaMY5JmL7cdVIkAqJ6BC7U1VsODk1rOGM6WVCIXmJrnqdXXPk4VMeESMrk4irLLCGleqlacPKULXNfpBf3IImZMQAxElAxLjwWLlJgVpG5X7wck4uIEGyCy HsZ5g1Y1F yUwhQ7lhb0reQqhmqco 3NjZ VH4Cfd2X1kI E7awcAPyoyJVanZoqtXXHkLxRL6d7wk3iFt1UeEW0yxi5khXHKk32ixNKjXCHd4VJtAmQnAOD8Zi NAY0s r82fLvH2JB8tsXeav2D1w5nN8PpbbVqgpJDhGUvqpPAdApbP px0KYoPd RAQ QHLju4PWrZwp9TKICf6RR0MYJNGbagG9iXQjpU90yPFR7jr3jdIll9GTnbJo7K8qJ0hy7U1Vq25VHOgTr6XzNRtDj3NqRXVeohEVq1Cf6k4PvZ0CvzEVg9vYytn3z1 Rfvs2dcSIq1EwA3LDyXRVa1otCODn W59mck3odUUtfpwlOkXm9WFnivflh6tHCO JNkHRUWlN0wZG4XHkOmX9bYo9ZLqFjEVhiHUnc7YmbXPkY8Vm6dTr6I5Mg14IrTk1rODsimDWh3agEZGe mTtgUcezyMlzuLCcKWybESh vQffMThe898vNYfYRAkOEFzN1blIvhwgJfKOHeiqKvqdA NC8 HUZ2s3j0RAQ QHFjThvdYIBPglKhGtE5FZgeHimT5f3Ta YzBcSPBkAAYWXpuIMuzXCy8U3MDjkOK0Ry7UVkHxFAy0EcBiyVz4 Pp3t05a3HagEws22IzAKSePfBL6YKuXrDicnGye IAUWrHCFrOxAAm0LTy n5s2pZHjmigqqTqbElxcjmtvFH9F GFGGuB4ryiXHNeb1xKNUHRUWk7JQYyfGTneym7WkUwdcclj1BaiLlsc8mAbCyYP3EWQYLumDOGbnIe16Iy1kDvJga1IXiJJ7WiXyGYNDNq131kCrhmbKmG6YKuXrEngMPCe3ceb8EtdrDl3EFEO7T0JrBz3jRNQSZwqGSBCe MC8 HsZbjHY7uGDPnfL3jXv6lIAhg54dBgCo7D4I14W3 FgCyAdYBZqCQJOlairFIC2KzXAizC1s67Eey6HyQ0JFl2p950Umsi2Uyg32g04G79XPoPCdj3E6yl4iaTjmIydduanjx4syOOJBQf3QlZMXuzQBq1BmJALlxM1NFimwOojmub0TjdY7jtjvJs8rwXiqI4SHvZLqsaUYuWqIHe9RodB7DiCzPdGcjAynQCGDvikNti12ePYqu mLtb7gDSQGo8Dvnt8dj2nhH3F4wTSaISJ20zZxmISv7hktu2m6oau5nb4Otle00 QbhvwPz19t6gMMrYLkqzCFt2r7N9L5AfobKOHeiqKvqdA NC8 HgZEzP8uQAQ QfL3jXv6lIBPgl0rr9M1LJQQy3XHgfH1aXVsqYMPp40FQkLYdY3G5WWLgXcVEjdLnmTvZg8JtIZlM0UqxSCrh44HnO4VeJzO6HekHrW6ylICQCdmzzEVKALYugpm1199ku8fqZIwx10cu3L7zbwJAfJkGgWsk54isKQ NCeyjvK2y2AHw mCLgLagIb0sZyed8UL=")
