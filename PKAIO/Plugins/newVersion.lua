@@ -1,23 +1,23 @@
 Data = {
 
     Loader = {
-        Version = 0.12,
+        Version = 0.13,
     },
 
     Champions = {
         Ahri = {
             Changelog = "",
-            Version = 0.4,
+            Version = 0.5,
         },
 		
         Anivia = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },		
 
         Akali = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 
         Akshan = {
@@ -37,7 +37,7 @@ Data = {
         
         Caitlyn = {
             Changelog = "",
-            Version = 0.6,
+            Version = 0.7,
         }, 
 
         Camille = {
