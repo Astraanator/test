@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 0.14,
+        Version = 0.15,
     },
 
     Champions = {
@@ -32,7 +32,7 @@ Data = {
 		
         Cassiopeia = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         }, 		
         
         Caitlyn = {
@@ -42,7 +42,7 @@ Data = {
 
         Camille = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 		
         Diana = {
