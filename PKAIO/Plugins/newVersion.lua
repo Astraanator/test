@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 0.15,
+        Version = 0.16,
     },
 
     Champions = {
@@ -47,7 +47,7 @@ Data = {
 		
         Diana = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 
         Draven = {
@@ -57,7 +57,7 @@ Data = {
 
         DrMundo = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },
 		
         Elise = {
