@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 0.16,
+        Version = 0.17,
     },
 
     Champions = {
