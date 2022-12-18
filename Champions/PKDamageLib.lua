@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 66
+local Version = 67
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -359,7 +359,7 @@ local function GetBaseHealth(unit)
 	end
 end
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 12.22 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 12.23 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -430,10 +430,10 @@ local DamageLibTable = {
 			Damage = function(source, target, level) return ({ 70, 95, 120, 145, 170 })[level] + 0.85 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 12, 16, 20, 24, 28 })[level] +
-					(({ 0.01, 0.0115, 0.013, 0.0145, 0.016 })[level] + 0.05 * source.ability_power / 100) * target.max_health
+					(({ 0.01, 0.0125, 0.015, 0.0175, 0.02 })[level] + 0.05 * source.ability_power / 100) * target.max_health
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 85, 110, 135, 165, 185 })[level] + 0.5 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 80, 110, 140, 170, 200 })[level] + 0.5 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 200, 300, 400 })[level] + 0.8 * source.ability_power end },
 	},
@@ -615,7 +615,7 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 135, 190, 245, 300 })[level] + source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 75, 125, 175, 225, 275 })[level] + 0.7 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 80, 135, 190, 245, 300 })[level] + 0.7 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 22, 34, 46, 58, 70 })[level] + 0.3 * source.ability_power +
 					0.03 * target.max_health
@@ -1269,9 +1269,9 @@ local DamageLibTable = {
 
 	["Lillia"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 35, 50, 65, 80, 95 })[level] + 0.4 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 35, 45, 55, 65, 75 })[level] + 0.4 * source.ability_power end },
 		{ Slot = "Q", Stage = 2, DamageType = 3,
-			Damage = function(source, target, level) return ({ 35, 50, 65, 80, 95 })[level] + 0.4 * source.ability_power end }, --outer edge/TrueDmg
+			Damage = function(source, target, level) return ({ 35, 45, 55, 65, 75 })[level] + 0.4 * source.ability_power end }, --outer edge/TrueDmg
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 100, 120, 140, 160 })[level] + 0.35 * source.ability_power end }, --AoeDmg
 		{ Slot = "W", Stage = 2, DamageType = 2,
@@ -1306,9 +1306,9 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 120, 160, 200, 240 })[level] + 0.6 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 70, 120, 170, 220, 270 })[level] + 0.7 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 70, 120, 170, 220, 270 })[level] + 0.8 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 300, 400, 500 })[level] + source.ability_power +
+			Damage = function(source, target, level) return ({ 300, 400, 500 })[level] + 1.2 * source.ability_power +
 					(target:has_buff("LuxIlluminatingFraulein") and (10 + 10 * source.level + 0.2 * source.ability_power) or 0)
 			end },
 	},
@@ -1321,7 +1321,7 @@ local DamageLibTable = {
 					0.15 * source.armor
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 60, 95, 130, 165, 200 })[level] + 0.4 * source.armor +
+			Damage = function(source, target, level) return ({ 70, 110, 150, 190, 230 })[level] + 0.4 * source.armor +
 					0.6 * source.ability_power
 			end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
@@ -1347,7 +1347,9 @@ local DamageLibTable = {
 
 	["Maokai"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 65, 110, 155, 200, 245 })[level] + 0.4 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 70, 120, 170, 220, 270 })[level] + 
+					0.4 * source.ability_power + ({ 0.02, 0.0225, 0.025, 0.0275, 0.03 })[level] * target.max_health 
+			end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 60, 85, 110, 135, 160 })[level] + 0.4 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
@@ -1478,12 +1480,12 @@ local DamageLibTable = {
 	["Nilah"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return ({ 5, 10, 15, 20, 25 })[level] +
-					(({ 0.9, 1, 1.1, 1.2, 1.3 })[level] * source.total_attack_damage)
+					(({ 0.9, 0.975, 1.05, 1.125, 1.2 })[level] * source.total_attack_damage)
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return ({ 60, 90, 115, 140, 165 })[level] + 0.2 * source.total_attack_damage end },
 		{ Slot = "R", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 15, 30, 45 })[level] + 0.35 * source.bonus_attack_damage end }, --Per Tick
+			Damage = function(source, target, level) return ({ 15, 30, 45 })[level] + 0.28 * source.bonus_attack_damage end }, --Per Tick
 		{ Slot = "R", Stage = 2, DamageType = 1,
 			Damage = function(source, target, level) return ({ 125, 225, 325 })[level] + 1.2 * source.bonus_attack_damage end }, --Burst Dmg
 	},
@@ -1879,7 +1881,7 @@ local DamageLibTable = {
 
 	["Sion"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 30, 50, 70, 90, 110 })[level] +
+			Damage = function(source, target, level) return ({ 40, 60, 80, 100, 120 })[level] +
 					({ 45, 52, 60, 67, 75 })[level] / 100 * source.total_attack_damage
 			end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
@@ -1958,7 +1960,7 @@ local DamageLibTable = {
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 110, 150, 190, 230 })[level] + 0.7 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 75, 115, 155, 195, 235 })[level] + 0.55 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 75, 115, 155, 195, 235 })[level] + 0.45 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 270, 390, 510 })[level] + 0.51 * source.ability_power end },
 		{ Slot = "R", Stage = 2, DamageType = 2,
@@ -1996,13 +1998,13 @@ local DamageLibTable = {
 
 	["TahmKench"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 80, 130, 180, 230, 280 })[level] + 0.9 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 80, 130, 180, 230, 280 })[level] + source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return target.is_minion and ({ 400, 450, 500, 550, 600 })[level] or
 					(({ 0.20, 0.23, 0.26, 0.29, 0.32 })[level] + 0.02 * source.ability_power / 100) * target.max_health
 			end },
 		{ Slot = "W", Stage = 2, DamageType = 2,
-			Damage = function(source, target, level) return ({ 100, 135, 170, 205, 240 })[level] + 1.25 * source.ability_power end }, --PROJECTILE DAMAGE
+			Damage = function(source, target, level) return ({ 100, 135, 170, 205, 240 })[level] + 1.5 * source.ability_power end }, --PROJECTILE DAMAGE
 	},
 
 	["Teemo"] = {
@@ -2042,7 +2044,7 @@ local DamageLibTable = {
 					({ 0.15, 0.25, 0.35, 0.45, 0.55 })[level] * source.total_attack_damage
 			end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return (({ 20, 27, 35 })[level] / 100 + 0.02 * source.ability_power / 100) *
+			Damage = function(source, target, level) return (({ 20, 25, 30 })[level] / 100 + 0.02 * source.ability_power / 100) *
 					target.max_health
 			end },
 	},
@@ -2345,7 +2347,7 @@ local DamageLibTable = {
 	["Zac"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 40, 55, 70, 85, 100 })[level] + 0.3 * source.ability_power +
-					0.025 * source.max_health
+					0.04 * source.max_health
 			end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 35, 50, 65, 80, 95 })[level] +
@@ -2363,24 +2365,24 @@ local DamageLibTable = {
 					(({ 0.15, 0.1571, 0.1643, 0.1714, 0.1786 })[level] * source.total_attack_damage)
 			end }, -- per bullet
 		{ Slot = "Q", Stage = 2, DamageType = 1,
-			Damage = function(source, target, level) return ({ 8, 11, 14, 17, 20 })[level] +
-					(({ 1, 1.05, 1.1, 1.15, 1.2 })[level] * source.total_attack_damage)
+			Damage = function(source, target, level) return ({ 15, 18, 21, 24, 27 })[level] +
+					(({ 1.04, 1.08, 1.12, 1.16, 1.2 })[level] * source.total_attack_damage)
 			end }, -- Full Dmg
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 20, 55, 90, 125, 160 })[level] + source.total_attack_damage +
-					0.4 * source.ability_power
+			Damage = function(source, target, level) return ({ 20, 60, 100, 140, 180 })[level] + 1.3 * source.total_attack_damage +
+					0.25 * source.ability_power
 			end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 150, 250, 350 })[level] + 0.8 * source.bonus_attack_damage +
-					0.8 * source.ability_power
+			Damage = function(source, target, level) return ({ 175, 275, 375 })[level] + source.bonus_attack_damage +
+					1.1 * source.ability_power
 			end },
 	},
 
 	["Zed"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 80, 115, 150, 185, 220 })[level] + 1.1 * source.bonus_attack_damage end },
+			Damage = function(source, target, level) return ({ 70, 105, 140, 175, 210 })[level] + 1.1 * source.bonus_attack_damage end },
 		{ Slot = "E", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 70, 90, 110, 130, 150 })[level] + 0.65 * source.bonus_attack_damage end },
+			Damage = function(source, target, level) return ({ 65, 85, 105, 125, 145 })[level] + 0.65 * source.bonus_attack_damage end },
 		{ Slot = "R", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return 0.65 * source.total_attack_damage end },
 	},
