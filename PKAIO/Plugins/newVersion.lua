@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 0.19,
+        Version = 0.20,
     },
 
     Champions = {
@@ -127,7 +127,7 @@ Data = {
 
         KogMaw = {
             Changelog = "",
-            Version = 0.5,
+            Version = 0.6,
         },
 		
         Leona = {
@@ -212,7 +212,7 @@ Data = {
 
         Viktor = {
             Changelog = "",
-            Version = 0.9,
+            Version = 1.0,
         },
 		
         Xerath = {
