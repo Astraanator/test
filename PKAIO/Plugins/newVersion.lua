@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 0.18,
+        Version = 0.19,
     },
 
     Champions = {
@@ -52,7 +52,7 @@ Data = {
 
         Draven = {
             Changelog = "",
-            Version = 0.5,
+            Version = 0.6,
         },
 
         DrMundo = {
@@ -62,12 +62,12 @@ Data = {
 		
         Elise = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },		
 		
         Ezreal = {
             Changelog = "",
-            Version = 0.3,
+            Version = 0.4,
         }, 		
 
         Fiora = {
@@ -127,12 +127,12 @@ Data = {
 
         KogMaw = {
             Changelog = "",
-            Version = 0.4,
+            Version = 0.5,
         },
 		
         Leona = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },	
 
         MasterYi = {
@@ -172,7 +172,7 @@ Data = {
 
         Samira = {
             Changelog = "",
-            Version = 0.5,
+            Version = 0.6,
         },
 
         Senna = {
@@ -187,7 +187,7 @@ Data = {
 
         Sylas = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 
         Thresh = {
@@ -212,7 +212,7 @@ Data = {
 
         Viktor = {
             Changelog = "",
-            Version = 0.8,
+            Version = 0.9,
         },
 		
         Xerath = {
