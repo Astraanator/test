@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 0.20,
+        Version = 1.5,
     },
 
     Champions = {
@@ -102,7 +102,7 @@ Data = {
 
         Jinx = {
             Changelog = "",
-            Version = 0.3,
+            Version = 0.4,
         },
 		
         Katarina = {
@@ -112,7 +112,7 @@ Data = {
 
         Kalista = {
             Changelog = "",
-            Version = 0.5,
+            Version = 0.6,
         },
 
         Kayn = {
@@ -172,7 +172,7 @@ Data = {
 
         Samira = {
             Changelog = "",
-            Version = 0.6,
+            Version = 0.7,
         },
 
         Senna = {
@@ -197,7 +197,7 @@ Data = {
 
         Twitch = {
             Changelog = "",
-            Version = 0.5,
+            Version = 0.6,
         },
 
         Vayne = {
