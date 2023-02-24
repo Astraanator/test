@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 1.5,
+        Version = 1.6,
     },
 
     Champions = {
@@ -147,7 +147,7 @@ Data = {
 
         Morgana = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 
         Rengar = {
@@ -167,7 +167,7 @@ Data = {
 
         Ryze = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 
         Samira = {
@@ -217,7 +217,7 @@ Data = {
 		
         Xerath = {
             Changelog = "",
-            Version = 0.1,
+            Version = 0.2,
         },		
 
         XinZhao = {
