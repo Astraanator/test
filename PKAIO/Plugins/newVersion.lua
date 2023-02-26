@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 1.6,
+        Version = 1.7,
     },
 
     Champions = {
@@ -177,7 +177,7 @@ Data = {
 
         Senna = {
             Changelog = "",
-            Version = 0.2,
+            Version = 0.3,
         },
 
         Sett = {
