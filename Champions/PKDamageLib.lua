@@ -148,34 +148,30 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 73
+local Version = 74
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
 		local url = "http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.lua"
-		local web_version = http:get("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version")
-		if tonumber(web_version) ~= Version then
-			http:download_file(url, file_name)
-		end
-
-		if not file_manager:directory_exists("PussyFolder") then
-			file_manager:create_directory("PussyFolder")
-		end
-
-		if file_manager:directory_exists("PussyFolder") then
-			if not file_manager:file_exists("PussyFolder/PkMenu.png") then
-				local file_name = "PussyFolder/PkMenu.png"
-				local url = "https://raw.githubusercontent.com/Astraanator/test/main/Images/PkMenu.png"
-				http:download_file(url, file_name)
+		
+		http:get_async("http://raw.githubusercontent.com/Astraanator/test/main/Champions/PKDamageLib.version", function(success, response)
+			if success and tonumber(response) ~= Version then
+				http:download_file_async(url, file_name, function(success)
+					if success then
+						console:log("PKDamageLib updated to Version: " .. tonumber(response))
+					end	
+				end)
 			end
-		end
+		end)
 	end
 
 	local function MustHave()
 		if not file_manager:file_exists("Prediction.lib") then
-			local file_name = "Prediction.lib"
-			local url = "https://raw.githubusercontent.com/Ark223/Bruhwalker/main/Prediction.lib"
-			http:download_file(url, file_name)
+			http:download_file_async("https://raw.githubusercontent.com/Ark223/Bruhwalker/main/Prediction.lib", "Prediction.lib", function(success)
+				if success then
+					---
+				end	
+			end)
 		end
 	end
 
@@ -2441,6 +2437,161 @@ local DamageLibTable = {
 	}
 }
 
+local DmgPerks = {	
+	['PressTheAttack'] = 8005,
+	['PressTheAttack2'] = 8005,
+	['CoupdeGrace'] = 8014,
+	['CutDown'] = 8017,		
+	["LastStand"] = 8299,
+    ["FirstStrike"] = 8369,	
+	["Predator"] = 8124,		
+	["DarkHarvest"] = 8128,				
+	['GraspoftheUndying'] = 8437,				
+	['ShieldBash'] = 8401,											
+}
+
+local CalcPerkDmg = {
+	{Id = DmgPerks.PressTheAttack, type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = target:get_buff("ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackStack.lua")
+			if buff and buff.is_valid and buff.stacks2 == 2 then 
+				local Dmg = 40 + 140 / 17 * (source.level - 1)
+				return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
+			end			
+			return 0
+		end
+	},
+	
+	{Id = DmgPerks.PressTheAttack2, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = target:get_buff("ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackDamageAmp.lua")
+			if buff and buff.is_valid then 
+				return (0.08 + 0.04 / 17 * (source.level - 1))
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.CoupdeGrace, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			if target:health_percentage() > 40 then return 0 end		
+			return 0.08
+		end
+	},
+
+	{Id = DmgPerks.CutDown, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+            local DiffHP = target.max_health * 100 / source.max_health - 100
+            if DiffHP < 10 then
+                return 0
+            end
+            local calc = (0.05 + (DiffHP - 10) * 0.001111111111111)
+
+            return calc >= 0.15 and 0.15 or calc
+		end
+	},
+
+	{Id = DmgPerks.LastStand, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+            if source:health_percentage() > 60 then return 0 end
+			local hpPercent = source:health_percentage()
+            if hpPercent < 30 then
+                hpPercent = 30
+            end
+            if hpPercent <= 60 then
+                hpPercent = hpPercent / 100
+                return (1 - hpPercent) * 0.2 - 0.03
+            end
+		end
+	},
+
+	{Id = DmgPerks.FirstStrike, type = "Dmg_Percent",  -- AADmg/SpellDmg TrueDmg%
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = source:get_buff("ASSETS/Perks/Styles/Inspiration/FirstStrike/FirstStrike.lua")
+			if buff and buff.is_valid then 
+				return 0.09
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.Predator, type = "Dmg_Value", OnlyAA = false,  -- AADmg/SpellDmg Value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = source:get_buff("ASSETS/Perks/Styles/Domination/Predator/PredatorActive.lua")
+			if buff and buff.is_valid then 
+				local Dmg = (20 + 160 / 17 * (source.level - 1)) + 0.25 * source.bonus_attack_damage + 0.15 * source.ability_power
+				return 0.25 * source.bonus_attack_damage >= 0.15 * source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.DarkHarvest, type = "Dmg_Value", OnlyAA = false,  -- AADmg/SpellDmg Value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			if target:health_percentage() >= 50 then return 0 end
+			if source:has_buff("ASSETS/Perks/Styles/Domination/DarkHarvest/DarkHarvestCooldown.lua") then return 0 end
+			local buff = source:get_buff("ASSETS/Perks/Styles/Domination/DarkHarvest/DarkHarvest.lua")
+			if buff and buff.is_valid then 
+				local Dmg = (20 + 40 / 17 * (source.level - 1)) + 0.25 * source.bonus_attack_damage + 0.15 * source.ability_power + 5 * buff.stacks2
+				return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.GraspoftheUndying, type = "Dmg_Value", OnlyAA = true,  -- AADmg Value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = source:get_buff("ASSETS/Perks/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndyingONH.lua")
+			if buff and buff.is_valid then 
+				local Dmg = source.is_melee and (0.035 * source.max_health) or (0.021 * source.max_health)
+				return target:calculate_magic_damage(Dmg)
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.ShieldBash, type = "Dmg_Value", OnlyAA = true,  -- AADmg Value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			if source.shield <= 0 then return 0 end
+			local Bonus_HP = source.max_health - source.base_health
+			local Dmg = (5 + 25 / 17 * (source.level - 1)) + 0.015 * Bonus_HP + 0.085 * source.shield
+			return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
+		end
+	},
+}
+
+local function getdmg_perk(target, source, dmg, SpellDmg)
+	local Damage = 0
+    for i = 1, #CalcPerkDmg do
+        local Perk = CalcPerkDmg[i]
+		
+		if source:has_perk(Perk.Id) then
+			if Perk.type == "Dmg_Value" then
+				if SpellDmg and Perk.OnlyAA then
+					---Ignore---
+				else
+					Damage = Damage + Perk.Damage(source, target)
+				end
+			end
+			
+			if Perk.type == "Dmg_Percent" then
+				Damage = Damage + (Perk.Damage(source, target) * dmg)
+			end
+        end
+    end
+	return Damage
+end
+
 --------------------- Global functions --------------------
 
 
@@ -2481,18 +2632,20 @@ function getdmg(spell, target, source, stage, level)
 				if spells.Stage == stage and IsKillable(target) then
 					local ReductionStackDmg = 1 - (target:get_buff("8001DRStackBuff").stacks2 / 100)
 					if spells.DamageType == 1 then
-
+						local SpellDmg = target:calculate_phys_damage(spells.Damage(source, target, level))
+						local FullDmg = getdmg_perk(target, source, SpellDmg, true) + SpellDmg
 						return (Buff.count > 0 and Buff.source_id == target.object_i)
 							and DmgReduction(source, target,
-								ReductionStackDmg * target:calculate_phys_damage(spells.Damage(source, target, level)), 1)
-							or DmgReduction(source, target, target:calculate_phys_damage(spells.Damage(source, target, level)), 1)
+								ReductionStackDmg * FullDmg, 1)
+							or DmgReduction(source, target, FullDmg, 1)
 
 					elseif spells.DamageType == 2 then
-
+						local SpellDmg = target:calculate_magic_damage(spells.Damage(source, target, level))
+						local FullDmg = getdmg_perk(target, source, SpellDmg, true) + SpellDmg
 						return (Buff.count > 0 and Buff.source_id == target.object_id)
 							and DmgReduction(source, target,
-								ReductionStackDmg * target:calculate_magic_damage(spells.Damage(source, target, level)), 2)
-							or DmgReduction(source, target, target:calculate_magic_damage(spells.Damage(source, target, level)), 2)
+								ReductionStackDmg * FullDmg, 2)
+							or DmgReduction(source, target, FullDmg, 2)
 
 					elseif spells.DamageType == 3 then
 						if source.champ_name == "Pyke" then
@@ -2515,19 +2668,21 @@ function getdmg(spell, target, source, stage, level)
 	end
 
 	if spell == "AA" then
+		local SpellDmg = target:calculate_phys_damage(source.total_attack_damage)
+		local FullDmg = getdmg_perk(target, source, SpellDmg, false) + SpellDmg				
 		local ReductionStackDmg = 1 - (target:get_buff("8001DRStackBuff").stacks2 / 100)
 		if stage == 2 then -- Calculate and return AA-Damage + Items PassiveDmg
 			return (Buff.count > 0 and Buff.source_id == target.object_id)
 				and
-				DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(source.total_attack_damage), 1) +
+				DmgReduction(source, target, ReductionStackDmg * FullDmg, 1) +
 				getdmg_item(target, source)
 				or
-				DmgReduction(source, target, target:calculate_phys_damage(source.total_attack_damage), 1) +
+				DmgReduction(source, target, FullDmg, 1) +
 				getdmg_item(target, source)
 		else -- Calculate and return AA-Damage
 			return (Buff.count > 0 and Buff.source_id == target.object_id)
-				and DmgReduction(source, target, ReductionStackDmg * target:calculate_phys_damage(source.total_attack_damage), 1)
-				or DmgReduction(source, target, target:calculate_phys_damage(source.total_attack_damage), 1)
+				and DmgReduction(source, target, ReductionStackDmg * FullDmg, 1)
+				or DmgReduction(source, target, FullDmg, 1)
 		end
 	end
 
