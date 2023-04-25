@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 74
+local Version = 75
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -236,6 +236,12 @@ local function GetAllyHeroes()
 		end
 	end
 	return _AllyHeroes
+end
+
+local function IsAlly(name)
+	for i, ally in ipairs(GetAllyHeroes()) do 
+		return ally and ally.champ_name == name
+	end
 end
 
 local function DmgReduction(source, target, amount, DamageType)
@@ -367,7 +373,7 @@ local function Azir_WResult(level)
 	end	
 end
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 13.7 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 13.8 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -954,7 +960,7 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 60, 85, 110, 135, 160 })[level] + 0.35 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 70, 100, 130, 160, 190 })[level] + 0.5 * source.ability_power +
+			Damage = function(source, target, level) return ({ 80, 110, 140, 170, 200 })[level] + 0.6 * source.ability_power +
 					(
 					({ 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35, 0.35 })[
 						source.level] * source.move_speed)
@@ -963,7 +969,7 @@ local DamageLibTable = {
 
 	["JarvanIV"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 90, 130, 170, 210, 250 })[level] + 1.4 * source.bonus_attack_damage end },
+			Damage = function(source, target, level) return ({ 80, 120, 160, 200, 240 })[level] + 1.4 * source.bonus_attack_damage end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 120, 160, 200, 240 })[level] + 0.8 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 1,
@@ -1137,9 +1143,9 @@ local DamageLibTable = {
 
 	["Khazix"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 60, 85, 110, 135, 160 })[level] + 1.15 * source.bonus_attack_damage end },
+			Damage = function(source, target, level) return ({ 70, 95, 120, 145, 170 })[level] + 1.15 * source.bonus_attack_damage end },
 		{ Slot = "Q", Stage = 2, DamageType = 1,
-			Damage = function(source, target, level) return ({ 126, 178, 231, 283, 336 })[level] +
+			Damage = function(source, target, level) return ({ 147, 199, 252, 304, 357 })[level] +
 					2.41 * source.bonus_attack_damage
 			end }, --isolated Target
 		{ Slot = "W", Stage = 1, DamageType = 1,
@@ -1259,7 +1265,7 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 10, 35, 60, 85, 110 })[level] + 0.3 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 45, 80, 115, 150, 185 })[level] + 0.4 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 55, 90, 125, 160, 195 })[level] + 0.4 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 50, 90, 130, 170, 210 })[level] + 0.4 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
@@ -1328,7 +1334,7 @@ local DamageLibTable = {
 			Damage = function(source, target, level) return ({ 70, 120, 170, 220, 270 })[level] + 0.6 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return ({ 15, 25, 35, 45, 55 })[level] + 0.3 * source.ability_power +
-					0.2 * source.armor
+					0.15 * source.armor
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 110, 150, 190, 230 })[level] + 0.4 * source.armor +
@@ -1574,11 +1580,11 @@ local DamageLibTable = {
 	["Poppy"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return ({ 40, 60, 80, 100, 120 })[level] + 0.9 * source.bonus_attack_damage +
-					0.08 * target.max_health
+					0.09 * target.max_health
 			end },
 		{ Slot = "Q", Stage = 2, DamageType = 1,
 			Damage = function(source, target, level) return ({ 80, 120, 160, 200, 240 })[level] + 1.8 * source.bonus_attack_damage
-					+ 0.16 * target.max_health
+					+ 0.18 * target.max_health
 			end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 110, 150, 190, 230 })[level] + 0.7 * source.ability_power end },
@@ -1838,10 +1844,12 @@ local DamageLibTable = {
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 10, 15, 20, 25, 30 })[level] + 0.12 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return (
-					GetPercentHP(target) < 30 and
-						({ 105, 142, 180, 217, 255 })[level] + 0.9 * source.ability_power + 1.2 * source.bonus_attack_damage or
-						({ 70, 95, 120, 145, 170 })[level] + 0.6 * source.ability_power + 0.8 * source.bonus_attack_damage)
+			Damage = function(source, target, level) 
+			local Incr_Dmg = not target:is_facing(source) and 15 * 35 / 17 * (source.level - 1) + 0.1 * source.ability_power or 0
+
+			return (GetPercentHP(target) < 30 and
+						({ 105, 142, 180, 217, 255 })[level] + 0.9 * source.ability_power + 1.2 * source.bonus_attack_damage + 1.5 * Incr_Dmg or
+						({ 70, 95, 120, 145, 170 })[level] + 0.6 * source.ability_power + 0.8 * source.bonus_attack_damage + Incr_Dmg)
 			end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 150, 225, 300 })[level] + 0.7 * source.ability_power end },
@@ -2437,274 +2445,822 @@ local DamageLibTable = {
 	}
 }
 
-local DmgPerks = {	
-	['PressTheAttack'] = 8005,
-	['PressTheAttack2'] = 8005,
-	['CoupdeGrace'] = 8014,
-	['CutDown'] = 8017,		
-	["LastStand"] = 8299,
-    ["FirstStrike"] = 8369,	
-	["Predator"] = 8124,		
-	["DarkHarvest"] = 8128,				
-	['GraspoftheUndying'] = 8437,				
-	['ShieldBash'] = 8401,											
-}
-
-local CalcPerkDmg = {
-	{Id = DmgPerks.PressTheAttack, type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+local CalcPassiveDmg = {
+	{Id = "Akali", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
 		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-			local buff = target:get_buff("ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackStack.lua")
-			if buff and buff.is_valid and buff.stacks2 == 2 then 
-				local Dmg = 40 + 140 / 17 * (source.level - 1)
-				return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
-			end			
-			return 0
+			if not source:has_buff("akalishadowstate") then return 0 end
+			local Dmg = ({35, 38, 41, 44, 47, 50, 53, 62, 71, 80, 89, 98, 107, 122, 137, 152, 167, 182})[source.level] +
+						0.55 * source.ability_power + 0.6 * source.bonus_attack_damage
+			return target:calculate_magic_damage(Dmg)
 		end
 	},
 	
-	{Id = DmgPerks.PressTheAttack2, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+	{Id = "Akshan", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
 		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-			local buff = target:get_buff("ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackDamageAmp.lua")
-			if buff and buff.is_valid then 
-				return (0.08 + 0.04 / 17 * (source.level - 1))
-			end			
-			return 0
+            local buff = target:get_buff("AkshanPassiveDebuff")
+            if not buff or buff.count ~= 2 then return 0 end
+			local Dmg = ({10, 15, 20, 25, 30, 35, 40, 45, 55, 65, 75, 85, 95, 105, 120, 135, 150, 165})[source.level]
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+	
+	{Id = "Ashe", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            local Dmg = 0
+			if target:has_buff("ashepassiveslow") then
+				local Passive = 0.0075 + (source:has_item(3031) and 0.0035 or 0)
+				local percent = 0.1 + source.crit_chance * Passive
+				Dmg = Dmg + percent * source.total_attack_damage
+			end	
+			if source:has_buff("AsheQAttack") then
+				local lvl = source:get_spell_slot(SLOT_Q).level
+				Dmg = Dmg + ((Dmg + source.total_attack_damage) * (1 + 0.05 * lvl))
+			end
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+	
+	{Id = "Bard", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("bardpspiritammocount") then return 0 end
+            local chime = source:get_buff("bardpdisplaychimecount")
+            if not chime or chime.count <= 0 then return 0 end			
+            local Dmg = (14 * math.floor(chime.count / 5)) + 35 + 0.3 * source.ability_power			
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+	
+	{Id = "Blitzcrank", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("PowerFist") then return 0 end
+            local Dmg1 = 0.25 * source.ability_power + 0.75 * source.total_attack_damage		
+            local Dmg2 = 1.5 * source.ability_power + 2.5 * source.total_attack_damage			
+			return target.is_hero and target:calculate_phys_damage(Dmg1) or target:calculate_phys_damage(Dmg2)
+		end
+	},
+	
+	{Id = "Braum", type = "Dmg_Value", OnlyAA = false, Slot = "Q", -- AAdmg//QDmg value
+		Damage = function(source, target)
+            local buff = target:get_buff("BraumMark")
+            if not buff or buff.count ~= 3 then return end
+            local Dmg = 16 + 10 * source.level		
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+	
+	{Id = "Caitlyn", type = "Dmg_Value", OnlyAA = true, -- AAdmg
+		Damage = function(source, target)
+            if not source:has_buff("caitlynpassivedriver") then return 0 end
+            local bonus = 1.3125 + (source:has_item(3031) and 0.2625 or 0)
+            local Dmg1 = ({0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.9, 0.9, 0.9, 0.9, 0.9, 0.9, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2})[source.level]
+			local Dmg2 = ({1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.15, 1.15, 1.15, 1.15, 1.15, 1.15, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2})[source.level]		
+			return target.is_hero and target:calculate_phys_damage((Dmg1 + (bonus * 0.01 * source.crit_chance)) * source.total_attack_damage) or
+				   target:calculate_phys_damage((Dmg2 + (bonus * 0.01 * source.crit_chance)) * source.total_attack_damage)
 		end
 	},
 
-	{Id = DmgPerks.CoupdeGrace, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+	{Id = "Camille", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
 		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-			if target:health_percentage() > 40 then return 0 end		
-			return 0.08
+			local lvl = source:get_spell_slot(SLOT_Q).level
+			if source:has_buff("CamilleQ") then
+				return target:calculate_phys_damage((0.15 + 0.05 * lvl) * source.total_attack_damage)
+			elseif source:has_buff("CamilleQ2") then
+				local Dmg1 = (0.3 + 0.1 * lvl) * source.total_attack_damage
+				local Dmg2 = math.min(0.36 + (0.04 * source.level), 1) * Dmg1
+				return target:calculate_phys_damage(Dmg1) + Dmg2
+			else
+				return 0		
+			end
 		end
 	},
 
-	{Id = DmgPerks.CutDown, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+	{Id = "Chogath", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
 		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-            local DiffHP = target.max_health * 100 / source.max_health - 100
-            if DiffHP < 10 then
-                return 0
+            if not source:has_buff("VorpalSpikes") then return 0 end
+            local lvl = source:get_spell_slot(SLOT_E).level
+            local Dmg = (10 + 12 * lvl) + 0.3 * source.ability_power + ((0.03 + 0.05 * source:get_buff("Feast").stacks2) * target.max_health)
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Darius", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not source:has_buff("DariusNoxianTacticsONH") then return 0 end
+            local lvl = source:get_spell_slot(SLOT_W).level
+            local Dmg = (0.35 + 0.05 * lvl) * source.total_attack_damage
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Diana", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            local buff = source:get_buff("dianapassivemarker")
+            if not buff or buff.count ~= 2 then return 0 end
+            local Dmg = ({20, 25, 30, 35, 40, 45, 55, 65, 75, 85, 95, 110, 125, 140, 155, 170, 195, 220})[source.level] + 0.5 * source.ability_power
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Draven", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not source:has_buff("DravenSpinningAttack") then return 0 end
+            local lvl = source:get_spell_slot(SLOT_Q).level
+			local Dmg = (35 + 5 * lvl) + ((0.65 + 0.1 * lvl) * source.bonus_attack_damage)
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "DrMundo", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not target.is_hero then return 0 end
+			if not source:has_buff("DrMundoE") then return 0 end
+            local lvl = source:get_spell_slot(SLOT_E).level
+			local BonusHP = source.max_health - source.base_health
+			local Dmg1 = ({5, 15, 25, 35, 45})[lvl] + 0.07 * BonusHP
+			local Dmg2 = (1 - math.min((source.max_health - source.health) / source.max_health, 0.4)) * Dmg1
+			return Dmg2 < 1 and target:calculate_phys_damage(Dmg1+Dmg2) or target:calculate_phys_damage(Dmg1)
+		end
+	},
+
+	{Id = "Ekko", type = "Dmg_Value", OnlyAA = false, -- AAdmg//SpellDmg value
+		Damage = function(source, target)
+            local buff = args.unit:get_buff("ekkostacks")
+            if not buff or buff.count ~= 2 then return 0 end
+			local Dmg = ({30, 40, 50, 60, 70, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140})[source.level] + 0.9 * source.ability_power
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Ekko", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not source:has_buff("ekkoeattackbuff") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_E).level
+			local Dmg = (25 + 25 * lvl) + 0.4 * source.ability_power
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Fizz", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not source:has_buff("FizzW") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = (30 + 20 * lvl) + 0.5 * source.ability_power
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Galio", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not source:has_buff("galiopassivebuff") then return 0 end
+			local Dmg = 15 + 185 / 17 * (source.level - 1) + source.total_attack_damage + 0.5 * source.ability_power + 0.6 * source.bonus_mr
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Garen", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not source:has_buff("GarenQ") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level
+			local Dmg = 30 * lvl + 0.5 * source.total_attack_damage
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Gnar", type = "Dmg_Value", OnlyAA = false, -- AAdmg//SpellDmg value
+		Damage = function(source, target)
+            local buff = target:get_buff("gnarwproc")
+            if not buff or buff.count ~= 2 then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = ({0, 10, 20, 30, 40})[lvl] + ((0.04 + 0.02 * lvl) * target.max_health) + source.ability_power
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Gragas", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not source:has_buff("gragaswattackbuff") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = ({20, 50, 80, 110, 140})[lvl] + 0.07 * target.max_health + 0.7 * source.ability_power
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Gwen", type = "Dmg_Value", OnlyAA = false, Slot = "Q",  -- AAdmg // QDmg value
+		Damage = function(source, target)
+			local Dmg = (0.01 + 0.008 * 0.01 * source.ability_power) * target.max_health
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Gwen", type = "Dmg_Value", OnlyAA = false, Slot = "R",  -- AAdmg // RDmg value
+		Damage = function(source, target)
+			local Dmg = (0.01 + 0.008 * 0.01 * source.ability_power) * target.max_health
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Illaoi", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not target.is_hero then return 0 end
+			if not source:has_buff("IllaoiW") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = math.max(10 + 10 * lvl, target.max_health * ((0.025 + 0.005 * lvl) + 0.04 * source.total_attack_damage))
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Irelia", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            local buff = source:get_buff("ireliapassivestacks")
+            if not buff or buff.count ~= 4 then return 0 end
+			local Dmg = (7 + 3 * source.level) + 0.2 * source.bonus_attack_damage
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "JarvanIV", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+            if not target:has_buff("jarvanivmartialcadencecheck") then return 0 end
+			local Dmg = math.min(400, math.max(20, 0.08 * target.health))
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Jax", type = "Dmg_Value", OnlyAA = false, Slot = "Q",  -- AAdmg // QDmg value
+		Damage = function(source, target)
+			if not source:has_buff("JaxEmpowerTwo") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = (15 + 35 * lvl) + 0.6 * source.ability_power
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Jax", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("JaxRelentlessAssault") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_R).level
+			local Dmg = (10 + 50 * lvl) + 0.6 * source.ability_power
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Jayce", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+            local Damage = 0
+			if source:has_buff("JaycePassiveMeleeAttack") then
+                local Dmg = ({25, 25, 25, 25, 25, 65, 65, 65, 65, 65, 105, 105, 105, 105, 105, 145, 145, 145})[source.level] + 0.25 * source.bonus_attack_damage
+                Damage = Damage + target:calculate_magic_damage(Dmg)                
             end
-            local calc = (0.05 + (DiffHP - 10) * 0.001111111111111)
-
-            return calc >= 0.15 and 0.15 or calc
-		end
-	},
-
-	{Id = DmgPerks.LastStand, type = "Dmg_Percent",  -- AADmg/SpellDmg %
-		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-            if source:health_percentage() > 60 then return 0 end
-			local hpPercent = source:health_percentage()
-            if hpPercent < 30 then
-                hpPercent = 30
+            if source:has_buff("HyperChargeBuff") then
+                local lvl = source:get_spell_slot(SLOT_W).level
+                local Dmg = ({0.3, 0.22, 0.14, 0.06, 0.02, 0.1})[lvl] * source.total_attack_damage
+                Damage = Damage + (lvl >= 5 and target:calculate_phys_damage(Dmg) or (- target:calculate_phys_damage(Dmg)))
             end
-            if hpPercent <= 60 then
-                hpPercent = hpPercent / 100
-                return (1 - hpPercent) * 0.2 - 0.03
-            end
+			return Damage
 		end
 	},
 
-	{Id = DmgPerks.FirstStrike, type = "Dmg_Percent",  -- AADmg/SpellDmg TrueDmg%
+	{Id = "Jhin", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
 		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-			local buff = source:get_buff("ASSETS/Perks/Styles/Inspiration/FirstStrike/FirstStrike.lua")
-			if buff and buff.is_valid then 
-				return 0.09
-			end			
-			return 0
+			if not source:has_buff("jhinpassiveattackbuff") then return 0 end
+			local MissHp = target.max_health - target.health
+			local Percent = source.level < 6 and 0.15 or source.level < 11 and 0.2 or 0.25
+			local Dmg = Percent * MissHp
+			return target:calculate_phys_damage(Dmg)
 		end
 	},
 
-	{Id = DmgPerks.Predator, type = "Dmg_Value", OnlyAA = false,  -- AADmg/SpellDmg Value
+	{Id = "Jinx", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
 		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-			local buff = source:get_buff("ASSETS/Perks/Styles/Domination/Predator/PredatorActive.lua")
-			if buff and buff.is_valid then 
-				local Dmg = (20 + 160 / 17 * (source.level - 1)) + 0.25 * source.bonus_attack_damage + 0.15 * source.ability_power
-				return 0.25 * source.bonus_attack_damage >= 0.15 * source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
-			end			
-			return 0
+			if not source:has_buff("JinxQ") then return 0 end
+			local Dmg = 0.1 * source.total_attack_damage
+			return target:calculate_phys_damage(Dmg)
 		end
 	},
 
-	{Id = DmgPerks.DarkHarvest, type = "Dmg_Value", OnlyAA = false,  -- AADmg/SpellDmg Value
+	{Id = "Kaisa", type = "Dmg_Value", OnlyAA = false, Slot = "W",  -- AAdmg // WDmg value
 		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-			if target:health_percentage() >= 50 then return 0 end
-			if source:has_buff("ASSETS/Perks/Styles/Domination/DarkHarvest/DarkHarvestCooldown.lua") then return 0 end
-			local buff = source:get_buff("ASSETS/Perks/Styles/Domination/DarkHarvest/DarkHarvest.lua")
-			if buff and buff.is_valid then 
-				local Dmg = (20 + 40 / 17 * (source.level - 1)) + 0.25 * source.bonus_attack_damage + 0.15 * source.ability_power + 5 * buff.stacks2
-				return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
-			end			
-			return 0
+			local buff = target:get_buff("kaisapassivemarker")
+			if not buff then return 0 end
+			local Dmg1 = 5 + 1.0588 * (source.level - 1)
+			local Dmg2 = (1 + 0.6470 * (source.level - 1)) * buff.count
+			local Dmg3 = math.min(0.15 + 0.025 * buff.count, 0.25) * source.ability_power
+			local Dmg4 = (0.15 + (0.06 * source.ability_power / 100)) * (target.max_health - target.health)
+			local Dmg = buff.count < 4 and (Dmg1+Dmg2+Dmg3) or (Dmg1+Dmg2+Dmg3+Dmg4)
+			return target:calculate_magic_damage(Dmg)
 		end
-	},
+	},		
 
-	{Id = DmgPerks.GraspoftheUndying, type = "Dmg_Value", OnlyAA = true,  -- AADmg Value
+	{Id = "Kassadin", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
 		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-			local buff = source:get_buff("ASSETS/Perks/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndyingONH.lua")
-			if buff and buff.is_valid then 
-				local Dmg = source.is_melee and (0.035 * source.max_health) or (0.021 * source.max_health)
+			local lvl = source:get_spell_slot(SLOT_W).level
+			if source:has_buff("NetherBlade") then
+				local Dmg = (25 + 25 * lvl) + 0.8 * source.ability_power
+				return target:calculate_magic_damage(Dmg)			
+			elseif lvl > 0 then
+				local Dmg = 20 + 0.1 * source.ability_power
 				return target:calculate_magic_damage(Dmg)
-			end			
-			return 0
+			end
 		end
 	},
 
-	{Id = DmgPerks.ShieldBash, type = "Dmg_Value", OnlyAA = true,  -- AADmg Value
+	{Id = "Kayle", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
 		Damage = function(source, target)
-			if not target.is_hero then return 0 end
-			if source.shield <= 0 then return 0 end
-			local Bonus_HP = source.max_health - source.base_health
-			local Dmg = (5 + 25 / 17 * (source.level - 1)) + 0.015 * Bonus_HP + 0.085 * source.shield
-			return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
+			local lvl = source:get_spell_slot(SLOT_E).level
+			if lvl <= 0 then return 0 end
+			local Dmg = (10 + 5 * lvl) + 0.25 * source.ability_power + 0.1 * source.bonus_attack_damage			
+			if source:has_buff("JudicatorRighteousFury") then
+				local Dmg = Dmg + ((0.075 + 0.005 * lvl) + (0.015 * source.ability_power / 100)) * (target.max_health - target.health)
+			end
+			return target:calculate_magic_damage(Dmg)  
 		end
 	},
+
+	{Id = "Kennen", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("kennendoublestrikelive") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = (25 + 10 * lvl) + ((0.7 + 0.1 * lvl) * source.bonus_attack_damage) + 0.35 * source.ability_power		
+			return target:calculate_magic_damage(Dmg)  
+		end
+	},
+
+	{Id = "KogMaw", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("KogMawBioArcaneBarrage") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = target.is_hero and ((0.0275 + 0.0075 * lvl) + 0.01 * source.ability_power / 100) * target.max_health or
+						math.min(100, ((0.0275 + 0.0075 * lvl) + 0.01 * source.ability_power / 100) * target.max_health)
+			return target:calculate_magic_damage(Dmg)  
+		end
+	},
+
+	{Id = "Leona", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("LeonaShieldOfDaybreak") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level
+			local Dmg = ({10, 35, 60, 85, 110})[lvl] + 0.3 * source.ability_power
+			return target:calculate_magic_damage(Dmg)  
+		end
+	},
+
+	{Id = "All", type = "Dmg_Value", OnlyAA = false, Slot = "All",  -- AAdmg // all spells Dmg value //// Leona
+		Damage = function(source, target)
+			if not IsAlly("Leona") then return 0 end
+			if source.champ_name == "Leona" then return 0 end
+			if not target:has_buff("LeonaSunlight") then return 0 end
+			local Dmg = 24 + 8 * source.level
+			return target:calculate_magic_damage(Dmg) 
+		end
+	},	
+	
+	{Id = "Lux", type = "Dmg_Value", OnlyAA = false, Slot = "R",  -- AAdmg // RDmg value
+		Damage = function(source, target)
+			if not target:has_buff("LuxIlluminatingFraulein") then return 0 end
+			local Dmg = 10 + 10 * source.level + 0.2 * source.ability_power
+			return target:calculate_magic_damage(Dmg)  
+		end
+	},
+
+	{Id = "Malphite", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("MalphiteCleave") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = (20 + 10 * lvl) + 0.2 * source.ability_power + 0.15 * source.armor
+			return target:calculate_phys_damage(Dmg)  
+		end
+	},
+
+	{Id = "MasterYi", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("wujustylesuperchargedvisual") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_E).level
+			return (25 + 5 * lvl) + 0.3 * source.bonus_attack_damage  
+		end
+	},
+
+	{Id = "MissFortune", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not target:has_buff("Needcheck") then return 0 end                            ---<<<<<<< need target buff name >>>>>>>>>>>>>>>>>>>
+			local Dmg = (source.level < 4 and 0.5 or 
+						 source.level < 7 and 0.6 or 
+						 source.level < 9 and 0.7 or 
+						 source.level < 11 and 0.8 or
+						 source.level < 13 and 0.9 or 1) * source.total_attack_damage
+			return target.is_hero and target:calculate_phys_damage(Dmg) or target:calculate_phys_damage((Dmg/2))
+		end
+	},
+
+	{Id = "Mordekaiser", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			return target:calculate_magic_damage(0.4 * source.ability_power)
+		end
+	},
+
+	{Id = "All", type = "Dmg_Value", OnlyAA = false, Slot = "All",  -- AAdmg // all spells Dmg value //// Nami
+		Damage = function(source, target)
+			if not IsAlly("Nami") then return 0 end
+			if not source:has_buff("NamiE") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_E).level
+			local Dmg = 5 + 15 * lvl + 0.2 * source.ability_power
+			return target:calculate_magic_damage(Dmg) 
+		end
+	},
+
+	{Id = "Nasus", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("NasusQ") then return 0 end
+            local buff = source:get_buff("NasusQStacks")
+            local stacks = buff ~= nil and buff.count or 0
+            local lvl = source:get_spell_slot(SLOT_Q).level
+			local Dmg = (10 + 20 * lvl) + stacks
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Nautilus", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if target:has_buff("nautiluspassivecheck") then return 0 end
+			local Dmg = 8 + 6 * source.level
+			return target:calculate_phys_damage(Dmg) 
+		end
+	},
+
+	{Id = "Nidalee", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("Takedown") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level
+			local Dmg = ((-20 + 25 * lvl) + 0.75 * source.total_attack_damage + 0.4 * source.ability_power) * ((target.max_health - target.health) / target.max_health + 1)
+			if target:has_buff("NidaleePassiveHunted") then
+				Dmg = Dmg * 1.4
+			end
+			return target:calculate_magic_damage(Dmg) 
+		end
+	},
+
+	{Id = "Neeko", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("neekowpassiveready") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = 20 + 30 * lvl + 0.6 * source.ability_power
+			return target:calculate_magic_damage(Dmg) 
+		end
+	},
+
+	{Id = "Nocturne", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("nocturneumbrablades") then return 0 end
+			local Dmg = 0.2 * source.total_attack_damage
+			return target:calculate_phys_damage(Dmg) 
+		end
+	},
+
+	{Id = "Orianna", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			local Dmg = (10 + 40 / 17 * (source.level - 1)) + 0.15 * source.ability_power
+            local buff = source:get_buff("orianapowerdaggerdisplay")
+            if buff and buff.count ~= 0 then 
+				Dmg = Dmg * (1 + 0.2 * buff.count)			
+			end
+			return target:calculate_magic_damage(Dmg) 
+		end
+	},
+
+	{Id = "Poppy", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("poppypassivebuff") then return 0 end
+			local Dmg = 20 + 160 / 17 * (source.level - 1)
+			return target:calculate_magic_damage(Dmg) 
+		end
+	},
+
+	{Id = "Quinn", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not target:has_buff("QuinnW") then return 0 end
+			local Dmg = (5 + 5 * source.level) + ((0.14 + 0.02 * source.level) * source.total_attack_damage)
+			return target:calculate_phys_damage(Dmg) 
+		end
+	},
+
+	{Id = "RekSai", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("RekSaiQ") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level
+			local Dmg = (15 + 6 * lvl) + 0.5 * source.bonus_attack_damage
+			return target:calculate_phys_damage(Dmg) 
+		end
+	},
+
+	{Id = "Rell", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			local Dmg = 7.53 + 0.47 * source.level
+			if source:has_buff("RellWEmpoweredAttack") then
+				local lvl = source:get_spell_slot(SLOT_W).level
+				Dmg = Dmg + ((-5 + 15 * lvl) + 0.4 * source.ability_power)
+			end
+			return target:calculate_magic_damage(Dmg) 
+		end
+	},
+
+	{Id = "Rengar", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+            local lvl = source:get_spell_slot(SLOT_Q).level
+			if source:has_buff("RengarQ") then
+                local Dmg = ({30, 60, 90, 120, 150})[lvl] + (({0, 0.05, 0.1, 0.15, 0.2})[lvl] * source.total_attack_damage)
+				return target:calculate_phys_damage(Dmg)
+            elseif source:has_buff("RengarQEmp") then
+                local Dmg = ({30, 45, 60, 75, 90, 105, 120, 135, 145, 155, 165, 175, 185, 195, 205, 215, 225, 235})[source.level] + 0.4 * source.total_attack_damage
+				return target:calculate_phys_damage(Dmg)	
+            end 
+		end
+	},
+
+	{Id = "Riven", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("RivenPassiveAABoost") then return 0 end
+			local Dmg = source.level <= 17 and ((0.3 + 0.0175 * (source.level - 1)) * source.total_attack_damage) or 0.6 * source.total_attack_damage
+			return target:calculate_phys_damage(Dmg) 
+		end
+	},
+
+	{Id = "Rumble", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("RumbleOverheat") then return 0 end
+			local Dmg = 5 + 35 / 17 * (source.level -1) + 0.25 * source.ability_power + 0.06 * target.max_health
+			return target:calculate_magic_damage(Dmg) 
+		end
+	},
+
+	{Id = "Sett", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("SettQ") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level
+			local Dmg = 10 * lvl + (0.01 + (0.005 + 0.005 * lvl) * 0.01 * source.total_attack_damage) * target.max_health
+			return target:calculate_phys_damage(Dmg) 
+		end
+	},
+
+	{Id = "Shen", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+            local lvl = source:get_spell_slot(SLOT_Q).level
+            if source:has_buff("shenqbuffweak") then
+                local Dmg = 4 + 6 * math.ceil(source.level / 3) + ((0.015 + 0.005 * lvl + 0.015 * source.ability_power / 100) * target.max_health)
+				return target:calculate_magic_damage(Dmg)
+			elseif source:has_buff("shenqbuffstrong") then
+                local Dmg = 4 + 6 * math.ceil(source.level / 3) + ((0.035 + 0.005 * lvl + 0.02 * source.ability_power / 100) * target.max_health)
+				return target:calculate_magic_damage(Dmg)
+			end
+		end
+	},
+
+	{Id = "Shyvana", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+            local Dmg = 0
+			local Qlvl = source:get_spell_slot(SLOT_Q).level
+			local Elvl = source:get_spell_slot(SLOT_E).level
+            if source:has_buff("ShyvanaDoubleAttack") then
+                local QDmg = (0.05 + 0.15 * Qlvl) * source.total_attack_damage + 0.25 * source.ability_power
+				Dmg = Dmg + target:calculate_phys_damage(QDmg)
+            end
+            if target:has_buff("ShyvanaFireballMissile") then
+                Dmg = Dmg + target:calculate_magic_damage(0.03 * target.max_health)
+            end
+			return Dmg
+		end
+	},
+
+	{Id = "Skarner", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not target:has_buff("skarnerpassivebuff") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_E).level
+			local Dmg = 10 + 20 * lvl
+			return target:calculate_phys_damage(Dmg) 
+		end
+	},
+
+	{Id = "Sona", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("SonaQProcAttacker") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level
+			local Dmg = 5 + 5 * lvl + 0.2 * source.ability_power
+			return target:calculate_magic_damage(Dmg) 
+		end
+	},
+
+	{Id = "Sylas", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("SylasPassiveAttack") then return 0 end
+			local Dmg = 0.25 * source.ability_power + 1.3 * source.total_attack_damage
+			return target:calculate_magic_damage(Dmg) - target:calculate_phys_damage(source.total_attack_damage)
+		end
+	},
+
+	{Id = "TahmKench", type = "Dmg_Value", OnlyAA = false, Slot = "Q",  -- AAdmg // QDmg value
+		Damage = function(source, target)
+			local Dmg = (8 + 52 / 17 * (source.level - 1)) + (((0.02 * source.ability_power / 100) + 0.03) * (source.max_health - source.base_health)) 
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Taric", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("taricgemcraftbuff") then return 0 end
+			local Dmg = 21 + 4 * source.level + 0.15 * source.bonus_armor
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Teemo", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			local lvl = source:get_spell_slot(SLOT_E).level
+			local Dmg = lvl > 0 and (3 + 11 * lvl) + 0.3 * source.ability_power or 0
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Trundle", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("TrundleTrollSmash") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level
+			local Dmg = 20 * lvl + ((0.05 + 0.1 * lvl) * source.total_attack_damage)
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "TwistedFate", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+            local FullDmg = 0
+			local lvl = source:get_spell_slot(SLOT_W).level
+            if source:has_buff("BlueCardPreAttack") then
+                local Dmg = 20 + 20 * lvl + source.total_attack_damage + 1.15 * source.ability_power
+				FullDmg = target:calculate_magic_damage(Dmg) - target:calculate_phys_damage(source.total_attack_damage)
+			elseif source:has_buff("RedCardPreAttack") then
+                local Dmg = args.rawMagical + 15 + 15 * lvl + source.total_attack_damage + 0.7 * source.ability_power
+				FullDmg = target:calculate_magic_damage(Dmg) - target:calculate_phys_damage(source.total_attack_damage)
+            elseif source:has_buff("GoldCardPreAttack") then
+                local Dmg = args.rawMagical + 7.5 + 7.5 * lvl + source.total_attack_damage + 0.5 * source.ability_power
+				FullDmg = target:calculate_magic_damage(Dmg) - target:calculate_phys_damage(source.total_attack_damage)
+            end
+            if source:has_buff("cardmasterstackparticle") then
+                local Elvl = source:get_spell_slot(SLOT_E).level
+                local Dmg = (40 + 25 * Elvl) + 0.5 * source.ability_power
+				FullDmg = FullDmg + target:calculate_magic_damage(Dmg)
+            end			
+		end
+	},
+
+	{Id = "Varus", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = lvl > 0 and (2 + 5 * lvl) + 0.3 * source.ability_power or 0
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Vayne", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("vaynetumblebonus") then return 0 end
+			local Qlvl = source:get_spell_slot(SLOT_Q).level
+            local Dmg = ((0.65 + 0.1 * Qlvl) * source.bonus_attack_damage)
+            return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Vayne", type = "Dmg_Value", OnlyAA = false, Slot = "E",  -- AAdmg // EDmg value /// truedmg
+		Damage = function(source, target)		
+            local buff = target:get_buff("VayneSilveredDebuff")
+			if not buff or buff.count ~= 2 then return 0 end
+			local Wlvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = math.max((0.05 + 0.01 * Wlvl) * target.max_health, 35 + 15 * Wlvl)
+			return Dmg
+		end
+	},
+
+	{Id = "Vi", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+			if not source:has_buff("ViE") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_E).level
+			local Dmg = ({0, 15, 30, 45, 60})[lvl] + 0.2 * source.total_attack_damage + source.ability_power
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Vi", type = "Dmg_Value", OnlyAA = false, Slot = "Q",  -- AAdmg // QDmg value
+		Damage = function(source, target)		
+            local buff = target:get_buff("viwproc")
+			if not buff or buff.count ~= 2 then return 0 end
+			local lvl = source:get_spell_slot(SLOT_W).level
+			local Dmg = (0.025 + 0.015 * lvl + 0.01 * source.bonus_attack_damage / 35) * target.max_health
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Viego", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+            local lvl = source:get_spell_slot(SLOT_Q).level
+			if lvl <= 0 then return 0 end			
+			local Dmg = math.max(5 + 5 * lvl, ({0.02, 0.03, 0.04, 0.05, 0.06})[lvl] * target.health)						
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Viktor", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+            if not source:has_buff("ViktorPowerTransferReturn") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level		
+			local Dmg = ({20, 45, 70, 95, 120})[lvl] + source.total_attack_damage + 0.6 * source.ability_power						
+			return target:calculate_magic_damage(Dmg) - target:calculate_phys_damage(source.total_attack_damage)
+		end
+	},
+
+	{Id = "Volibear", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+            local FullDmg = 0
+			if source:has_buff("volibearpapplicator") then	
+				local Dmg = ({11, 12, 13, 15, 17, 19, 22, 25, 28, 31, 34, 37, 40, 44, 48, 52, 56, 60})[source.level] + 0.4 * source.ability_power						
+				FullDmg = FullDmg + target:calculate_magic_damage(Dmg)
+			end	
+			if source:has_buff("VolibearQ") then	
+				local lvl = source:get_spell_slot(SLOT_Q).level	
+				local Dmg = ({10, 30, 50, 70, 90})[lvl] + 1.2 * source.bonus_attack_damage						
+				FullDmg = FullDmg + target:calculate_phys_damage(Dmg)
+			end
+			return FullDmg
+		end
+	},
+
+	{Id = "Warwick", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+			local Dmg = (10 + 2 * source.level) + 0.15 * source.bonus_attack_damage + 0.1 * source.ability_power						
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "MonkeyKing", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+            if not source:has_buff("MonkeyKingDoubleAttack") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level		
+			local Dmg = ({20, 45, 70, 95, 120})[lvl] + 0.45 * source.bonus_attack_damage 						
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "XinZhao", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+            if not source:has_buff("XinZhaoQ") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level		
+			local Dmg = ({16, 25, 34, 43, 52})[lvl] + 0.4 * source.bonus_attack_damage						
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "XinZhao", type = "Dmg_Value", OnlyAA = false, Slot = "W",  -- AAdmg // WDmg value
+		Damage = function(source, target)		
+            local buff = source:get_buff("XinZhaoP")
+			if not buff or buff.count ~= 3 then return 0 end
+			local Dmg = source.level < 6 and 0.15 * source.total_attack_damage or
+						source.level < 11 and 0.3 * source.total_attack_damage or
+						source.level < 16 and 0.45 * source.total_attack_damage or 
+						0.6 * source.total_attack_damage
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Yorick", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+            if not source:has_buff("yorickqbuff") then return 0 end
+			local lvl = source:get_spell_slot(SLOT_Q).level		
+			local Dmg = 5 + 25 * lvl + 0.4 * source.total_attack_damage						
+			return target:calculate_phys_damage(Dmg)
+		end
+	},
+
+	{Id = "Zed", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+            if target:health_percentage() > 50 then return 0 end	
+			local Dmg = source.level < 7 and 0.06 * target.max_health or
+						source.level < 17 and 0.08 * target.max_health or
+						0.1 * target.max_health
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Ziggs", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+		Damage = function(source, target)		
+            if not source:has_buff("ZiggsShortFuse") then return 0 end	
+			local Dmg = ({20, 24, 28, 32, 36, 40, 48, 56, 64, 72, 80, 88, 100, 112, 124, 136, 148, 160})[source.level] + 0.5 * source.ability_power						
+			return target:calculate_magic_damage(Dmg)
+		end
+	},
+
+	{Id = "Zoe", type = "Dmg_Value", OnlyAA = false, Slot = "W",  -- AAdmg // WDmg value
+		Damage = function(source, target)		
+            if not source:has_buff("zoepassivesheenbuff") then return 0 end	
+			local Dmg = ({16, 20, 24, 28, 32, 36, 42, 48, 54, 60, 66, 74, 82, 90, 100, 110, 120, 130})[source.level] + 0.2 * source.ability_power						
+			return target:calculate_magic_damage(Dmg)
+		end
+	},		
 }
-
-local function getdmg_perk(target, source, dmg, SpellDmg)
-	local Damage = 0
-    for i = 1, #CalcPerkDmg do
-        local Perk = CalcPerkDmg[i]
-		
-		if source:has_perk(Perk.Id) then
-			if Perk.type == "Dmg_Value" then
-				if SpellDmg and Perk.OnlyAA then
-					---Ignore---
-				else
-					Damage = Damage + Perk.Damage(source, target)
-				end
-			end
-			
-			if Perk.type == "Dmg_Percent" then
-				Damage = Damage + (Perk.Damage(source, target) * dmg)
-			end
-        end
-    end
-	return Damage
-end
-
---------------------- Global functions --------------------
-
-
---- Return if unit killable or has buff like Sion ---
-function IsKillable(unit)
-	return not unit:has_buff_type(18) and not unit:has_buff_type(38) and not unit:has_buff("sionpassivezombie")
-end
-
---- Calculate and return correct Damage ---
-function getdmg(spell, target, source, stage, level)
-	local source = source or game.local_player
-	local stage = stage or 1
-	local swagtable = {}
-	local Buff = source:get_buff("8001EnemyDebuff")
-
-	if stage > 4 then stage = 4 end
-
-	if spell == "Q" or spell == "W" or spell == "E" or spell == "R" or spell == "QM" or spell == "WM" or spell == "EM" then
-		local level = level or
-			source:get_spell_slot((
-				{ ["Q"] = SLOT_Q, ["QM"] = SLOT_Q, ["W"] = SLOT_W, ["WM"] = SLOT_W, ["E"] = SLOT_E, ["EM"] = SLOT_E, ["R"] = SLOT_R }
-				)[spell]).level
-
-		if level <= 0 then return 0 end
-		if level > 5 then level = 5 end
-
-		if DamageLibTable[source.champ_name] then
-			for _, spells in ipairs(DamageLibTable[source.champ_name]) do
-				if spells.Slot == spell then
-					table.insert(swagtable, spells)
-				end
-			end
-
-			if stage > #swagtable then stage = #swagtable end
-
-			for v = #swagtable, 1, -1 do
-				local spells = swagtable[v]
-				if spells.Stage == stage and IsKillable(target) then
-					local ReductionStackDmg = 1 - (target:get_buff("8001DRStackBuff").stacks2 / 100)
-					if spells.DamageType == 1 then
-						local SpellDmg = target:calculate_phys_damage(spells.Damage(source, target, level))
-						local FullDmg = getdmg_perk(target, source, SpellDmg, true) + SpellDmg
-						return (Buff.count > 0 and Buff.source_id == target.object_i)
-							and DmgReduction(source, target,
-								ReductionStackDmg * FullDmg, 1)
-							or DmgReduction(source, target, FullDmg, 1)
-
-					elseif spells.DamageType == 2 then
-						local SpellDmg = target:calculate_magic_damage(spells.Damage(source, target, level))
-						local FullDmg = getdmg_perk(target, source, SpellDmg, true) + SpellDmg
-						return (Buff.count > 0 and Buff.source_id == target.object_id)
-							and DmgReduction(source, target,
-								ReductionStackDmg * FullDmg, 2)
-							or DmgReduction(source, target, FullDmg, 2)
-
-					elseif spells.DamageType == 3 then
-						if source.champ_name == "Pyke" then
-							-- execute damage
-							if spells.Damage(source, target, level) > target.health then
-								return 999999
-							end
-
-							return (Buff.count > 0 and Buff.source_id == target.object_id)
-								and DmgReduction(source, target,
-									ReductionStackDmg * target:calculate_phys_damage(spells.Damage(source, target, level)), 1) / 2
-								or DmgReduction(source, target, target:calculate_phys_damage(spells.Damage(source, target, level)), 1) / 2
-						else
-							return spells.Damage(source, target, level)
-						end
-					end
-				end
-			end
-		end
-	end
-
-	if spell == "AA" then
-		local SpellDmg = target:calculate_phys_damage(source.total_attack_damage)
-		local FullDmg = getdmg_perk(target, source, SpellDmg, false) + SpellDmg				
-		local ReductionStackDmg = 1 - (target:get_buff("8001DRStackBuff").stacks2 / 100)
-		if stage == 2 then -- Calculate and return AA-Damage + Items PassiveDmg
-			return (Buff.count > 0 and Buff.source_id == target.object_id)
-				and
-				DmgReduction(source, target, ReductionStackDmg * FullDmg, 1) +
-				getdmg_item(target, source)
-				or
-				DmgReduction(source, target, FullDmg, 1) +
-				getdmg_item(target, source)
-		else -- Calculate and return AA-Damage
-			return (Buff.count > 0 and Buff.source_id == target.object_id)
-				and DmgReduction(source, target, ReductionStackDmg * FullDmg, 1)
-				or DmgReduction(source, target, FullDmg, 1)
-		end
-	end
-
-	if spell == "IGNITE" and IsKillable(target) then
-		return 50 + 20 * source.level - (target.health_regen * 3)
-	end
-
-	if spell == "SMITE" then
-		if stage == 1 then
-			return 600 -- Smite
-		end
-
-		if stage == 2 then
-			return 900 -- Smite Upgrade 1
-		end
-		
-		if stage == 3 then
-			return 1200 -- Smite Upgrade 2
-		end		
-	end
-	return 0
-end
 
 local DmgItems = {	
 	['ArdentCenser'] = 3504,		
@@ -3086,21 +3642,301 @@ local CalcItemDmg = {
 
 	{Id = DmgItems.TitanicHydra, DamageType = 1, spell = "AA",	
 		ItemDamage = function(source, target)
-			local Bonus = 0.02*(source.max_health-source.base_health)
-			if source.is_melee then
-				return Bonus+5+(0.015*source.max_health)
-			else
-				return Bonus+3.75+(0.01125*source.max_health)
-			end
+			return source.is_melee and 4+(0.015*source.max_health) or 3+(0.01125*source.max_health)
 		end
 	},
 
 	{Id = DmgItems.WitsEnd, DamageType = 2, spell = "AA",	
 		ItemDamage = function(source, target)
-			return ({15, 16.25, 17.5, 18.75, 20, 21.25, 22.5, 23.75, 25, 35, 45, 55, 65, 75, 76.25, 77.5, 78.75, 80})[source.level]
+			return ({15, 15, 15, 15, 15, 15, 15, 15, 25, 35, 45, 55, 65, 75, 76.25, 77.5, 78.75, 80})[source.level]
 		end
 	},
 }
+
+local DmgPerks = {	
+	['PressTheAttack'] = 8005,
+	['PressTheAttack2'] = 8005,
+	['CoupdeGrace'] = 8014,
+	['CutDown'] = 8017,		
+	["LastStand"] = 8299,
+    ["FirstStrike"] = 8369,	
+	["Predator"] = 8124,		
+	["DarkHarvest"] = 8128,				
+	['GraspoftheUndying'] = 8437,				
+	['ShieldBash'] = 8401,											
+}
+
+local CalcPerkDmg = {
+	{Id = DmgPerks.PressTheAttack, type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = target:get_buff("ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackStack.lua")
+			if buff and buff.is_valid and buff.stacks2 == 2 then 
+				local Dmg = 40 + 140 / 17 * (source.level - 1)
+				return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
+			end			
+			return 0
+		end
+	},
+	
+	{Id = DmgPerks.PressTheAttack2, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = target:get_buff("ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackDamageAmp.lua")
+			if buff and buff.is_valid then 
+				return (0.08 + 0.04 / 17 * (source.level - 1))
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.CoupdeGrace, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			if target:health_percentage() > 40 then return 0 end		
+			return 0.08
+		end
+	},
+
+	{Id = DmgPerks.CutDown, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+            local DiffHP = target.max_health * 100 / source.max_health - 100
+            if DiffHP < 10 then
+                return 0
+            end
+            local calc = (0.05 + (DiffHP - 10) * 0.001111111111111)
+
+            return calc >= 0.15 and 0.15 or calc
+		end
+	},
+
+	{Id = DmgPerks.LastStand, type = "Dmg_Percent",  -- AADmg/SpellDmg %
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+            if source:health_percentage() > 60 then return 0 end
+			local hpPercent = source:health_percentage()
+            if hpPercent < 30 then
+                hpPercent = 30
+            end
+            if hpPercent <= 60 then
+                hpPercent = hpPercent / 100
+                return (1 - hpPercent) * 0.2 - 0.03
+            end
+		end
+	},
+
+	{Id = DmgPerks.FirstStrike, type = "Dmg_Percent",  -- AADmg/SpellDmg TrueDmg%
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = source:get_buff("ASSETS/Perks/Styles/Inspiration/FirstStrike/FirstStrike.lua")
+			if buff and buff.is_valid then 
+				return 0.09
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.Predator, type = "Dmg_Value", OnlyAA = false,  -- AADmg/SpellDmg Value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = source:get_buff("ASSETS/Perks/Styles/Domination/Predator/PredatorActive.lua")
+			if buff and buff.is_valid then 
+				local Dmg = (20 + 160 / 17 * (source.level - 1)) + 0.25 * source.bonus_attack_damage + 0.15 * source.ability_power
+				return 0.25 * source.bonus_attack_damage >= 0.15 * source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.DarkHarvest, type = "Dmg_Value", OnlyAA = false,  -- AADmg/SpellDmg Value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			if target:health_percentage() >= 50 then return 0 end
+			if source:has_buff("ASSETS/Perks/Styles/Domination/DarkHarvest/DarkHarvestCooldown.lua") then return 0 end
+			local buff = source:get_buff("ASSETS/Perks/Styles/Domination/DarkHarvest/DarkHarvest.lua")
+			if buff and buff.is_valid then 
+				local Dmg = (20 + 40 / 17 * (source.level - 1)) + 0.25 * source.bonus_attack_damage + 0.15 * source.ability_power + 5 * buff.stacks2
+				return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.GraspoftheUndying, type = "Dmg_Value", OnlyAA = true,  -- AADmg Value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			local buff = source:get_buff("ASSETS/Perks/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndyingONH.lua")
+			if buff and buff.is_valid then 
+				local Dmg = source.is_melee and (0.035 * source.max_health) or (0.021 * source.max_health)
+				return target:calculate_magic_damage(Dmg)
+			end			
+			return 0
+		end
+	},
+
+	{Id = DmgPerks.ShieldBash, type = "Dmg_Value", OnlyAA = true,  -- AADmg Value
+		Damage = function(source, target)
+			if not target.is_hero then return 0 end
+			if source.shield <= 0 then return 0 end
+			local Bonus_HP = source.max_health - source.base_health
+			local Dmg = (5 + 25 / 17 * (source.level - 1)) + 0.015 * Bonus_HP + 0.085 * source.shield
+			return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
+		end
+	},
+}
+
+local function getdmg_perk(target, source, dmg, SpellDmg)
+	local Damage = 0
+    for i = 1, #CalcPerkDmg do
+        local Perk = CalcPerkDmg[i]
+		
+		if source:has_perk(Perk.Id) then
+			if Perk.type == "Dmg_Value" then
+				if SpellDmg and Perk.OnlyAA then
+					---Ignore---
+				else
+					Damage = Damage + Perk.Damage(source, target)
+				end
+			end
+			
+			if Perk.type == "Dmg_Percent" then
+				Damage = Damage + (Perk.Damage(source, target) * dmg)
+			end
+        end
+    end
+	return Damage
+end
+
+
+local function getdmg_passive(target, source, Spell)
+	local Damage = 0
+    for i = 1, #CalcPassiveDmg do
+        local Passive = CalcPassiveDmg[i]
+		
+		if source.champ_name == Passive.Id then
+			if (Passive.Slot and Spell == Passive.Slot) or Spell == tostring("AA") then			
+				Damage = Damage + Passive.Damage(source, target)
+			end
+        end
+    end
+	return Damage
+end
+
+--------------------- Global functions --------------------
+
+
+--- Return if unit killable or has buff like Sion ---
+function IsKillable(unit)
+	return not unit:has_buff_type(18) and not unit:has_buff_type(38) and not unit:has_buff("sionpassivezombie")
+end
+
+--- Calculate and return correct Damage ---
+function getdmg(spell, target, source, stage, level)	
+	local source = source or game.local_player
+	local stage = stage or 1
+	local swagtable = {}
+	local Buff = source:get_buff("8001EnemyDebuff")
+	local Possible_Dmg = getdmg_passive(target, source, spell)
+
+	if stage > 4 then stage = 4 end
+
+	if spell == "Q" or spell == "W" or spell == "E" or spell == "R" or spell == "QM" or spell == "WM" or spell == "EM" then
+		local level = level or
+			source:get_spell_slot((
+				{ ["Q"] = SLOT_Q, ["QM"] = SLOT_Q, ["W"] = SLOT_W, ["WM"] = SLOT_W, ["E"] = SLOT_E, ["EM"] = SLOT_E, ["R"] = SLOT_R }
+				)[spell]).level
+
+		if level <= 0 then return 0 end
+		if level > 5 then level = 5 end
+
+		if DamageLibTable[source.champ_name] then
+			for _, spells in ipairs(DamageLibTable[source.champ_name]) do
+				if spells.Slot == spell then
+					table.insert(swagtable, spells)
+				end
+			end
+
+			if stage > #swagtable then stage = #swagtable end
+
+			for v = #swagtable, 1, -1 do
+				local spells = swagtable[v]
+				if spells.Stage == stage and IsKillable(target) then
+					local ReductionStackDmg = 1 - (target:get_buff("8001DRStackBuff").stacks2 / 100)
+					if spells.DamageType == 1 then
+						local SpellDmg = target:calculate_phys_damage(spells.Damage(source, target, level))
+						local FullDmg = getdmg_perk(target, source, SpellDmg, true) + SpellDmg
+						Possible_Dmg = Possible_Dmg + ((Buff.count > 0 and Buff.source_id == target.object_i)
+							and DmgReduction(source, target,
+								ReductionStackDmg * FullDmg, 1)
+							or DmgReduction(source, target, FullDmg, 1))
+
+					elseif spells.DamageType == 2 then
+						local SpellDmg = target:calculate_magic_damage(spells.Damage(source, target, level))
+						local FullDmg = getdmg_perk(target, source, SpellDmg, true) + SpellDmg
+						Possible_Dmg = Possible_Dmg + ((Buff.count > 0 and Buff.source_id == target.object_id)
+							and DmgReduction(source, target,
+								ReductionStackDmg * FullDmg, 2)
+							or DmgReduction(source, target, FullDmg, 2))
+
+					elseif spells.DamageType == 3 then
+						if source.champ_name == "Pyke" then
+							-- execute damage
+							if spells.Damage(source, target, level) > target.health then
+								Possible_Dmg = 999999
+							end
+
+							Possible_Dmg = Possible_Dmg + ((Buff.count > 0 and Buff.source_id == target.object_id)
+								and DmgReduction(source, target,
+									ReductionStackDmg * target:calculate_phys_damage(spells.Damage(source, target, level)), 1) / 2
+								or DmgReduction(source, target, target:calculate_phys_damage(spells.Damage(source, target, level)), 1) / 2)
+						else
+							Possible_Dmg = Possible_Dmg + spells.Damage(source, target, level)
+						end
+					end
+				end
+			end
+		end
+	end
+
+	if spell == "AA" then
+		local SpellDmg = target:calculate_phys_damage(source.total_attack_damage)
+		local FullDmg = getdmg_perk(target, source, SpellDmg, false) + SpellDmg				
+		local ReductionStackDmg = 1 - (target:get_buff("8001DRStackBuff").stacks2 / 100)
+		if stage == 2 then -- Calculate and return AA-Damage + Items PassiveDmg
+			Possible_Dmg = Possible_Dmg + ((Buff.count > 0 and Buff.source_id == target.object_id)
+				and
+				DmgReduction(source, target, ReductionStackDmg * FullDmg, 1) +
+				getdmg_item(target, source)
+				or
+				DmgReduction(source, target, FullDmg, 1) +
+				getdmg_item(target, source))
+		else -- Calculate and return AA-Damage
+			Possible_Dmg = Possible_Dmg + ((Buff.count > 0 and Buff.source_id == target.object_id)
+				and DmgReduction(source, target, ReductionStackDmg * FullDmg, 1)
+				or DmgReduction(source, target, FullDmg, 1))
+		end
+	end
+
+	if spell == "IGNITE" and IsKillable(target) then
+		Possible_Dmg = Possible_Dmg +  50 + 20 * source.level - (target.health_regen * 3)
+	end
+
+	if spell == "SMITE" then
+		if stage == 1 then
+			Possible_Dmg = Possible_Dmg +  600 -- Smite
+		end
+
+		if stage == 2 then
+			Possible_Dmg = Possible_Dmg +  900 -- Smite Upgrade 1
+		end
+		
+		if stage == 3 then
+			Possible_Dmg = Possible_Dmg +  1200 -- Smite Upgrade 2
+		end		
+	end
+	return Possible_Dmg
+end
 
 function getdmg_item(target, source)
     if not source.is_hero or not target.is_hero then return 0 end
