@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 75
+local Version = 76
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -2446,7 +2446,7 @@ local DamageLibTable = {
 }
 
 local CalcPassiveDmg = {
-	{Id = "Akali", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Akali", -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("akalishadowstate") then return 0 end
 			local Dmg = ({35, 38, 41, 44, 47, 50, 53, 62, 71, 80, 89, 98, 107, 122, 137, 152, 167, 182})[source.level] +
@@ -2455,7 +2455,7 @@ local CalcPassiveDmg = {
 		end
 	},
 	
-	{Id = "Akshan", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Akshan", -- AAdmg value
 		Damage = function(source, target)
             local buff = target:get_buff("AkshanPassiveDebuff")
             if not buff or buff.count ~= 2 then return 0 end
@@ -2464,7 +2464,7 @@ local CalcPassiveDmg = {
 		end
 	},
 	
-	{Id = "Ashe", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Ashe", -- AAdmg value
 		Damage = function(source, target)
             local Dmg = 0
 			if target:has_buff("ashepassiveslow") then
@@ -2480,7 +2480,7 @@ local CalcPassiveDmg = {
 		end
 	},
 	
-	{Id = "Bard", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Bard", -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("bardpspiritammocount") then return 0 end
             local chime = source:get_buff("bardpdisplaychimecount")
@@ -2490,7 +2490,7 @@ local CalcPassiveDmg = {
 		end
 	},
 	
-	{Id = "Blitzcrank", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Blitzcrank", -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("PowerFist") then return 0 end
             local Dmg1 = 0.25 * source.ability_power + 0.75 * source.total_attack_damage		
@@ -2499,7 +2499,7 @@ local CalcPassiveDmg = {
 		end
 	},
 	
-	{Id = "Braum", type = "Dmg_Value", OnlyAA = false, Slot = "Q", -- AAdmg//QDmg value
+	{Id = "Braum", Slot = "Q", -- AAdmg//QDmg value
 		Damage = function(source, target)
             local buff = target:get_buff("BraumMark")
             if not buff or buff.count ~= 3 then return end
@@ -2508,7 +2508,7 @@ local CalcPassiveDmg = {
 		end
 	},
 	
-	{Id = "Caitlyn", type = "Dmg_Value", OnlyAA = true, -- AAdmg
+	{Id = "Caitlyn", -- AAdmg
 		Damage = function(source, target)
             if not source:has_buff("caitlynpassivedriver") then return 0 end
             local bonus = 1.3125 + (source:has_item(3031) and 0.2625 or 0)
@@ -2519,7 +2519,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Camille", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Camille", -- AAdmg value
 		Damage = function(source, target)
 			local lvl = source:get_spell_slot(SLOT_Q).level
 			if source:has_buff("CamilleQ") then
@@ -2534,7 +2534,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Chogath", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Chogath", -- AAdmg value
 		Damage = function(source, target)
             if not source:has_buff("VorpalSpikes") then return 0 end
             local lvl = source:get_spell_slot(SLOT_E).level
@@ -2543,7 +2543,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Darius", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Darius", -- AAdmg value
 		Damage = function(source, target)
             if not source:has_buff("DariusNoxianTacticsONH") then return 0 end
             local lvl = source:get_spell_slot(SLOT_W).level
@@ -2552,7 +2552,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Diana", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Diana", -- AAdmg value
 		Damage = function(source, target)
             local buff = source:get_buff("dianapassivemarker")
             if not buff or buff.count ~= 2 then return 0 end
@@ -2561,7 +2561,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Draven", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Draven", -- AAdmg value
 		Damage = function(source, target)
             if not source:has_buff("DravenSpinningAttack") then return 0 end
             local lvl = source:get_spell_slot(SLOT_Q).level
@@ -2570,7 +2570,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "DrMundo", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "DrMundo", -- AAdmg value
 		Damage = function(source, target)
             if not target.is_hero then return 0 end
 			if not source:has_buff("DrMundoE") then return 0 end
@@ -2582,7 +2582,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Ekko", type = "Dmg_Value", OnlyAA = false, -- AAdmg//SpellDmg value
+	{Id = "Ekko", Slot = "All", -- AAdmg//SpellDmg value
 		Damage = function(source, target)
             local buff = args.unit:get_buff("ekkostacks")
             if not buff or buff.count ~= 2 then return 0 end
@@ -2591,7 +2591,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Ekko", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Ekko", -- AAdmg value
 		Damage = function(source, target)
             if not source:has_buff("ekkoeattackbuff") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_E).level
@@ -2600,7 +2600,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Fizz", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Fizz", -- AAdmg value
 		Damage = function(source, target)
             if not source:has_buff("FizzW") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_W).level
@@ -2609,7 +2609,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Galio", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Galio", -- AAdmg value
 		Damage = function(source, target)
             if not source:has_buff("galiopassivebuff") then return 0 end
 			local Dmg = 15 + 185 / 17 * (source.level - 1) + source.total_attack_damage + 0.5 * source.ability_power + 0.6 * source.bonus_mr
@@ -2617,7 +2617,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Garen", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Garen", -- AAdmg value
 		Damage = function(source, target)
             if not source:has_buff("GarenQ") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level
@@ -2626,7 +2626,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Gnar", type = "Dmg_Value", OnlyAA = false, -- AAdmg//SpellDmg value
+	{Id = "Gnar", Slot = "All", -- AAdmg//All Spells Dmg value
 		Damage = function(source, target)
             local buff = target:get_buff("gnarwproc")
             if not buff or buff.count ~= 2 then return 0 end
@@ -2636,7 +2636,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Gragas", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Gragas", -- AAdmg value
 		Damage = function(source, target)
             if not source:has_buff("gragaswattackbuff") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_W).level
@@ -2645,21 +2645,21 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Gwen", type = "Dmg_Value", OnlyAA = false, Slot = "Q",  -- AAdmg // QDmg value
+	{Id = "Gwen", Slot = "Q",  -- AAdmg // QDmg value
 		Damage = function(source, target)
 			local Dmg = (0.01 + 0.008 * 0.01 * source.ability_power) * target.max_health
 			return target:calculate_magic_damage(Dmg)
 		end
 	},
 
-	{Id = "Gwen", type = "Dmg_Value", OnlyAA = false, Slot = "R",  -- AAdmg // RDmg value
+	{Id = "Gwen", Slot = "R",  -- AAdmg // RDmg value
 		Damage = function(source, target)
 			local Dmg = (0.01 + 0.008 * 0.01 * source.ability_power) * target.max_health
 			return target:calculate_magic_damage(Dmg)
 		end
 	},
 
-	{Id = "Illaoi", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Illaoi", -- AAdmg value
 		Damage = function(source, target)
             if not target.is_hero then return 0 end
 			if not source:has_buff("IllaoiW") then return 0 end
@@ -2669,7 +2669,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Irelia", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "Irelia", -- AAdmg value
 		Damage = function(source, target)
             local buff = source:get_buff("ireliapassivestacks")
             if not buff or buff.count ~= 4 then return 0 end
@@ -2678,7 +2678,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "JarvanIV", type = "Dmg_Value", OnlyAA = true, -- AAdmg value
+	{Id = "JarvanIV", -- AAdmg value
 		Damage = function(source, target)
             if not target:has_buff("jarvanivmartialcadencecheck") then return 0 end
 			local Dmg = math.min(400, math.max(20, 0.08 * target.health))
@@ -2686,7 +2686,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Jax", type = "Dmg_Value", OnlyAA = false, Slot = "Q",  -- AAdmg // QDmg value
+	{Id = "Jax", Slot = "Q",  -- AAdmg // QDmg value
 		Damage = function(source, target)
 			if not source:has_buff("JaxEmpowerTwo") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_W).level
@@ -2695,7 +2695,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Jax", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Jax",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("JaxRelentlessAssault") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_R).level
@@ -2704,7 +2704,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Jayce", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Jayce",  -- AAdmg value
 		Damage = function(source, target)
             local Damage = 0
 			if source:has_buff("JaycePassiveMeleeAttack") then
@@ -2720,7 +2720,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Jhin", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Jhin",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("jhinpassiveattackbuff") then return 0 end
 			local MissHp = target.max_health - target.health
@@ -2730,7 +2730,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Jinx", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Jinx",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("JinxQ") then return 0 end
 			local Dmg = 0.1 * source.total_attack_damage
@@ -2738,7 +2738,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Kaisa", type = "Dmg_Value", OnlyAA = false, Slot = "W",  -- AAdmg // WDmg value
+	{Id = "Kaisa", Slot = "W",  -- AAdmg // WDmg value
 		Damage = function(source, target)
 			local buff = target:get_buff("kaisapassivemarker")
 			if not buff then return 0 end
@@ -2751,7 +2751,7 @@ local CalcPassiveDmg = {
 		end
 	},		
 
-	{Id = "Kassadin", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Kassadin",  -- AAdmg value
 		Damage = function(source, target)
 			local lvl = source:get_spell_slot(SLOT_W).level
 			if source:has_buff("NetherBlade") then
@@ -2764,7 +2764,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Kayle", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Kayle",  -- AAdmg value
 		Damage = function(source, target)
 			local lvl = source:get_spell_slot(SLOT_E).level
 			if lvl <= 0 then return 0 end
@@ -2776,7 +2776,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Kennen", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Kennen",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("kennendoublestrikelive") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_W).level
@@ -2785,7 +2785,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "KogMaw", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "KogMaw",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("KogMawBioArcaneBarrage") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_W).level
@@ -2795,7 +2795,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Leona", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Leona",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("LeonaShieldOfDaybreak") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level
@@ -2804,7 +2804,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "All", type = "Dmg_Value", OnlyAA = false, Slot = "All",  -- AAdmg // all spells Dmg value //// Leona
+	{Id = "All", Slot = "All",  -- AAdmg // all spells Dmg value //// Leona
 		Damage = function(source, target)
 			if not IsAlly("Leona") then return 0 end
 			if source.champ_name == "Leona" then return 0 end
@@ -2814,7 +2814,7 @@ local CalcPassiveDmg = {
 		end
 	},	
 	
-	{Id = "Lux", type = "Dmg_Value", OnlyAA = false, Slot = "R",  -- AAdmg // RDmg value
+	{Id = "Lux", Slot = "R",  -- AAdmg // RDmg value
 		Damage = function(source, target)
 			if not target:has_buff("LuxIlluminatingFraulein") then return 0 end
 			local Dmg = 10 + 10 * source.level + 0.2 * source.ability_power
@@ -2822,7 +2822,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Malphite", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Malphite",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("MalphiteCleave") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_W).level
@@ -2831,7 +2831,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "MasterYi", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "MasterYi",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("wujustylesuperchargedvisual") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_E).level
@@ -2839,7 +2839,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "MissFortune", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "MissFortune",  -- AAdmg value
 		Damage = function(source, target)
 			if not target:has_buff("Needcheck") then return 0 end                            ---<<<<<<< need target buff name >>>>>>>>>>>>>>>>>>>
 			local Dmg = (source.level < 4 and 0.5 or 
@@ -2851,13 +2851,13 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Mordekaiser", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Mordekaiser",  -- AAdmg value
 		Damage = function(source, target)
 			return target:calculate_magic_damage(0.4 * source.ability_power)
 		end
 	},
 
-	{Id = "All", type = "Dmg_Value", OnlyAA = false, Slot = "All",  -- AAdmg // all spells Dmg value //// Nami
+	{Id = "All", Slot = "All",  -- AAdmg // all spells Dmg value //// Nami
 		Damage = function(source, target)
 			if not IsAlly("Nami") then return 0 end
 			if not source:has_buff("NamiE") then return 0 end
@@ -2867,7 +2867,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Nasus", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Nasus",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("NasusQ") then return 0 end
             local buff = source:get_buff("NasusQStacks")
@@ -2878,7 +2878,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Nautilus", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Nautilus",  -- AAdmg value
 		Damage = function(source, target)
 			if target:has_buff("nautiluspassivecheck") then return 0 end
 			local Dmg = 8 + 6 * source.level
@@ -2886,7 +2886,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Nidalee", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Nidalee",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("Takedown") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level
@@ -2898,7 +2898,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Neeko", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Neeko",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("neekowpassiveready") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_W).level
@@ -2907,7 +2907,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Nocturne", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Nocturne",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("nocturneumbrablades") then return 0 end
 			local Dmg = 0.2 * source.total_attack_damage
@@ -2915,7 +2915,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Orianna", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Orianna",  -- AAdmg value
 		Damage = function(source, target)
 			local Dmg = (10 + 40 / 17 * (source.level - 1)) + 0.15 * source.ability_power
             local buff = source:get_buff("orianapowerdaggerdisplay")
@@ -2926,7 +2926,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Poppy", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Poppy",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("poppypassivebuff") then return 0 end
 			local Dmg = 20 + 160 / 17 * (source.level - 1)
@@ -2934,7 +2934,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Quinn", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Quinn",  -- AAdmg value
 		Damage = function(source, target)
 			if not target:has_buff("QuinnW") then return 0 end
 			local Dmg = (5 + 5 * source.level) + ((0.14 + 0.02 * source.level) * source.total_attack_damage)
@@ -2942,7 +2942,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "RekSai", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "RekSai",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("RekSaiQ") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level
@@ -2951,7 +2951,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Rell", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Rell",  -- AAdmg value
 		Damage = function(source, target)
 			local Dmg = 7.53 + 0.47 * source.level
 			if source:has_buff("RellWEmpoweredAttack") then
@@ -2962,7 +2962,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Rengar", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Rengar",  -- AAdmg value
 		Damage = function(source, target)
             local lvl = source:get_spell_slot(SLOT_Q).level
 			if source:has_buff("RengarQ") then
@@ -2975,7 +2975,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Riven", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Riven",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("RivenPassiveAABoost") then return 0 end
 			local Dmg = source.level <= 17 and ((0.3 + 0.0175 * (source.level - 1)) * source.total_attack_damage) or 0.6 * source.total_attack_damage
@@ -2983,7 +2983,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Rumble", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Rumble",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("RumbleOverheat") then return 0 end
 			local Dmg = 5 + 35 / 17 * (source.level -1) + 0.25 * source.ability_power + 0.06 * target.max_health
@@ -2991,7 +2991,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Sett", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Sett",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("SettQ") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level
@@ -3000,7 +3000,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Shen", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Shen",  -- AAdmg value
 		Damage = function(source, target)
             local lvl = source:get_spell_slot(SLOT_Q).level
             if source:has_buff("shenqbuffweak") then
@@ -3013,7 +3013,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Shyvana", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Shyvana",  -- AAdmg value
 		Damage = function(source, target)
             local Dmg = 0
 			local Qlvl = source:get_spell_slot(SLOT_Q).level
@@ -3029,7 +3029,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Skarner", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Skarner",  -- AAdmg value
 		Damage = function(source, target)
 			if not target:has_buff("skarnerpassivebuff") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_E).level
@@ -3038,7 +3038,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Sona", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Sona",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("SonaQProcAttacker") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level
@@ -3047,7 +3047,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Sylas", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Sylas",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("SylasPassiveAttack") then return 0 end
 			local Dmg = 0.25 * source.ability_power + 1.3 * source.total_attack_damage
@@ -3055,14 +3055,14 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "TahmKench", type = "Dmg_Value", OnlyAA = false, Slot = "Q",  -- AAdmg // QDmg value
+	{Id = "TahmKench", Slot = "Q",  -- AAdmg // QDmg value
 		Damage = function(source, target)
 			local Dmg = (8 + 52 / 17 * (source.level - 1)) + (((0.02 * source.ability_power / 100) + 0.03) * (source.max_health - source.base_health)) 
 			return target:calculate_magic_damage(Dmg)
 		end
 	},
 
-	{Id = "Taric", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Taric",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("taricgemcraftbuff") then return 0 end
 			local Dmg = 21 + 4 * source.level + 0.15 * source.bonus_armor
@@ -3070,7 +3070,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Teemo", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Teemo",  -- AAdmg value
 		Damage = function(source, target)
 			local lvl = source:get_spell_slot(SLOT_E).level
 			local Dmg = lvl > 0 and (3 + 11 * lvl) + 0.3 * source.ability_power or 0
@@ -3078,7 +3078,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Trundle", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Trundle",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("TrundleTrollSmash") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level
@@ -3087,7 +3087,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "TwistedFate", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "TwistedFate",  -- AAdmg value
 		Damage = function(source, target)
             local FullDmg = 0
 			local lvl = source:get_spell_slot(SLOT_W).level
@@ -3109,7 +3109,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Varus", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Varus",  -- AAdmg value
 		Damage = function(source, target)
 			local lvl = source:get_spell_slot(SLOT_W).level
 			local Dmg = lvl > 0 and (2 + 5 * lvl) + 0.3 * source.ability_power or 0
@@ -3117,7 +3117,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Vayne", type = "Dmg_Value", OnlyAA = true,  -- AAdmg value
+	{Id = "Vayne",  -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("vaynetumblebonus") then return 0 end
 			local Qlvl = source:get_spell_slot(SLOT_Q).level
@@ -3126,7 +3126,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Vayne", type = "Dmg_Value", OnlyAA = false, Slot = "E",  -- AAdmg // EDmg value /// truedmg
+	{Id = "Vayne", Slot = "E",  -- AAdmg // EDmg value /// truedmg
 		Damage = function(source, target)		
             local buff = target:get_buff("VayneSilveredDebuff")
 			if not buff or buff.count ~= 2 then return 0 end
@@ -3136,7 +3136,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Vi", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "Vi",  -- AAdmg
 		Damage = function(source, target)		
 			if not source:has_buff("ViE") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_E).level
@@ -3145,7 +3145,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Vi", type = "Dmg_Value", OnlyAA = false, Slot = "Q",  -- AAdmg // QDmg value
+	{Id = "Vi", Slot = "Q",  -- AAdmg // QDmg value
 		Damage = function(source, target)		
             local buff = target:get_buff("viwproc")
 			if not buff or buff.count ~= 2 then return 0 end
@@ -3155,7 +3155,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Viego", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "Viego",  -- AAdmg
 		Damage = function(source, target)		
             local lvl = source:get_spell_slot(SLOT_Q).level
 			if lvl <= 0 then return 0 end			
@@ -3164,7 +3164,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Viktor", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "Viktor",  -- AAdmg
 		Damage = function(source, target)		
             if not source:has_buff("ViktorPowerTransferReturn") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level		
@@ -3173,7 +3173,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Volibear", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "Volibear",  -- AAdmg
 		Damage = function(source, target)		
             local FullDmg = 0
 			if source:has_buff("volibearpapplicator") then	
@@ -3189,14 +3189,14 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Warwick", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "Warwick",  -- AAdmg
 		Damage = function(source, target)		
 			local Dmg = (10 + 2 * source.level) + 0.15 * source.bonus_attack_damage + 0.1 * source.ability_power						
 			return target:calculate_magic_damage(Dmg)
 		end
 	},
 
-	{Id = "MonkeyKing", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "MonkeyKing",  -- AAdmg
 		Damage = function(source, target)		
             if not source:has_buff("MonkeyKingDoubleAttack") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level		
@@ -3205,7 +3205,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "XinZhao", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "XinZhao",  -- AAdmg
 		Damage = function(source, target)		
             if not source:has_buff("XinZhaoQ") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level		
@@ -3214,7 +3214,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "XinZhao", type = "Dmg_Value", OnlyAA = false, Slot = "W",  -- AAdmg // WDmg value
+	{Id = "XinZhao", Slot = "W",  -- AAdmg // WDmg value
 		Damage = function(source, target)		
             local buff = source:get_buff("XinZhaoP")
 			if not buff or buff.count ~= 3 then return 0 end
@@ -3226,7 +3226,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Yorick", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "Yorick",  -- AAdmg
 		Damage = function(source, target)		
             if not source:has_buff("yorickqbuff") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level		
@@ -3235,7 +3235,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Zed", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "Zed",  -- AAdmg
 		Damage = function(source, target)		
             if target:health_percentage() > 50 then return 0 end	
 			local Dmg = source.level < 7 and 0.06 * target.max_health or
@@ -3245,7 +3245,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Ziggs", type = "Dmg_Value", OnlyAA = true,  -- AAdmg
+	{Id = "Ziggs",  -- AAdmg
 		Damage = function(source, target)		
             if not source:has_buff("ZiggsShortFuse") then return 0 end	
 			local Dmg = ({20, 24, 28, 32, 36, 40, 48, 56, 64, 72, 80, 88, 100, 112, 124, 136, 148, 160})[source.level] + 0.5 * source.ability_power						
@@ -3253,7 +3253,7 @@ local CalcPassiveDmg = {
 		end
 	},
 
-	{Id = "Zoe", type = "Dmg_Value", OnlyAA = false, Slot = "W",  -- AAdmg // WDmg value
+	{Id = "Zoe", Slot = "W",  -- AAdmg // WDmg value
 		Damage = function(source, target)		
             if not source:has_buff("zoepassivesheenbuff") then return 0 end	
 			local Dmg = ({16, 20, 24, 28, 32, 36, 42, 48, 54, 60, 66, 74, 82, 90, 100, 110, 120, 130})[source.level] + 0.2 * source.ability_power						
@@ -3808,14 +3808,17 @@ local function getdmg_perk(target, source, dmg, SpellDmg)
 	return Damage
 end
 
-
 local function getdmg_passive(target, source, Spell)
 	local Damage = 0
     for i = 1, #CalcPassiveDmg do
         local Passive = CalcPassiveDmg[i]
 		
+		if Passive.Id == "All" and Passive.Slot == "All" then
+			Damage = Damage + Passive.Damage(source, target)
+		end
+		
 		if source.champ_name == Passive.Id then
-			if (Passive.Slot and Spell == Passive.Slot) or Spell == tostring("AA") then			
+			if Spell == "AA" or (Passive.Slot and (Passive.Slot == "All" or Spell == Passive.Slot)) then			
 				Damage = Damage + Passive.Damage(source, target)
 			end
         end
@@ -3959,12 +3962,6 @@ function getdmg_item(target, source)
 			end
         end
     end
-	
-	if target.is_hero then
-		if source.champ_name == "Ashe" and target:has_buff("ashepassiveslow") then
-			PhysicalDamage = PhysicalDamage + (0.1+0.75*source.crit_chance/100)*source.total_attack_damage
-		end
-	end	
 	
 	if target:has_buff("4005debuff") then  ---for spells too
 		if target:get_buff("4005debuff").source_id ~= source.object_id then 
