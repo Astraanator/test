@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 76
+local Version = 77
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -2584,7 +2584,7 @@ local CalcPassiveDmg = {
 
 	{Id = "Ekko", Slot = "All", -- AAdmg//SpellDmg value
 		Damage = function(source, target)
-            local buff = args.unit:get_buff("ekkostacks")
+            local buff = target:get_buff("ekkostacks")
             if not buff or buff.count ~= 2 then return 0 end
 			local Dmg = ({30, 40, 50, 60, 70, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140})[source.level] + 0.9 * source.ability_power
 			return target:calculate_magic_damage(Dmg)
@@ -3095,10 +3095,10 @@ local CalcPassiveDmg = {
                 local Dmg = 20 + 20 * lvl + source.total_attack_damage + 1.15 * source.ability_power
 				FullDmg = target:calculate_magic_damage(Dmg) - target:calculate_phys_damage(source.total_attack_damage)
 			elseif source:has_buff("RedCardPreAttack") then
-                local Dmg = args.rawMagical + 15 + 15 * lvl + source.total_attack_damage + 0.7 * source.ability_power
+                local Dmg = 15 + 15 * lvl + source.total_attack_damage + 0.7 * source.ability_power
 				FullDmg = target:calculate_magic_damage(Dmg) - target:calculate_phys_damage(source.total_attack_damage)
             elseif source:has_buff("GoldCardPreAttack") then
-                local Dmg = args.rawMagical + 7.5 + 7.5 * lvl + source.total_attack_damage + 0.5 * source.ability_power
+                local Dmg = 7.5 + 7.5 * lvl + source.total_attack_damage + 0.5 * source.ability_power
 				FullDmg = target:calculate_magic_damage(Dmg) - target:calculate_phys_damage(source.total_attack_damage)
             end
             if source:has_buff("cardmasterstackparticle") then
