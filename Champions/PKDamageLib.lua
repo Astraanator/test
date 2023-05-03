@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 77
+local Version = 78
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -373,7 +373,7 @@ local function Azir_WResult(level)
 	end	
 end
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 13.8 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 13.9 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -1123,7 +1123,7 @@ local DamageLibTable = {
 					({ 0.08, 0.085, 0.09, 0.095, 0.10 })[level] * (target.max_health - target.health)
 			end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 200, 350, 500 })[level] + 0.8 * source.ability_power +
+			Damage = function(source, target, level) return ({ 200, 300, 400 })[level] + 0.7 * source.ability_power +
 					source.bonus_attack_damage
 			end },
 	},
@@ -1471,9 +1471,9 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 125, 170, 215, 260 })[level] + 0.5 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 80, 115, 150, 185, 220 })[level] + 0.6 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 70, 105, 140, 175, 210 })[level] + 0.65 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 200, 425, 650 })[level] + 1.3 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 150, 350, 550 })[level] +  source.ability_power end },
 	},
 
 	["Nidalee"] = {
@@ -1955,7 +1955,7 @@ local DamageLibTable = {
 
 	["Swain"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 60, 80, 100, 120, 140 })[level] + 0.38 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 65, 85, 105, 125, 145 })[level] + 0.4 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 115, 150, 185, 220 })[level] + 0.55 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
@@ -2265,7 +2265,7 @@ local DamageLibTable = {
 			Damage = function(source, target, level) return ({ 10, 30, 50, 70, 90 })[level] + 1.2 * source.bonus_attack_damage end },
 		{ Slot = "W", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return (({ 5, 30, 55, 80, 105 })[level]) + source.total_attack_damage +
-					0.05 * (source.max_health - GetBaseHealth(source))
+					0.06 * (source.max_health - GetBaseHealth(source))
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 110, 140, 170, 200 })[level] + 0.8 * source.ability_power +
@@ -2446,6 +2446,14 @@ local DamageLibTable = {
 }
 
 local CalcPassiveDmg = {
+	{Id = "Aatrox", -- AAdmg value
+		Damage = function(source, target)
+			if not source:has_buff("aatroxpassiveready") then return 0 end
+			local Dmg = (0.04 + 0.08 / 17 * (source.level- 1)) * target.max_health
+			return target:calculate_phys_damage(Dmg)
+		end
+	},	
+	
 	{Id = "Akali", -- AAdmg value
 		Damage = function(source, target)
 			if not source:has_buff("akalishadowstate") then return 0 end
@@ -2768,7 +2776,7 @@ local CalcPassiveDmg = {
 		Damage = function(source, target)
 			local lvl = source:get_spell_slot(SLOT_E).level
 			if lvl <= 0 then return 0 end
-			local Dmg = (10 + 5 * lvl) + 0.25 * source.ability_power + 0.1 * source.bonus_attack_damage			
+			local Dmg = (10 + 5 * lvl) + 0.2 * source.ability_power + 0.1 * source.bonus_attack_damage			
 			if source:has_buff("JudicatorRighteousFury") then
 				local Dmg = Dmg + ((0.075 + 0.005 * lvl) + (0.015 * source.ability_power / 100)) * (target.max_health - target.health)
 			end
