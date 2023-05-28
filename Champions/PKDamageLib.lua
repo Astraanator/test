@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 78
+local Version = 79
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -373,7 +373,7 @@ local function Azir_WResult(level)
 	end	
 end
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 13.9 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 13.10 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -1181,9 +1181,9 @@ local DamageLibTable = {
 		{ Slot = "E", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) local count = GotBuff(target, "kalistaexpungemarker")
 				if count > 0 then return (
-						({ 20, 30, 40, 50, 60 })[level] + 0.7 * source.total_attack_damage) +
+						({ 20, 30, 40, 50, 60 })[level] + 0.7 * source.total_attack_damage + 0.2 * source.ability_power) +
 						(count - 1) *
-						((({ 10, 16, 22, 28, 34 })[level]) + (({ 0.23, 0.27, 0.31, 0.36, 0.40 })[level] * source.total_attack_damage))
+						((({ 10, 16, 22, 28, 34 })[level]) + (({ 0.23, 0.27, 0.31, 0.36, 0.40 })[level] * source.total_attack_damage) + 0.2 * source.ability_power)
 				end
 				return 0
 			end },
@@ -1203,7 +1203,7 @@ local DamageLibTable = {
 			Damage = function(source, target, level) return ({ 60, 85, 110, 135, 160 })[level] + source.bonus_attack_damage * 0.75 end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 25, 30, 35, 40, 45 })[level] + 0.2 * source.bonus_attack_damage +
-					0.015 * (target.max_health - target.health) +
+					0.2 * source.ability_power + 0.015 * (target.max_health - target.health) +
 					(GetBuffData(source, "kindredmarkofthekindredstackcounter").stacks / 100) * (target.max_health - target.health)
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 1,
@@ -1473,7 +1473,7 @@ local DamageLibTable = {
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 105, 140, 175, 210 })[level] + 0.65 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 150, 350, 550 })[level] +  source.ability_power end },
+			Damage = function(source, target, level) return ({ 150, 350, 550 })[level] +  1.2 * source.ability_power end },
 	},
 
 	["Nidalee"] = {
@@ -2142,7 +2142,7 @@ local DamageLibTable = {
 
 	["Vayne"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 0.75, 0.85, 0.95, 1.05, 1.15 })[level] * source.total_attack_damage end },
+			Damage = function(source, target, level) return ({ 0.75, 0.85, 0.95, 1.05, 1.15 })[level] * source.total_attack_damage + 0.5 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 3,
 			Damage = function(source, target, level) return ({ 50, 65, 80, 95, 110 })[level] +
 					(({ 0.06, 0.07, 0.08, 0.09, 0.1 })[level] * target.max_health)
@@ -2467,7 +2467,7 @@ local CalcPassiveDmg = {
 		Damage = function(source, target)
             local buff = target:get_buff("AkshanPassiveDebuff")
             if not buff or buff.count ~= 2 then return 0 end
-			local Dmg = ({10, 15, 20, 25, 30, 35, 40, 45, 55, 65, 75, 85, 95, 105, 120, 135, 150, 165})[source.level]
+			local Dmg = ({10, 15, 20, 25, 30, 35, 40, 45, 55, 65, 75, 85, 95, 105, 120, 135, 150, 165})[source.level] + 0.6 * source.ability_power
 			return target:calculate_magic_damage(Dmg)
 		end
 	},
@@ -3273,6 +3273,7 @@ local CalcPassiveDmg = {
 local DmgItems = {	
 	['ArdentCenser'] = 3504,		
 	['BladeoftheRuinedKing'] = 3153,
+	['Bloodthirster'] = 3072, 			--new
 	['DeadMansPlate'] = 3742,		
 	["DivineSunderer"] = 6632,
     ["DoransRing"] = 1056,
@@ -3280,27 +3281,28 @@ local DmgItems = {
 	['DuskbladeofDraktharr'] = 6691,
 	["EssenceReaver"] = 3508,		
 	["Eclipse"] = 6692,				
-	['Evenshroud'] = 3001,			
+	['Evenshroud'] = 3001,
+	['GuinsoosRageblade'] = 3124, 		--new	
 	['HextechAlternator'] = 3145, 	
 	['HorizonFocus'] = 4628,		
 	["ImperialMandate"] = 4005,		
 	['KircheisShard'] = 2015,		
 	["KrakenSlayer"] = 6672,		
-  --["LiandryAnguish"] = 6653,			--only for spells 
 	['LichBane'] = 3100,			
 	['LordDominiksRegards'] = 3036,	
-  --["LudensTempest"] = 6655,			--only for spells
 	['NashorsTooth'] = 3115,		
-  --["NightHarvester"] = 4636,			--spells/AA AP-Dmg =  Broken by riot // Dont give cooldown/buff ingame
 	["Noonquiver"] = 6670,
 	["ProwlersClaw"] = 6693,
+	["Rageknife"] = 6677, 				--new
 	["RelicShield"] = 3302,				
 	['RecurveBow'] = 1043,			
-	['RapidFirecannon'] = 3094,		
+	['RapidFirecannon'] = 3094,
+	['RunaansHurricane'] = 3085, 	 	--new	
 	['Riftmaker'] = 4633,			
 	['Sheen'] = 3057, 				
 	['Stormrazor'] = 3095,
 	["SteelShoulderguards"] = 3854,	
+	["StatikkShiv"] = 3087,
 	['TrinityForce'] = 3078,
 	["TearoftheGoddess"] = 3070,      
 	["TheCollector"] = 6676, 		
@@ -3312,7 +3314,7 @@ local CalcItemDmg = {
 	{Id = DmgItems.ArdentCenser, DamageType = 2, spell = "AA",
 		ItemDamage = function(source, target)
 			if source:has_buff("3504buff") then
-				return 5+15/17*(source.level-1)
+				return 15+15/17*(source.level-1)
 			end			
 			return 0
 		end
@@ -3347,6 +3349,15 @@ local CalcItemDmg = {
 			end	
 			return 0
 		end
+	},
+
+	{Id = DmgItems.Bloodthirster, DamageType = 1, spell = "AA",
+		ItemDamage = function(source, target)
+			if source:health_percentage() > 50 then
+				return ({10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15, 20, 25, 30, 35, 40})[source.level]
+			end	
+			return 0
+		end
 	},	
 	
 	{Id = DmgItems.DeadMansPlate, DamageType = 1, spell = "AA",
@@ -3362,38 +3373,23 @@ local CalcItemDmg = {
 			if source:has_buff("6632buff") then
 				if target.is_hero or target.is_minion then
 					if source.is_melee then
-						return 0.06*target.max_health
+						return 0.04*target.max_health
 					else
-						return 0.03*target.max_health
+						return 0.02*target.max_health
 					end
 				
 				elseif target.is_jungle_minion then
 					
 					if source.is_melee then
-						return (0.06*target.max_health > 2.5*source.base_attack_damage) and 2.5*source.base_attack_damage or 0.06*target.max_health
+						return (0.04*target.max_health > 2.5*source.base_attack_damage) and 2.5*source.base_attack_damage or 0.04*target.max_health
 					else
-						return (0.03*target.max_health > 2.5*source.base_attack_damage) and 2.5*source.base_attack_damage or 0.03*target.max_health
+						return (0.02*target.max_health > 2.5*source.base_attack_damage) and 2.5*source.base_attack_damage or 0.02*target.max_health
 					end					
 				end
 			end			
 			return 0
 		end
 	},	
-	
-	{Id = DmgItems.DuskbladeofDraktharr, DamageType = 1, spell = "AA",
-		ItemDamage = function(source, target)
-			if target.is_hero then
-				if game.game_time > source:get_spell_slot(source:get_item(6691).spell_slot).current_cooldown then
-					if source.is_melee then
-						return 75+0.3*source.bonus_attack_damage
-					else
-						return 55+0.25*source.bonus_attack_damage
-					end
-				end	
-			end	
-			return 0
-		end
-	},
 	
 	{Id = DmgItems.DoransRing, DamageType = 1, spell = "AA",	
 		ItemDamage = function(source, target)
@@ -3430,17 +3426,24 @@ local CalcItemDmg = {
 			return 0
 		end
 	},
-	]]
+	]] 
 	{Id = DmgItems.Evenshroud, DamageType = 1, spell = "AA",  ---for spells too
 		ItemDamage = function(source, target)
 			if target.is_hero then
 				if target:has_buff("item3001debuff") then
-					return 0.09*source.total_attack_damage
+					return 0.1*source.total_attack_damage
 				end
 			end	
 			return 0
 		end
 	},
+	
+	{Id = DmgItems.GuinsoosRageblade, DamageType = 2, spell = "AA",
+		ItemDamage = function(source, target)
+			local Dmg = 30 + math.min(150, 1.5 * source.crit_chance)
+			return Dmg
+		end
+	},	
 
 	{Id = DmgItems.HextechAlternator, DamageType = 2, spell = "AA",  ---for spells too
 		ItemDamage = function(source, target)
@@ -3467,16 +3470,16 @@ local CalcItemDmg = {
 	{Id = DmgItems.KircheisShard, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
 			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
-				return 80
+				return 60
 			end			
 			return 0
 		end
 	},
 
-	{Id = DmgItems.KrakenSlayer, DamageType = 3, spell = "AA", 
+	{Id = DmgItems.KrakenSlayer, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
 			if source:get_buff("6672buff").stacks2 == 2 then
-				return 50+(0.4*source.bonus_attack_damage)
+				return 20+(0.6*source.total_attack_damage + 0.45*source.ability_power)
 			end			
 			return 0
 		end
@@ -3491,7 +3494,7 @@ local CalcItemDmg = {
 		end
 	},	
 	
-	{Id = DmgItems.LordDominiksRegards, DamageType = 1, spell = "AA",  ---for ADspells too
+	{Id = DmgItems.LordDominiksRegards, DamageType = 1, spell = "AA", 
 		ItemDamage = function(source, target)
             if target.is_hero then
 				local DiffHP = math.abs(source.max_health - target.max_health)
@@ -3525,7 +3528,13 @@ local CalcItemDmg = {
 			end	
 			return 0
 		end
-	},			
+	},
+
+	{Id = DmgItems.Rageknife, DamageType = 2, spell = "AA",
+		ItemDamage = function(source, target)
+			return 20	
+		end
+	},	
 	
 	{Id = DmgItems.RelicShield, DamageType = 3, spell = "AA",
 		ItemDamage = function(source, target)
@@ -3551,16 +3560,22 @@ local CalcItemDmg = {
 		end
 	},	
 	
-	{Id = DmgItems.RecurveBow, DamageType = 1, spell = "AA",
+	{Id = DmgItems.RecurveBow, DamageType = 2, spell = "AA",
 		ItemDamage = function(source, target)
 			return 15			
 		end
 	},
+	
+	{Id = DmgItems.RunaansHurricane, DamageType = 2, spell = "AA",
+		ItemDamage = function(source, target)
+			return 30			
+		end
+	},	
 
 	{Id = DmgItems.RapidFirecannon, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
 			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
-				return 120
+				return ({60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 70, 80, 90, 100, 110, 120, 130, 140})[source.level]
 			end			
 			return 0
 		end
@@ -3600,11 +3615,25 @@ local CalcItemDmg = {
 	{Id = DmgItems.Stormrazor, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
 			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
-				return 120
+				return 25+(0.65*source.total_attack_damage + 0.5*source.ability_power)
 			end			
 			return 0
 		end
 	},
+	
+	{Id = DmgItems.StatikkShiv, DamageType = 2, spell = "AA", 
+		ItemDamage = function(source, target)
+			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
+				local Dmg = (source.level < 8 and 60 or source.level * 10 - 10) + 0.5 * source.ability_power
+				if target.is_minion then
+					return 2.2 * Dmg
+				else
+					return Dmg
+				end
+			end			
+			return 0
+		end
+	},	
 	
 	{Id = DmgItems.SteelShoulderguards, DamageType = 3, spell = "AA",
 		ItemDamage = function(source, target)
