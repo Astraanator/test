@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 80
+local Version = 81
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -377,7 +377,7 @@ local function Azir_WResult(level)
 	end	
 end
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 13.11 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 13.12 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -517,11 +517,11 @@ local DamageLibTable = {
 
 	["Ashe"] = {
 		{ Slot = "W", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 10, 25, 40, 55, 70 })[level] + source.total_attack_damage end },
+			Damage = function(source, target, level) return ({ 20, 35, 50, 65, 80 })[level] + source.total_attack_damage end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 200, 400, 600 })[level] + source.ability_power end },
+			Damage = function(source, target, level) return ({ 200, 400, 600 })[level] + 1.2 * source.ability_power end },
 		{ Slot = "R", Stage = 2, DamageType = 2,
-			Damage = function(source, target, level) return (({ 100, 200, 300 })[level] + 0.5 * source.ability_power) end },
+			Damage = function(source, target, level) return (({ 100, 200, 300 })[level] + 0.6 * source.ability_power) end },
 	},
 
 	["AurelionSol"] = {
@@ -1162,7 +1162,7 @@ local DamageLibTable = {
 			Damage = function(source, target, level) return ({ 90, 140, 190, 240, 290 })[level] + 0.7 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) local dmg = (
-					({ 0.035, 0.0425, 0.05, 0.0575, 0.065 })[level] + (0.01 * source.ability_power)) * target.max_health;
+					({ 0.03, 0.0375, 0.045, 0.0525, 0.06 })[level] + (0.01 * source.ability_power)) * target.max_health;
 				if target.is_minion
 					and dmg > 100 then dmg = 100 end
 				return dmg
@@ -1551,7 +1551,7 @@ local DamageLibTable = {
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.3 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 200, 275, 350 })[level] + 0.8 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 250, 400, 550 })[level] + 0.95 * source.ability_power end },
 	},
 
 	["Ornn"] = {
@@ -1690,11 +1690,11 @@ local DamageLibTable = {
 
 	["Rell"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 60, 95, 130, 165, 200 })[level] + 0.5 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 60, 100, 140, 180, 220 })[level] + 0.6 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 70, 100, 130, 160, 190 })[level] + 0.6 * source.ability_power end }, -- if mounted
+			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.6 * source.ability_power end }, -- if mounted
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 80, 120, 160, 200, 240 })[level] + 0.3 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 25, 35, 45, 55, 65 })[level] + 0.5 * source.ability_power + 0.03 * target.max_health end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 120, 200, 280 })[level] + 1.1 * source.ability_power end },
 	},
@@ -1762,7 +1762,8 @@ local DamageLibTable = {
 
 	["Rumble"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 180, 220, 260, 300, 340 })[level] + 1.1 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 135, 150, 165, 180, 195 })[level] + 1.1 * source.ability_power + 
+					(({ 0.06, 0.07, 0.08, 0.09, 0.1 })[level] * target.max_health) end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 60, 85, 110, 135, 160 })[level] + 0.4 * source.ability_power end },
 		{ Slot = "E", Stage = 2, DamageType = 2,
@@ -1779,7 +1780,7 @@ local DamageLibTable = {
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 110, 140, 170, 200 })[level] + 0.7 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.45 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.5 * source.ability_power end },
 	},
 
 	["Samira"] = {
@@ -1932,7 +1933,7 @@ local DamageLibTable = {
 					({ 80, 85, 90, 95, 100 })[level] / 100 * source.total_attack_damage + 0.6 * source.ability_power
 			end },
 		{ Slot = "W", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 0.25, 0.3, 0.35, 0.4, 0.45 })[level] * source.total_attack_damage end },
+			Damage = function(source, target, level) return ({ 0.3, 0.35, 0.4, 0.45, 0.5 })[level] * source.total_attack_damage end },
 	},
 
 	["Skarner"] = {
@@ -2486,7 +2487,7 @@ local CalcPassiveDmg = {
             local Dmg = 0
 			if target:has_buff("ashepassiveslow") then
 				local Passive = 0.0075 + (source:has_item(3031) and 0.0035 or 0)
-				local percent = 0.1 + source.crit_chance * Passive
+				local percent = 0.12 + source.crit_chance * Passive
 				Dmg = Dmg + percent * source.total_attack_damage
 			end	
 			if source:has_buff("AsheQAttack") then
@@ -3321,7 +3322,7 @@ local CalcItemDmg = {
 	{Id = DmgItems.ArdentCenser, DamageType = 2, spell = "AA",
 		ItemDamage = function(source, target)
 			if source:has_buff("3504buff") then
-				return 15+15/17*(source.level-1)
+				return 15
 			end			
 			return 0
 		end
@@ -3587,7 +3588,7 @@ local CalcItemDmg = {
 	{Id = DmgItems.RapidFirecannon, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
 			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
-				return ({60, 60, 60, 60, 60, 60, 60, 60, 60, 60, 70, 80, 90, 100, 110, 120, 130, 140})[source.level]
+				return 60
 			end			
 			return 0
 		end
@@ -3636,7 +3637,7 @@ local CalcItemDmg = {
 	{Id = DmgItems.StatikkShiv, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
 			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
-				local Dmg = (source.level <= 7 and 80 or source.level * 10 + 10) + 0.5 * source.ability_power
+				local Dmg = (source.level <= 5 and 100 or ({106, 112, 118, 124, 130, 136, 143, 149, 155, 161, 167, 173, 180})[source.level]) + 0.5 * source.ability_power
 				if target.is_minion then
 					return 2.5 * Dmg
 				else
