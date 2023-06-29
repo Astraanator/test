@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 81
+local Version = 82
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -377,7 +377,7 @@ local function Azir_WResult(level)
 	end	
 end
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 13.12 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 13.13 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -472,7 +472,7 @@ local DamageLibTable = {
 
 	["Annie"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 80, 115, 150, 185, 220 })[level] + 0.8 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 70, 105, 140, 175, 210 })[level] + 0.75 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 115, 160, 205, 250 })[level] + 0.85 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
@@ -1253,9 +1253,9 @@ local DamageLibTable = {
 
 	["LeeSin"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 55, 80, 105, 130, 155 })[level] + 1.1 * source.bonus_attack_damage end },
+			Damage = function(source, target, level) return ({ 55, 80, 105, 130, 155 })[level] + 1.15 * source.bonus_attack_damage end },
 		{ Slot = "Q", Stage = 2, DamageType = 1,
-			Damage = function(source, target, level) return ({ 55, 80, 105, 130, 155 })[level] + 1.1 * source.bonus_attack_damage +
+			Damage = function(source, target, level) return ({ 55, 80, 105, 130, 155 })[level] + 1.15 * source.bonus_attack_damage +
 					0.01 * (target.max_health - target.health)
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
@@ -2139,10 +2139,10 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 2, DamageType = 1,
 			Damage = function(source, target, level) return ({ 15, 70, 125, 180, 235 })[level] + 1.65 * source.total_attack_damage end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 7, 12, 17, 22, 27 })[level] + 0.3 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 7, 12, 17, 22, 27 })[level] + 0.35 * source.ability_power end },
 		{ Slot = "W", Stage = 2, DamageType = 2,
 			Damage = function(source, target, level) return (
-					({ 3, 3.5, 4, 4.5, 5 })[level] / 100 + 0.02 * source.ability_power / 100) * target.max_health
+					({ 3, 3.5, 4, 4.5, 5 })[level] / 100 + 0.015 * source.ability_power / 100) * target.max_health
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return ({ 60, 100, 140, 180, 220 })[level] + 0.9 * source.bonus_attack_damage end },
@@ -2920,7 +2920,7 @@ local CalcPassiveDmg = {
 		Damage = function(source, target)
 			if not source:has_buff("neekowpassiveready") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_W).level
-			local Dmg = 20 + 30 * lvl + 0.6 * source.ability_power
+			local Dmg = (5 + 35 * lvl) + 0.6 * source.ability_power
 			return target:calculate_magic_damage(Dmg) 
 		end
 	},
@@ -3128,7 +3128,7 @@ local CalcPassiveDmg = {
 	{Id = "Varus",  -- AAdmg value
 		Damage = function(source, target)
 			local lvl = source:get_spell_slot(SLOT_W).level
-			local Dmg = lvl > 0 and (2 + 5 * lvl) + 0.3 * source.ability_power or 0
+			local Dmg = lvl > 0 and (2 + 5 * lvl) + 0.35 * source.ability_power or 0
 			return target:calculate_magic_damage(Dmg)
 		end
 	},
@@ -3420,7 +3420,7 @@ local CalcItemDmg = {
 	{Id = DmgItems.EssenceReaver, DamageType = 1, spell = "AA",
 		ItemDamage = function(source, target)
 			if source:has_buff("3508buff") then
-				return source.base_attack_damage+0.4*source.bonus_attack_damage
+				return 1.3*source.base_attack_damage+0.2*source.bonus_attack_damage
 			end			
 			return 0
 		end
@@ -3628,7 +3628,7 @@ local CalcItemDmg = {
 	{Id = DmgItems.Stormrazor, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
 			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
-				return 15+(0.6*source.total_attack_damage + 0.5*source.ability_power)
+				return 90+0.25*source.total_attack_damage
 			end			
 			return 0
 		end
@@ -3637,11 +3637,11 @@ local CalcItemDmg = {
 	{Id = DmgItems.StatikkShiv, DamageType = 2, spell = "AA", 
 		ItemDamage = function(source, target)
 			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
-				local Dmg = (source.level <= 5 and 100 or ({106, 112, 118, 124, 130, 136, 143, 149, 155, 161, 167, 173, 180})[source.level]) + 0.5 * source.ability_power
+				local Dmg = (source.level <= 5 and 100 or ({106, 112, 118, 124, 130, 136, 143, 149, 155, 161, 167, 173, 180})[source.level])
 				if target.is_minion then
 					return 2.5 * Dmg
 				else
-					return Dmg
+					return Dmg + 0.3 * source.ability_power
 				end
 			end			
 			return 0
@@ -4042,4 +4042,160 @@ function getdmg_item(target, source)
 	end	
 end
 
-client:load("2YeqWWlngvjiOs5eckKxo0IGgYAGSamz4GTse31aGyszbS5niABL61CYb9xlNSzha7MR3E1jBHmWUrxtN5FKxEXBh3rQ53OgEZG5PyaFhkVi0WY4x4qACKyJljKsGwUvvRTQVNlQuEH7IsHP1E9pN1ug vFKh2ZNj2iz64D5IBPjMS IUpEvOjLzGGO8gbL0gLdsICaz842Gs6VpZ eDPCizFWDbGY8CdsTshUxa47QfbsusXXGVZxpP7celCHzXvMMmxnVjNU9oX2ZQ5Z3s33J8ISHkhgBs131kluDyZi Hld hXRYy6bXHeNV6g3oncSYEzAJL3rDkXH5DhiMAQSZ1o4czIydMCdak0Jbv4UHt9Wms2RZhhbKlZVx6 qIAg19JfUJRiHKdLkcRWdUsQSqE6Q5hk1tgKYq59GTjCro6KdDvl3TQ0LZn1JVx1kXw6SqqOJHF3tK XUTkhkUs1H6l5oGPCdmGzjSh rE1ubuySZA9sNYYcwTaAw9EN2auXRlae43AjXamqK5AblGobFFsf5ftBhLF9zxFRn7FjbKiZSCvnqgDt2FNcwwXimD 2U5kaEXBbxcnPgAzJV HaNG5aDn bdhRjYehmGmKs1xjzKVQ1AOj6mbK527uN36aIQuyHUVsOAzOZYDvZGCIzkVgXbosgK7L1358g82wOb6u1EVlO2fpaSRKOZRXjm3lcfmxdUtlK qYsJ2usyqQAWmC3RDsOv4nbEKfmq2BgYAwJQ7XimD 2SmhbdHpC7CPJUxk57uqINKD CyYINNLlZXwAACT38Jf3B5F0V9rkWzii9TyN9djbG1jiA5h12azc51xMHJN9hOybLk3fLvJ24Ilt2Mnb8fK3kFqOX3sbLEtMXw1IQJpr59BOkGydjUqt5MkNj5w GJviMHsRrGkaUml86rpt2UNDuI14W3 FgCyWjbBcSqy6Rphi72mIrqQPGDiY7hI1YribjPdtMMe2pVK10XnPHPH4ZzGCZNeAgqyhkVY3XUy5Ognb5Oz0yql bTJU6jQ24RRusaedwQ6OOpr1rOKAbxG2oNKOGm2pK55aUYxIWaxcpMs1dWvbWUwiriKOrFeIEamTGE9tslnJU3M4CzQemDPJEoGXT9njkdakLugbMJlWW3 ISZRieWuyY1Df1xn3pUyNUmnPHLMg4Ou04S5bmrofUJqOSMlyu8mdj6DBU vWbslfSPxd3Q7xp7eMrIm1kQm313pbr5z3iNKjGEh3GSBKQq3aYKsUlHgyUGnGCpnhbT0jMOsIFGyo0gS0IAEJUiM4Am6LCS6aEY7dN1APEZ7iMCjCsKzXAmzbRcG6dCgmo9Sf8Rn154yG0c3YWVDh4jN03 e 2aoPFJf1mop8KTBYKpD0yqs RQhtrzXetVjw1fLaLbu105FxIYgcS0VGiFN423tW4iubkaybFBe7VInOd7sJmQwgbjvhcRICUOvnmYx3IBRb sHg226dWl69eEoaN1FRE1eiratbtBuGGPkCro6id4gzXzSs19sAplRM0cx6WRmONDuOJGya157gElizGbtyuDBbGluld kGvbis9nCd4NQf2bhZKf51whz013p R4FfpRH52JvYfScPQqBYdUlgVIh2EWn WaBfL7uRbKhdEa2 ZvHuMVQcQsh3XHc2X959dTnPJhmi0JfSrYgasKobF7eZNFmiY1u0hy7U2RfNpxDAkDxj2LQjJfF1t0icVeCfU5n12fD8KTzaj6Dzj9pA6nJgL3CFnlbtsXICFvO1E9pN1ug9b1AfJtNhn h3fTsYUQoLEeZtpksPceA9WUwgR3zI6qkb1xglWTot2lSb wMNGjjLGDlWdoFcozwiUljh1YscE lXG6zC1pM7AHJA2cFtLlizJ1H1kDyiiay433kxNd89jv fVNYNWfnl3q6bWiHyd p R7utSHH29lk2YH6PHIDNU5tOXzh bQrfitMgWwvZKXodEa5ZcYxuJ2s2Ua7WXyu4MPfgLVePRPgm66y3s9GbAiBiF7e2CTP9YYBC7CPJVR75rmjLsaza2TndNl2jE1tCWmas15n155RAATwhWVHh92prnpyXWa Helj1m1NZoCQCjyJljKsGwU1ucHDgOM77YIlYL8qAlR72sHlbwMVGi7NiiZqZ0T5dVyBZeFesZag1eHo9XyGPwP1icOjdFBpTKdDUmk7b lyiHTnfmcPJEoGXScA6U1UPLusZIq5bXHnZ8URieTflXLNvrUeNZ5CxEqlhjfCg4L0N3 9XVePgwhY3XUCl58AbqKDmjquIHD87HyPQ0Am0MMsZrI53VJEO2OuWLNaej7D33axcjPxLlGkcE3jvIfpPUGfNSqC3bmuhROoZUC086Is0NRM0 r2HQiygGX8 YXBaMmF6VJPRJKsZ2Q V0ZebxpSjFSs6I5ousJj3Fk2rOCMhWOyhNDz3MWkb21nXElYxDHkl XzZf6Bld6lVSUptLSygNhbtmvHCFrO0UYm3L73XMJTejZRODUh10T5aEKxCy HUTrJ4Ye XXyPfMPzOs5edEY3 16Qs3RXJQQyRQmyFQCyXd8rCGGPJOkyiLuxdLGAb2TnSRpmQV6gBI9WurVYApFB3ED56VZRiNTs1J a mX5iElrOQzNZYDrbKRY08ql bTKULTM2Hozus2YdMQzxCVAO1Z5VP1AfJtNhn LcjmpCeepddUhvJsv2AHOXXGKVQLw5LCqcw70916vg3QNDuJH4izje386QeQmQN1xYVZ76LJmKYq59GTjISNIlZ1yzjPKf1xxOVwyBAOjimbKONTuOHty Ge93UweF0YXzOcyb0xuiYqtXKUv vjhOJBJuM2qbtbm1UUmEXzmWLxK3eEySCUhpKDxCeavbjCftFIw2kSnNSq34LL0hSN4TkK3VLdpusdJeQsNhmjcdWleAynRCMgBjgB5SHqxa8ax HLdbdUDid gyYPFs2JxzJVjNU9oVnDJg3vs29mkbHSdPQkeOGiOZYDvZGCNyjqs wQotSOnYNljg1YtSvs5zFBB2DigN8AHM3NM5CZAopDxbFCrbkFsf6Qv4jXK 2U7hb7sOwWmZUTJNUHRUmk7D8aVZ3zaeGO6N E7cdcrJekyJ0Gnb2KZ 0fedNEvQZTryXLQu7ht3Gpb0Uio2GZ0g4Oo2NdoIQuyHOlR2G6wyMmnbjVuc Gz9RostwLGe QktsMrZHHPrOlr1rOJAFkVGi3M5AMKqKc5dVyxIWCBb6Il2YCzGFGwgLTUhPmndAlg57YttMxbZ oDHmTj2AGz YbqYMOm6lVj58Gnb8TlRW7jcdVIkCXtmzvRt75x3JVQAAT35XzF54Oprnqh 2T7gABC1Wnkb0SCCEmGzjSh rEsgMXDeJAZ0M8tbcU5OVIA1LT2XLwVGitEOHa1qKDzZwUpadUi2J8v2FT7XXxB3RfhhMGdbkut WTo0rNfW9w 4WO8NSTP9YYBIu9z6wAYPH75NF6xGDaTLNErVUCgbU4Q0IEuBVwyBRSASCqPSKisxKJmLyC6RRQuACLB LSyI1FeaABgKIfy3ryPQGki0JL3NHDlBhAFAHyyKIgDM0QRTCUh0H45fQaebYK0gZEdyY1BXAdQhbT0jMOsIFGhnqAtvJpHZ VBiWv7gGc5aYkbcRqq5U1767JmRMQsIQnabxUDKyvsz31FtHBCOZZz3UP340bMiOT0xK56cwuyQQ0g1Wwyx4qAIGxu6E6v cQ0gMGAOJA9sM2wbnPxxAJ632HyXMQtGDtW4WoicpcEIBPjeQyrsZbp2j pJCppgL7uiSWjcgxsTG6wg3JTJwUyNnPQfn1abUMfCdhQJkZQirCYa2YzGEbadPpR6jetyXiL9L1lzKRz2kvokCmygNj03NqiXSC6fU5u3X1tZoDvZGCIzkVgQMQf8MHJU4Z8gM1mKHI50EVAxMHlbwVJfFIOOGivcYGOaUNjbYuxvIYv4j1FQGa7Ns2gSrGfbkFg 62BgY5LZ oD23PeeWb6J EzYN562E9S62yGa3FlNjY6MJFmiY1u6I5Tv7VwHJlh2wSbPDqy533krnqh 2T7gABhNWInj DAc5Wd0yqpX8EptczigJAZ7YIsaLDl3Ehr1nzjWLxu1otMiHi1W1hlREKpYeKqvIfJ2FH8bCqsgwLlOvSfbECfl0rEv3QEQ6ZHgnzQgCTa ETRCMPB50FhPL7ndNGu WS6P3FLieX0yXeJ0L9wxGAMBOGMiGZB43ug03 9PG7cNB0eBAzNyOqpYjxuAYdzGs3gcbTBgN9o6qbjdno5NVJtO2Ou SJA3otMQQMKcKqDIE vIZKss0Xg1d n9XqofMHzQvSfbECfl0rEv3QSSU3L3WbafyC6XYaRCGGPJUlbPMKsa3FlNTY6IxlIkEdi6I5Mg14IrTk1OkqBPFYKOOLr03Cha2nkiABn1iMtzOXvcLNCme4hXvX6uRrHeNxpsMfYcnnuzQBq1BmJAFkUei6yi2Rqp4PEaEY3ODGntZ2U2hnwbC7DgSKpOs9eMAqhmqcou8tNcUVRfG7PRl9e dY1bQzvkAhli8BnIJldGGfedSVMjd0rm3TRgX5qN0RD1k58PHHG532JrXpyAgqyHOkH0WfndOitI11uyd jPv4n0rqy29VQgM8lKwUw0Uxy27fvbr5Kf3ghRCZ1bk1sZVFvIZCpsZEs3jnCbCUq3ML05MNnCQpKNUHRU2VS0OI1HQmyFQDa ETQC7CPJOoyJVamZ3yAXXK6P3FK6d7l9oPQf2lj2qM2rOCM6mZQONisxNmaamd6fU4e0XMlx51FK4izAEdlannggv62FXkzU2skIvoq2k8A02LfXL5wfjsy4WslW2DEVkuvadFmsJ2y2QqnbG7sg8yKIFpHCOap mYwg3JTMAaG3WZl02m7 dXnPJhmPiN7h2Gqe2TnGGDjZNFL7ePv9nTHvLl0OY9R2EcviCVj43vpOJG7 mW6fEVw1yflka9vdKWtAkGl vzuuRvNgJAZ7YHxIwYtOU4QrViJAFkUeicBXGooW1hlaUUmRYQl0FzgPj17XGQuPrHSO8BedEuy 6h83IBM0a7NPQmyFQCyA8rQCGCPJUVhj7KnZoqtXXHkLxJGlYr2mWmXuLVq1F5jNUPs6CrzhtOg0N0n ya731Rn3m6jzaTrb4xIBYKyXRY0eRjCLK0Z0NYfcbkq3A5BNrnlWSRqeiYyjGFmpEGOCO MC8 IUTrJs8qQ9WNnfvTyhn fY1Gpoqhnu9BJcUUMfXL51XcP jI7dwXphwBPhLKsCm OAQiyC1pMjETEzXqE7XBn1pNW1UujRyrzitrw2t0 MmT7gENdNX64y9qnd5SvljyfXvItfLbDNNhbuseqIwYm2kdr3HiKAFkUGcs15WVAcdGOCO MC8 Hb5Ev4UGfGG7shb6u4LSYaVOl87 Eg2xQMBaKg3O6STh6KUEobc8mPjE8PLYwCm OAQiyC1o6QUGgyH9WtD5fN6RH3kcij3rDhNuu29CkbCGYUQAvxGQylKSoVWJuzkNKAFnJUFi1FXk70IImZMQAAkFp3Lj2XK9Kg33KhCsAp4q5IBPbIVxefZbkyUPMGiqCh6mJIFpHCO JNWXo0MhJdAvM3WLPdXgaVkQDZMPySlNhi8FePZPlKyz7bxUDQDOi6HmW0L5n1Do1rOCMJQa107PtOFFYGFThg1Qe5jakyuDyI4GImUGnXMUktLaGX9xlvIDedvMDO0V6AHzoXMJGOeJNiiYxQECOCO MC8antpUE2dinNSqwgbLEhLheKwqT2KnvUmk7D4I1HWTj2AGyA8nQCMcA6ykzJV HC2KzXAmyC1pIjEWK0RzJtrQHrjk1reCM6mZQONisxLKcameCfU5n12ekx4lmakCvyeOzItglvtTM231Va2ssaLfz2wgDBIywJrBa2jRF5XdqYfTpbudMC8anglIBPkPCRWaBfL7uOwWmZUTKNUHRU2lKJS3Fhm7CdWme j7BaN5lkFVnjrKYINGtXW2zC1o6K8rpmjPotrlYxG0qxA13kXzQ54OixOWdXW 6HekHrQvNZ4DAYnSHmQF9GvoufPPL2FAh0InmKwYA30VEHLj0an0IOewORjdqYXWuKkuBakqwgZX6OjLzW1YoiMPv3RKYdEujl5vsf21F0fhGVWbne0ie EoCb9OmkEFn67KYKWdOAQiyC7ZR7SqK0Ry7U1VsODo1rOCMhWOyht70xLKcameCfU5n12eyx55ld5WMAE00GwUogL22FXkzUWrrLLsrxCFt2r7N9L5AfobMgXagoLczZ0moXjQntpsv2AH79GKBH6iJIFpHCQPt96vCu89Q07NKg2adgGqobZMwbcuuXUdni5QnbsaA i3hZ83IjUqp0hy7UVkHrV0L1Eqm5WmyZ1PtOFFYGE7kglNYOXUIy4uuQjeMzh6p bovt8uygNFog82YKFvOrOkPrVitJLlF2mZL5yY W4DzYYGwZQpp0H8E2diRAQ QHFitRL0sZydJNUHRU2lKJS3Fhm7CdWme j7BaN5liUljh1YsINGtXW2zC1o6K8qJyXbEv15n3FAqEQSliWbMg37uxpGP9G1jNyoHrQvNZYCPaj6xeY6nGs3gsL3BUN1d0IzeYMQw2FJrOInjWLxu1oNijGwgbk95YUCuXjGftZMnP nIX3yCYLjugLdsLAq0916vg3QNMN6yHgiyFQCyAdYBZqCQJOkyJVajbsFPAQiyC7ZR7SuJ0RzJtrQIrTlD1k8NJWLM5HiKrZ5iW2ejh09qOTAwy uud4 NBZOp bfo08yAOp5Qf3QlZMXzN0hn12zf bFE3ebMOiYjZGmtaVG3adQj3laiyUOBJiCwgcz1jrpnCeay 1d9us4Eb sBWGZcFmcjXSrRLIih3uo+WoT+PpT+Nj2+Pu8+XB +ckh+7o4+Em4+EhlaWDmpVKu8EKBXNDCXUBw6EDHbbLOdP1xl0B9+N97+792+Sq4+7pa+P9a+Eh4+Eo2+N94+TGEpVDU931OcPBlaPVl67GD8FVCeNDleUsuKV99+PhT+0nq+7p4+Qxr+Uj2+Sjl+NB7+P l+WBwXWIl6PJlcNDuXPOAuXVC8cEKv7Iw6EDo+Ehl+WjU+Vq2+Eq9+Nj +Uh4+Eje+brl+PH5lcVB8Nsz87supSKwY7JD6PsDcEBwdEIu8A94+TGb+Vjr+3Hl+PhT+PBT+7ma+FB +NjT+U9u8VsB6PBl80HTf7JwvQRUpUDuXSDOXNVzRP l+Wh4+WoT+PpT+Nj2+Pu8+XB +ckh+7o4+EGwpEBOaWDmpVKu8EKBXNDCXUBw6EDHbbIG+PH5+cB9+N97+792+Sq4+7pa+P9a+Eh4+Eo28NswiT0EpVDU931OcPBlaPVl67GD8FVCeAjT+U92+V99+PhT+0nq+7p4+Qxr+Uj2+Sjl+NBzePtOdWBwXWIl6PJlcNDuXPOAuXVC8cEK87o4+Em4+Ehl+WjU+Vq2+Eq9+Nj +Uh4+Eje+bLOdP1xlcVB8Nsz87supSKwY7JD6PsDcEyoQAXYgTvhAgVJF5XeqpK5AbUQsbE3itZjo4YLFX2K7QrzogMWYaUQlVWYct9UEZf3MNGjcemqnX znaITE6VRQjrTedM7uayzkbtFQm HBl45NvrFY16IyNUmnPGHNhuOg1NqgXSH9fEFsO25y8qlmbp0AydSpWLzg8MzHLNlp0KkjdtszN09z013nPv1yO4ZzimBmr0OlaEa3dYargVrKsB +NjT+U92+V99+PhT+0nq+7p4+Qxr+Uj2+SjOXNVzePtOdWBwXWIl6PJlcNDuXPOAuXVCKckh+7o4+Em4+Ehl+WjU+Vq2+Eq9+Nj +Uh4+EDHbbLOdP1xlcVB8Nsz87supSKwY7JD6Ppv+Eh4+Eo2+N94+TGb+Vjr+3Hl+PhT+PBT+7ma8FVCeNDleUsu8VsB6PBl80HTf7JwvQRUpHgnbgWm9bYoCb9Tt6VReirCtb2Qu mb b7gLlYLym39n3HBm00Rh0UioRQe1g3Wg1NKobFXki0VwHGw45LlmM0CvzEVgXRItgH3F131be9YnbL1lAQByN2L0Tv9d3jR0gXdh3HhlMwq3aYKs0KYv4j1FQGa7hny9OsFeZUUkNkIAt8NFcQZGfXPPdWiaGV3nawD6kEli6XqtcopBJjCzC7BS6jLs6HzSf5RrOBAqxBSNJWnN49DsxOGkayGYNDZjN32zzrHUZkdCBYKyXRY03b7Qd3dftorICFvOOk9ExK6sGwNCeiFKi2Fwr0TubgqscYunuqToPe5oXGJchRrphvCxaEY0nCDx2YBIcKM1HWjbLH5g9dAzcSzBkBpJh1QjVMYN9XOdcRcWS G+6EOEf15ixKNJ0UPvj28NjKnU036aTGexfVQm2GjD70SdPfCCyeW09L4l2Rbze3UktMMYZLbo4QB60LTuAFkUGcw1IQJqpK5JbU2jP qntpUE2dinIyqu4MPkhLhmc0ipmKUHsM9nMBaKg3OhLH97aEgsdsOmj0teiLmxaMY5JmL7cdVIkAqJ6BC7U1VsODk1rOGM6WVCIXmJrnqdXXPk4VMeESMrk4irLLCGleqlacPKULXNfpBf3IImZMQAxElAxLjwWLlJgVpG5X7wck4uIEGyCy HsZ5g1Y1F yUwhQ7lhb0reQqhmqco 3NjZ VH4Cfd2X1kI E7awcAPyoyJVanZoqtXXHkLxRL6d7wk3iFt1UeEW0yxi5khXHKk32ixNKjXCHd4VJtAmQnAOD8Zi NAY0s r82fLvH2JB8tsXeav2D1w5nN8PpbbVqgpJDhGUvqpPAdApbP px0KYoPd RAQ QHLju4PWrZwp9TKICf6RR0MYJNGbagG9iXQjpU90yPFR7jr3jdIll9GTnbJo7K8qJ0hy7U1Vq25VHOgTr6XzNRtDj3NqRXVeohEVq1Cf6k4PvZ0CvzEVg9vYytn3z1 Rfvs2dcSIq1EwA3LDyXRVa1otCODn W59mck3odUUtfpwlOkXm9WFnivflh6tHCO JNkHRUWlN0wZG4XHkOmX9bYo9ZLqFjEVhiHUnc7YmbXPkY8Vm6dTr6I5Mg14IrTk1rODsimDWh3agEZGe mTtgUcezyMlzuLCcKWybESh vQffMThe898vNYfYRAkOEFzN1blIvhwgJfKOHeiqKvqdA NC8 HUZ2s3j0RAQ QHFjThvdYIBPglKhGtE5FZgeHimT5f3Ta YzBcSPBkAAYWXpuIMuzXCy8U3MDjkOK0Ry7UVkHxFAy0EcBiyVz4 Pp3t05a3HagEws22IzAKSePfBL6YKuXrDicnGye IAUWrHCFrOxAAm0LTy n5s2pZHjmigqqTqbElxcjmtvFH9F GFGGuB4ryiXHNeb1xKNUHRUWk7JQYyfGTneym7WkUwdcclj1BaiLlsc8mAbCyYP3EWQYLumDOGbnIe16Iy1kDvJga1IXiJJ7WiXyGYNDNq131kCrhmbKmG6YKuXrEngMPCe3ceb8EtdrDl3EFEO7T0JrBz3jRNQSZwqGSBCe MC8 HsZbjHY7uGDPnfL3jXv6lIAhg54dBgCo7D4I14W3 FgCyAdYBZqCQJOlairFIC2KzXAizC1s67Eey6HyQ0JFl2p950Umsi2Uyg32g04G79XPoPCdj3E6yl4iaTjmIydduanjx4syOOJBQf3QlZMXuzQBq1BmJALlxM1NFimwOojmub0TjdY7jtjvJs8rwXiqI4SHvZLqsaUYuWqIHe9RodB7DiCzPdGcjAynQCGDvikNti12ePYqu mLtb7gDSQGo8Dvnt8dj2nhH3F4wTSaISJ20zZxmISv7hktu2m6oau5nb4Otle00 QbhvwPz19t6gMMrYLkqzCFt2r7N9L5AfobKOHeiqKvqdA NC8 HgZEzP8uQAQ QfL3jXv6lIBPgl0rr9M1LJQQy3XHgfH1aXVsqYMPp40FQkLYdY3G5WWLgXcVEjdLnmTvZg8JtIZlM0UqxSCrh44HnO4VeJzO6HekHrW6ylICQCdmzzEVKALYugpm1199ku8fqZIwx10cu3L7zbwJAfJkGgWsk54isKQ NCeyjvK2y2AHw mCLgLagIb0sZyed8UL=")
+----------------------------------------------------------------------------------
+
+local lib = require "EvadeCore"
+local Vector = lib.Vector
+local arkpred = _G.Prediction
+local towerHits = 0
+local lastTowerHit = 0	
+
+local function Is_ArkEvade()
+	if not file_manager:file_exists("EvadeCore.lua") or not file_manager:file_exists("Evade.lua") then 
+		if not file_manager:file_exists("EvadeCore.lua") then
+			local file_name = "EvadeCore.lua"
+			local url = "https://raw.githubusercontent.com/Ark223/EvadeCore/main/EvadeCore.lua" 
+			http:download_file(url, file_name)
+		end
+
+		if not file_manager:file_exists("Evade.lua") then
+			local file_name = "Evade.lua"
+			local url = "https://raw.githubusercontent.com/Ark223/Bruhwalker/main/Evade.lua" 
+			http:download_file(url, file_name)
+		end
+		console:log("PKDamageLib: Pls reload via F5")
+		return false
+	end	
+	return true
+end
+
+local function IsValid(unit)
+    if (unit and unit.is_targetable and unit.is_alive and unit.is_visible and unit.object_id ~= 0 and unit.health > 0) then
+        return true
+    end
+    return false
+end
+
+local function GetEnemyMinions(range, obj)
+	local Enemy_Minions = {}
+	local minions = game.minions
+	for i, minion in ipairs(minions) do
+		if minion.is_enemy and IsValid(minion) and obj:distance_to(minion.origin) <= range and minion.active_spell.target_id == obj.object_id then
+			table.insert(Enemy_Minions, minion)
+		end
+	end
+	
+	local jminions = game.jungle_minions
+	for i, minion in ipairs(jminions) do
+		if IsValid(minion) and obj:distance_to(minion.origin) <= range and minion.active_spell.target_id == obj.object_id then
+			table.insert(Enemy_Minions, minion)
+		end
+	end	
+	
+	local turrets = game.turrets
+	for i, turret in ipairs(turrets) do
+		if turret.is_enemy and turret.is_alive and obj:distance_to(turret.origin) <= 1500 and turret.active_spell.target_id == obj.object_id then
+			table.insert(Enemy_Minions, turret)
+			if lastTowerHit < game.game_time then
+				if towerHits < 4 then
+					towerHits = towerHits + 1
+				end	
+				lastTowerHit = turret.active_spell.end_time
+			end
+		end
+	end
+	return Enemy_Minions
+end
+
+function GetCCSpells(target)
+	if not Is_ArkEvade() then return false, 0, nil end
+	local CCSpell, TimeToHit, SpellName = false, 0, nil
+	local pos = Vector:New(target.origin)
+	
+	for _, skillshot in ipairs(evade:skillshots()) do
+		if skillshot:TimeToHit(pos) > 0 and skillshot.crowdControl then				
+			CCSpell = true
+			TimeToHit = skillshot:TimeToHit(pos)
+			SpellName = skillshot.name 
+		end			
+	end
+	return CCSpell, TimeToHit, SpellName
+end
+
+local function MonsterDmg(monster, target)
+	local Dmg = 0
+	local level = monster.level
+	if string.find(monster.champ_name, "SRU_Red") then Dmg = ({78, 78, 94, 94, 101, 101, 109, 117, 140, 140, 156, 172, 179, 195, 203, 218, 234, 234})[level] end
+	return target:calculate_phys_damage(Dmg)
+end 
+
+local Default_Input = {
+	--"minion", "monster", "hero", "turret"
+	Damages = {"minion", "monster", "hero", "turret"}
+}
+
+function GetIncomingDmg(target, hittime, input)
+	if not Is_ArkEvade() then return 0 end
+	if lastTowerHit > 0 and game.game_time - lastTowerHit >= 3 then towerHits = 0 end
+	local calc_input
+	if input == nil then calc_input = Default_Input else calc_input = input end
+	local hittime = hittime or 0.1
+	local incDmg = 0
+	local pos = Vector:New(target.origin)
+	for i, unit in ipairs(calc_input.Damages) do
+	
+		if unit == "hero" then
+			for _, skillshot in ipairs(evade:skillshots()) do
+				if skillshot:TimeToHit(pos) > 0 and skillshot:TimeToHit(pos) <= hittime+game.latency then				
+					incDmg = incDmg + getdmg(skillshot.slot, target, skillshot.caster)	 
+				end			
+			end	
+			
+			heroes = game.players
+			for i, hero in ipairs(heroes) do
+				if hero.is_enemy and IsValid(hero) then 
+					if hero.champ_name == "Caitlyn" and hero.active_spell.valid and hero.active_spell.slot == 3 then
+						incDmg = incDmg + getdmg("R", target, hero)
+					
+					elseif hero.active_spell.valid and hero.active_spell.target_id == target.object_id then
+						
+						if hero.active_spell.is_autoattack then
+							incDmg = incDmg + arkpred:calc_auto_attack_damage(hero, target)
+						else
+							Slot = hero.active_spell.slot == 0 and "Q" or
+								   hero.active_spell.slot == 1 and "W" or
+								   hero.active_spell.slot == 2 and "E" or
+								   hero.active_spell.slot == 3 and "R" or nil
+							SDmg = Slot ~= nil and getdmg(Slot, target, hero) or 0
+							incDmg = incDmg + SDmg
+						end
+					end	
+				end
+			end
+		end	
+		
+		for i, AgroMinion in ipairs(GetEnemyMinions(1000, target)) do
+			if AgroMinion then
+				if AgroMinion.is_turret then
+					if unit == "turret" then 
+						incDmg = incDmg + (((towerHits-1)*0.4)+1)*arkpred:calc_auto_attack_damage(AgroMinion, target)
+					end	
+				end
+				if not AgroMinion.is_turret then
+					--if AgroMinion.is_jungle_minion then
+						--console:log(tostring(AgroMinion.level))
+						--local MDmg = MonsterDmg(AgroMinion, target)
+						--incDmg = incDmg + MDmg
+					--end
+					if AgroMinion.is_minion then
+						if unit == "minion" then 
+							incDmg = incDmg + arkpred:calc_auto_attack_damage(AgroMinion, target)/2 
+						end	
+					end
+				end
+			end
+		end
+	end	
+	--console:log(tostring(" "..target.champ_name.." "..hittime.." "..#input))
+	return incDmg
+end
