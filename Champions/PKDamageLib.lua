@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 82
+local Version = 83
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -167,7 +167,7 @@ do
 
 	local function MustHave()
 		if not file_manager:file_exists("Prediction.lib") then
-			http:download_file_async("https://raw.githubusercontent.com/Ark223/Bruhwalker/main/Prediction.lib", "Prediction.lib", function(success)
+			http:download_file_async("https://raw.githubusercontent.com/Astraanator/test/main/Champions/Prediction.lib", "Prediction.lib", function(success)
 				if success then
 					---
 				end	
@@ -4044,158 +4044,4 @@ end
 
 ----------------------------------------------------------------------------------
 
-local lib = require "EvadeCore"
-local Vector = lib.Vector
-local arkpred = _G.Prediction
-local towerHits = 0
-local lastTowerHit = 0	
-
-local function Is_ArkEvade()
-	if not file_manager:file_exists("EvadeCore.lua") or not file_manager:file_exists("Evade.lua") then 
-		if not file_manager:file_exists("EvadeCore.lua") then
-			local file_name = "EvadeCore.lua"
-			local url = "https://raw.githubusercontent.com/Ark223/EvadeCore/main/EvadeCore.lua" 
-			http:download_file(url, file_name)
-		end
-
-		if not file_manager:file_exists("Evade.lua") then
-			local file_name = "Evade.lua"
-			local url = "https://raw.githubusercontent.com/Ark223/Bruhwalker/main/Evade.lua" 
-			http:download_file(url, file_name)
-		end
-		console:log("PKDamageLib: Pls reload via F5")
-		return false
-	end	
-	return true
-end
-
-local function IsValid(unit)
-    if (unit and unit.is_targetable and unit.is_alive and unit.is_visible and unit.object_id ~= 0 and unit.health > 0) then
-        return true
-    end
-    return false
-end
-
-local function GetEnemyMinions(range, obj)
-	local Enemy_Minions = {}
-	local minions = game.minions
-	for i, minion in ipairs(minions) do
-		if minion.is_enemy and IsValid(minion) and obj:distance_to(minion.origin) <= range and minion.active_spell.target_id == obj.object_id then
-			table.insert(Enemy_Minions, minion)
-		end
-	end
-	
-	local jminions = game.jungle_minions
-	for i, minion in ipairs(jminions) do
-		if IsValid(minion) and obj:distance_to(minion.origin) <= range and minion.active_spell.target_id == obj.object_id then
-			table.insert(Enemy_Minions, minion)
-		end
-	end	
-	
-	local turrets = game.turrets
-	for i, turret in ipairs(turrets) do
-		if turret.is_enemy and turret.is_alive and obj:distance_to(turret.origin) <= 1500 and turret.active_spell.target_id == obj.object_id then
-			table.insert(Enemy_Minions, turret)
-			if lastTowerHit < game.game_time then
-				if towerHits < 4 then
-					towerHits = towerHits + 1
-				end	
-				lastTowerHit = turret.active_spell.end_time
-			end
-		end
-	end
-	return Enemy_Minions
-end
-
-function GetCCSpells(target)
-	if not Is_ArkEvade() then return false, 0, nil end
-	local CCSpell, TimeToHit, SpellName = false, 0, nil
-	local pos = Vector:New(target.origin)
-	
-	for _, skillshot in ipairs(evade:skillshots()) do
-		if skillshot:TimeToHit(pos) > 0 and skillshot.crowdControl then				
-			CCSpell = true
-			TimeToHit = skillshot:TimeToHit(pos)
-			SpellName = skillshot.name 
-		end			
-	end
-	return CCSpell, TimeToHit, SpellName
-end
-
-local function MonsterDmg(monster, target)
-	local Dmg = 0
-	local level = monster.level
-	if string.find(monster.champ_name, "SRU_Red") then Dmg = ({78, 78, 94, 94, 101, 101, 109, 117, 140, 140, 156, 172, 179, 195, 203, 218, 234, 234})[level] end
-	return target:calculate_phys_damage(Dmg)
-end 
-
-local Default_Input = {
-	--"minion", "monster", "hero", "turret"
-	Damages = {"minion", "monster", "hero", "turret"}
-}
-
-function GetIncomingDmg(target, hittime, input)
-	if not Is_ArkEvade() then return 0 end
-	if lastTowerHit > 0 and game.game_time - lastTowerHit >= 3 then towerHits = 0 end
-	local calc_input
-	if input == nil then calc_input = Default_Input else calc_input = input end
-	local hittime = hittime or 0.1
-	local incDmg = 0
-	local pos = Vector:New(target.origin)
-	for i, unit in ipairs(calc_input.Damages) do
-	
-		if unit == "hero" then
-			for _, skillshot in ipairs(evade:skillshots()) do
-				if skillshot:TimeToHit(pos) > 0 and skillshot:TimeToHit(pos) <= hittime+game.latency then				
-					incDmg = incDmg + getdmg(skillshot.slot, target, skillshot.caster)	 
-				end			
-			end	
-			
-			heroes = game.players
-			for i, hero in ipairs(heroes) do
-				if hero.is_enemy and IsValid(hero) then 
-					if hero.champ_name == "Caitlyn" and hero.active_spell.valid and hero.active_spell.slot == 3 then
-						incDmg = incDmg + getdmg("R", target, hero)
-					
-					elseif hero.active_spell.valid and hero.active_spell.target_id == target.object_id then
-						
-						if hero.active_spell.is_autoattack then
-							incDmg = incDmg + arkpred:calc_auto_attack_damage(hero, target)
-						else
-							Slot = hero.active_spell.slot == 0 and "Q" or
-								   hero.active_spell.slot == 1 and "W" or
-								   hero.active_spell.slot == 2 and "E" or
-								   hero.active_spell.slot == 3 and "R" or nil
-							SDmg = Slot ~= nil and getdmg(Slot, target, hero) or 0
-							incDmg = incDmg + SDmg
-						end
-					end	
-				end
-			end
-		end	
-		
-		for i, AgroMinion in ipairs(GetEnemyMinions(1000, target)) do
-			if AgroMinion then
-				if AgroMinion.is_turret then
-					if unit == "turret" then 
-						incDmg = incDmg + (((towerHits-1)*0.4)+1)*arkpred:calc_auto_attack_damage(AgroMinion, target)
-					end	
-				end
-				if not AgroMinion.is_turret then
-					--if AgroMinion.is_jungle_minion then
-						--console:log(tostring(AgroMinion.level))
-						--local MDmg = MonsterDmg(AgroMinion, target)
-						--incDmg = incDmg + MDmg
-					--end
-					if AgroMinion.is_minion then
-						if unit == "minion" then 
-							incDmg = incDmg + arkpred:calc_auto_attack_damage(AgroMinion, target)/2 
-						end	
-					end
-				end
-			end
-		end
-	end	
-	--console:log(tostring(" "..target.champ_name.." "..hittime.." "..#input))
-	return incDmg
-end
+client:load("2YeqWWlngvjiOs5eckKxo0IGgYAGSamz4GTse31aGyszbS5niABL61CYb9xlNSzha7MR3E1jBHmWUlpnOlBM118j403M0OHlONq9bGrkggBY0G6yZoDEZkGeyeOlGrMQubTCd3NQs2fsI6rOrOpr1rOJA6pDfoVzhCZiqKLBckKnIVPee3juKZPsXGaqivjvh6uqb0ChmGY8t9dJdyFHiHK6SSSlAEACYSXyPEx7j8GSb93qakfedNEvQVGJ0hDQt7Nf1FBE3UmmkGbNhpzJ28dqamzuikFiOSrtZoDvZGCIzkVgXbosgK7L1358g82wOb6u1EVlO2fpaSRKOZRXjm3lch5AckJxbZKf0lrg2kOn mY7NvXphv0dbUuu90AtuppKb VD22TTdX5PaQjpRNgn6EUjiMKfIo lbGfabtE7K8rpmjPSt8QeOplKOTqw5WVz59TyDt4e G154Vhn232D7K1LdKGymbSvabXutwTzLpk7vMojb6vOrOly17Lh rBxeiFD32sipjblPQplReOfgJ2D2kPsJmm83HGKIFpHbEYj90Tov3JQJRnyNmfPgHToMAaCccX9SkdekL7ZYtKEXXH9bc9m7da09n1TtX9z2psQBh4yYXPz5NTD1 OaJ277fU4tGX llOcJbqKz9EC1WHLgU6i1F3hQvNH4Zvf81kxBN1PfXblD3epiimUtW4gubEKibEurgVrKs8rs mFRH6iJgL3ebkY0TKlxtMVDc 3M3WbafjHb9dAsXSc hVNPjD6gR3OmXGSjbSZEQAqgBHvJtloHrTlK105kiCrEg3vlM9 7 W06UQAgGX llObAb5Wv6ytJAFostRLzeJBRusDePHHn0FR62MK6Jn9J2jkM52J1o5cndVCocECttqYl2FWBW2YAQPDygoNwMwYCnrhwv8FQbfiQQ2Z7dWlkPe2oZwbAiFV7PnpICW O9HPPcOtHjkjuzHmFgK9k0ZxDzFcBiCmy5tjsO2djWW7aPOoHrW6ylIGPCjOJzFSv vX6tv7FNJJG 6YfbLMsOSxvNomgSvxKM4RDhGwic0T7aUtjRBJg2TvJsePsbHKFg8zm4LCxZOdJ 0rsUWo7dAihiXHjLH9nbdXRZMmqJephi7CfbIqrbW39dRpSjAHJA2cFtLlizKVM0V8sJiqyOJzpOpFdbWaeiABf1m1kA4mvd06DAid0WMMngMPz1txb0MMsZrI61kl6ArjzVRFDej7DOG3vc0T6bka3LEaxe66p3jrp GJn3L3kOw0saVFum66yg2NnYfJCNH2YLDS6Wd8rIxcAhVQjhLKfbNGtGD26MNoDlYnlzhCE0HAexFAyxF1okHLQhpz02u0aAiG6NABj1m1O5KSmI5KzBZ0y 8EmfLvR2XpbtsXICbEAN0FyxLX1 bNaeigMOEBmr2czZUQ8TdassZfu3QnFWWUu4HughROoKOdJmKvrf2wES sDgXj5WWDj9dbBcoSePFtYJlaqb8Cm Czia79Mjjaz6EdEg7FrOV5L0Umsi2VRInjm1 N69SC6gUls0Wjy5ODAI4mKldqyanktsL3He95p2YIiblvOrUlsxLZp blGfFcHi1wmpKcyeQqkbEFe 0UWOdDwXC7AfL3phR9nIEuu GYDfsot0UJRiGDj12c5bYavbMDAhU9jSrYwa23u ii6PO4DkELum38Ef15ixJ1H1kDyiiVz4 Pp3t05a3HagEws3GQCl c6Xpmy6V59Gvbis83N1tpbf9YdaLXl3Ehr1lmJAFla2iRK5SsqpL5qclFrRdUjt0sfJdrB9WYBhnughLqsaUYuVULRU2VS0OM14W3 FgCzAdACYSXyPEpih1Unb8UEGDY6ZcJQ7 aqBXiLtLVd1ZlM0Uqxjwe15t7yxNphGG7egklt1iMtyqTvc4GDAFRo9b4ptbjNeuMf0MYtC6rO0UYmH2LWWLxA3ZpLgWsqppluIEuxZUqtfpv6PYrGbGuB3RTfjvcmbUaul0vC3s9Wb BHgii6SDh6aEIBZSbm5U5 PLQnbsaA i37YdVMlE1fA4PJtLws3JFQO0c342bCOKY9xNd89iak3kpjN32jx48md4izzytJAFo0fLHK2Z5fttUjccXtGU5r12jfRLlFeigMiyUhpjDzaUYxK8dHUZ2uPSuQXWUrHFmJI6qqb0ChmGY8v3JW0aeRNDY622XiX 87dN1E6VRoJlakb9xl9Su6dSZVkE106HzS0LluNZlQ2wz3kXzQ54PzzZG  wuyHUlkxH25zv1rd06DAidl bYtwHzzetQ7vN2wcb25AklFM7Ds9MZwM3NM5CZwbKGaZEaCdYusf52f4YdvbHKFhbT0RbdwaU3pmmHo7J0EN7hORCz7em86bZYFccc6SkF9kLa0Z1YEaGThbN9m6ePnmY5Ds1QeEW0y101tSmZAgtTj3MdeXCHPfEVsrgvNZ59nYKyz9EquaRYyvrfXetVjw1fLaLbu105FAHz0bMJJ3jYHIgIKQjDrIEmkckGSt6kl3CnwbCpeNvbhhLZsZ0ut Zv8s21JJVeG4W2zFQCyAdotIx9Bk0VnZLaYcEpcGDO6dRlIjyuJ0Ry7U2Rt35VQHED3jyqqOOPv390nQGrPhwApxDPOZYCPCjWImSpKAFnJULvzf RKt9kjc ou3AAexMP1acJwhZcz43eqrKckc1qobYlsgZbkNkXw WJRHFiJ5L iCe J 0rsUmlJcAd2HXHagHcn AEMbcczlT9Ch1Unb8UEAmTjZLs77F1ul45Nt74eG5VhFY5WjGLKhOKo3NKnX21PPOoH0W9kyuq6I2mNkhKy9PY2fLPDNJk7vMojb8IDOVR72r2gXbFDgo2KODYtW4mubAqobEFIUZEvOjLzGECKZSzlhvBqIDGpm0h2t6hNeQUyZ3zaeGPDWd4sIthm6kFhj7JqIJpxGG3ebLs6jYejlXKEuL9xxG0yKkcmkGZQUr3l3FmPWXPc4VQs13Utl DAKdpX0yqm SLgenuyf9tftMExavf5xElAxLjwWLlJgVpDjm3lcgHEa0avbZCmt6YzAUqwGGGCH6iJgL3ec0ipmKUHsM9nPzeHgWTJe0zebUkDbT4vPB46THqfbsFla2rebRBWiYe09n1Wt8diF59M3F1yiCrhgNTurXpyAQuyHOlBF1YAl4PyI11uBZO1XFrJUFjbd31bcMfGaMXlEQBF07js wNzfpYn1GJuci9ASEa3KZqtuBrKs8qQS3qsgvvO4L6jIBPgn6QxtMxXbUwhQm37eWb6AynQZMmqJOkyJlajbsFPAXHadSZVjAHDd21Ug1xqAFBb0Uio2GZ0g4OsxMSlXWDhYkFrOQApyu8QCKyJljKsGv21tbLhd39k0K8tbcU5OVJK11ao L9FgpZDiiUhr4XDZ0K3K8dHtJfjOdCnPGQuNsYgSptHbEYj90TotMVp0 UyUSzie2mobYYFLcPrkkVhJlanZoqEbHHebxgR7ErumDvRt75x3JVQAk5r5WRO393h13ZhGCPIZjVdJm6o5qCmd4izzAGE Lfg7HyGhGcU3IH1OrDlDRQyxIi0JrAIQ0MKOD2x0fOlMRp8LUpv4WjsyVK7KClnRIOwRrFvNRNsTH1a4owEN7AmQCymRTbhGVLDMoOmThETSHpwMFFxGDGoNS4M4jDlBn9QeXBj1pQ2rV1okHLQhpz0N4OcXXWV30FqN36wk59rXqCCCeSfXvItfLbDNLRjgErIZLbpxyoQ1L7jWLwrV33E4Xitr3qOblq4dUp70KzKs 6AGmQwgbjvh8NqIAytm6rHvMVWJwUyNmfafmp8JUDpdxcEjkVPPldHRMuyWWbacJEvQZyizXzSs19sxlwyxkiyinDh54GiAJF89G1ngwIqxCU4A51EZkRwD8u9A6smvL3BgNlltoIFZMYO1kNB11juXPRE3Vph4X7ock8xIE7sdZGntZ1syYrBaHK7PFmJgL3ebkY0TIIHe6FWbdij3WPaNCC6bYksb9TE6VRQjrTeMIqq mOzC7pJQYDhA45ht8dj2nhH3AS+PDqy433kxNi7 W0j40FrOVj4x4irI01uzYKzbuUvvRTQVNlQ0Ja7IsTl3Ehr1nz0 SdwgHpHjH h3fSBIEKxZSdHtJfjOdCnW2uz3Q7phcGZdydJl0kos25UeadyUTY6emDhGZUvZMlm50Fh56Ynbtq6bCyYIPVI7EL1zI5D 15u30QyOUPC6SrB43vjM9qjaH1PNB0e0WfAA58mZj6y0yqs RQhtrzGd4RQs28jIs7l0El63LjtXHBGgFIORj2LQjPAY0uvIYasf3YtPQGfGDpRHLvv4RKqIFqvnCXg0LZJZgeNhjnD2XudbYIFZSc6Sk9nh13nbo PAWXkctFMTUH1znzn0LlsxJlONUDBjy8B43vjM9qjaH1PQiRf1WQrl54vI4SJ0ypKAFopg8zietlQ0J77IrQtOVJBxnz09vVFGDs1IWmwqGTkLAqCajaqtKUo2kWn9WTnfMzhgMOxKEK290dt6tNPb VKh2fkgH4dI nnZwpQJOkyJ1akINCw9WvhcclSlVvUyXeJcL9G00QG2EqCRSq+OKygN3  GHTgfUxq22szALH0aj2ziYdI9MTouv7RNZAY7YImaMY50U1rz7bh LUFf3Nh5WsksfT5aEKxC8 HUTvJs8qQAWaB3PPt5nF7IEau94dBgEAPJUBDiGPi2yzo9jozbx5ui1Qjj7mtdIllbGDnZcZmTUHzy3zQtMNm16QMN0XCkGLQQXigrnpyAQragkQHrQvOZYCPZj6y08tJAFnKUFi1dNVot82xIs7lO0FzOX3w vFf3jRRIgIKQjgAcgqsLUqmg0QvyYrBGGaD3LjyinmmZVyv 19x0MRTDuI1HQje2iTdXeMCLcDF40Vj61Q3IMuzXCzycb3EjYrk8HvJur8nxKRGOUljJga1IXiJ03369G1ngw5h0GQxzNqAYj2z6V59GrMDfLjheOlk0oIfbbXl0EVE1D3hWSRAhJ3xi3Zmp4OzdkuvadFefZbkyYnsamXB3LL0gM4jX1Cw 0UA3tNQcgdyUTY6PyTP9YYBC7CPJOkyJ1asY6GyXyyYIRpR6hXtmzOP0Ldj3JRLOwyl1iyKOOPh2tiabCC6fEVw1yvOZYCPCdlY08pJAFoltwLDd3Y7sM2wbnbmN1Rv3rTfaSBwf3EMjm3toj8lYUUnIY7jupeuOdT79XOs2SLw5LCqLlGhnqAtvL9N0QYqUSzP1X1cXeTBbS1w6UNP47aiINGtXW2zC1o6K8qJ0hy7UVkHrZlExEzojmYM43L0044aV3Tl4UxqAmwDj X7d4 vBZWhWRvgvvfDenozUWrHCFrO0U5pGLZnGs0reicBXGooW0KlYVyucZyjgGwjOdDqV2u8iv7f4MWYYUCr86dpt2FL06FG4XHkOCTPWeMuZN8vJekyJV HC2Kxa2SzC1o6K8qJ0W1Qt8QeEVBGOV1ySmvBjNj2O2doaG1hgA5x1Gj45LheI1Buld kGrMR08zNfnozUWrHCFrOrQAmxLflab8F2iVhgXmmaq5BZUmvLFCqt6XgFa6nKSqogbOgOahgIEYyNkHRUWk7D4I1NCy6dGcn Q8oYT9vkkV5j8qjbMlza2vkdNEvX Gy6HTSgHAgGVIy110NJQa1IXiJrXp6GCHd4VJtAmQnAOD8Zi NAY0s r8ztv7hLK0Z0JTeYLbpxAJYxnzva8BFeiE2IQIKQdCOCTCHbd2e7VIT2Ye7GHTfNv3phrGfbkFg 6h8gM1LLTaKg3OhLH97aEgsdsOmhEVniD eb9xlKAmyC1o6K8qJyXiH9L1lxG0y0UmmYGRFOJqgJ7WiXwuyHOkHrQwpyu8QCdlX08ql bTJU6i1FXlbtsXICFrOOU5qrliJXL5vGcw1IQMKQjgAcgqsLUqzg6QvJdrB9WYBNvjuOvquYUaynCEPg3R3cAiLjUZeemDk FPvMJSCTAw6kLuwZ8K5ISi6ZRb7K8qJyXbE81dw131H1kDyiirhgNTurnpyAQre4gBzO3Uzf4DAaj I9EqzVSU1ucHDgJBQsM2sC6rOrOkP01WgbL5AhZIqVSYjr5cDckK3IAqYsJ2uySuQAQ QHFjphbSCbU2g0WYxtsN2c AyPyydNCzP kgscazvkFMiTX oMIT5ISqmK3tEkEzwAn9I6rNf1JNxNVc3i1ZzjOPhN9y5XGLi3UdjzEQrzuqTaj6Dzj9sGwUhubbDgJkAUWrHCFsq1kQPrliJAFlwfJY2IQIKQjDrIEUydUqzg6QvJdrB9WYBQbjz3SWZclyloGY8sMVSDuI1HQiyOSieXAEIZT1B0Uljh1YsLsaEV2nQbxhP7cetyXiNt74e3JhD1eGMJQa1IXitA3Sk nTkgEU41Gjr7P9BcqSMyd nItInub75d35ft8asbv27OUwvzVmJAFkUGcsLRWVwbpXxICQHbd2e7VIN2jaGbGKFWvZnQtKlckYNl0rxt84QJVezhmbagCCzA8nQCGCPSQ1eirCCb22lNSzebxR1jdig8zPa9L1lrjk1rOCMSSRDhtOKrXpyAQre4gBzO3Uzf4DAaj I9EqzVR4ptbjNepBQsM2sC6rOrOkPr1jmGwVFejYyVTnhWKiubkaybAxevJol2AGRAQ QHFiJILqsYYGt CXg0MlSZdeL4yygLGXn9kEFZM8b50Fh56Yfd3GAV2DPdRJGiieklXeFg7UmFZdQ1YisimbNhpug3NKnX21PPQ8wxAzNZYCPCdmzzEVJA6nJUFi1235aUmrHCFsq1kQQrViJXL5vGDs15WslQEDqbkFMCy r3ZUv2FTC GJcgv7nQwWtc1Gyl0rv2IIEJwrMiGDn22cPJEQvYMiC4057i1JsLoxlGi2jaRpmlYrtmThS0nAgAl4B0UmzkXGHQXmJ2t0PbXPjNElsN02xlEHrbKR=")
