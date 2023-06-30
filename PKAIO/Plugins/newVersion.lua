@@ -1,7 +1,7 @@
 Data = {
 
     Loader = {
-        Version = 2.3,
+        Version = 2.4,
     },
 
     Champions = {
@@ -147,7 +147,7 @@ Data = {
 
         Morgana = {
             Changelog = "",
-            Version = 0.3,
+            Version = 0.4,
         },
 
         Rengar = {
