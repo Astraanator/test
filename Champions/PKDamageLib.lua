@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 87
+local Version = 88
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -1775,13 +1775,15 @@ local DamageLibTable = {
 	},
 
 	["Rumble"] = {
-		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 135, 150, 165, 180, 195 })[level] + 1.1 * source.ability_power + 
-					(({ 0.06, 0.07, 0.08, 0.09, 0.1 })[level] * target.max_health) end },
-		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 60, 85, 110, 135, 160 })[level] + 0.4 * source.ability_power end },
-		{ Slot = "E", Stage = 2, DamageType = 2,
-			Damage = function(source, target, level) return ({ 90, 127.5, 165, 202.5, 240 })[level] + 0.6 * source.ability_power end },
+		{ Slot = "Q", Stage = 1, DamageType = 2,		
+			Damage = function(source, target, level) 
+						local Dmg = ({ 135, 150, 165, 180, 195 })[level] + 1.1 * source.ability_power + 
+									(({ 0.06, 0.07, 0.08, 0.09, 0.1 })[level] * target.max_health)
+						return source:has_buff_hash(1255280172) and Dmg * 1.5 or Dmg end },		
+		{ Slot = "E", Stage = 1, DamageType = 2,		
+			Damage = function(source, target, level) 
+						local Dmg = ({ 60, 85, 110, 135, 160 })[level] + 0.4 * source.ability_power
+						return source:has_buff_hash(1255280172) and Dmg * 1.5 or Dmg end },		
 		{ Slot = "R", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 105, 140 })[level] + 0.175 * source.ability_power end }, --per half Second
 		{ Slot = "R", Stage = 2, DamageType = 2,
