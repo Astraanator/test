@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 88
+local Version = 89
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -377,7 +377,7 @@ local function Azir_WResult(level)
 	end	
 end
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 13.15 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 13.16 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -406,7 +406,7 @@ local DamageLibTable = {
 
 	["Akali"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 40, 65, 90, 115, 140 })[level] + 0.6 * source.ability_power +
+			Damage = function(source, target, level) return ({ 45, 70, 95, 120, 145 })[level] + 0.6 * source.ability_power +
 					0.65 * source.total_attack_damage
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
@@ -562,11 +562,11 @@ local DamageLibTable = {
 
 	["Brand"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 80, 110, 140, 170, 200 })[level] + 0.55 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 80, 110, 140, 170, 200 })[level] + 0.65 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 75, 120, 165, 210, 255 })[level] + 0.6 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 70, 95, 120, 145, 170 })[level] + 0.45 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 70, 95, 120, 145, 170 })[level] + 0.55 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 100, 200, 300 })[level] + 0.25 * source.ability_power end },
 	},
@@ -721,7 +721,7 @@ local DamageLibTable = {
 
 	["Ekko"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 60, 75, 90, 105, 120 })[level] + 0.3 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 70, 85, 100, 115, 130 })[level] + 0.3 * source.ability_power end },
 		{ Slot = "Q", Stage = 2, DamageType = 2,
 			Damage = function(source, target, level) return ({ 40, 65, 90, 115, 140 })[level] + 0.6 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
@@ -1062,7 +1062,7 @@ local DamageLibTable = {
 
 	["Karma"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 70, 120, 170, 220, 270 })[level] + 0.4 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 70, 120, 170, 220, 270 })[level] + 0.5 * source.ability_power end },
 		{ Slot = "Q", Stage = 2, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 120, 170, 220, 270 })[level] +
 					({ 40, 100, 160, 220 })[source:get_spell_slot(SLOT_R).level] + 0.7 * source.ability_power
@@ -1318,7 +1318,7 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 105, 140, 175, 210 })[level] + 0.5 * source.ability_power end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 80, 120, 160, 200, 240 })[level] + 0.4 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 80, 120, 160, 200, 240 })[level] + 0.5 * source.ability_power end },
 	},
 
 	["Lux"] = {
@@ -1388,7 +1388,7 @@ local DamageLibTable = {
 	
 	["Milio"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 90, 135, 180, 225, 270 })[level] + 0.9 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 80, 145, 210, 275, 340 })[level] + 1.2 * source.ability_power end },
 	},	
 
 	["MissFortune"] = {
@@ -1511,7 +1511,7 @@ local DamageLibTable = {
 			end },
 		{ Slot = "E", Stage = 2, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 140, 200, 260 })[source:get_spell_slot(SLOT_R).level] +
-					0.45 * source.ability_power
+					0.45 * source.ability_power + 0.4 * source.bonus_attack_damage
 			end },
 	},
 
@@ -1680,7 +1680,7 @@ local DamageLibTable = {
 			Damage = function(source, target, level) 
 						local Dmg = IsRekSaiBurrowed(source) and 
 									({ 60, 95, 130, 165, 200 })[level] + 0.5 * source.bonus_attack_damage + 0.7 * source.ability_power or
-									({ 21, 27, 33, 39, 45 })[level] + 0.5 * source.bonus_attack_damage
+									({ 0.34, 0.38, 0.42, 0.46, 0.5 })[level] * source.total_attack_damage
 						return Dmg end },		 
 		{ Slot = "W", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) 
@@ -1906,7 +1906,7 @@ local DamageLibTable = {
 					0.25 * source.ability_power
 			end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 10, 16, 22, 28, 35 })[level] + 0.15 * source.bonus_attack_damage end }, --per tick
+			Damage = function(source, target, level) return ({ 20, 30, 40, 50, 60 })[level] + 0.2 * source.bonus_attack_damage end }, --per tick
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 60, 100, 140, 180, 220 })[level] + 0.9 * source.ability_power +
 					0.4 * source.total_attack_damage
@@ -2980,7 +2980,7 @@ local CalcPassiveDmg = {
 		Damage = function(source, target)
 			if not source:has_buff("RekSaiQ") then return 0 end
 			local lvl = source:get_spell_slot(SLOT_Q).level
-			local Dmg = (15 + 6 * lvl) + 0.5 * source.bonus_attack_damage
+			local Dmg = (0.3 + 0.04 * lvl) * source.total_attack_damage
 			return target:calculate_phys_damage(Dmg) 
 		end
 	},
@@ -3549,9 +3549,9 @@ local CalcItemDmg = {
 			if target.is_hero then
 				if source:has_buff("6693Ready") then
 					if source.is_melee then
-						return 85 + 0.45 * source.bonus_attack_damage								
+						return 85 + 0.55 * source.bonus_attack_damage								
 					else								
-						return 65 + 0.3 * source.bonus_attack_damage
+						return 65 + 0.35 * source.bonus_attack_damage
 					end
 				end
 			end	
