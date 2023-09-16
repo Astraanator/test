@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 90
+local Version = 91
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -377,7 +377,7 @@ local function Azir_WResult(level)
 	end	
 end
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 13.17 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 13.18 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -570,6 +570,15 @@ local DamageLibTable = {
 		{ Slot = "R", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 100, 200, 300 })[level] + 0.25 * source.ability_power end },
 	},
+	
+	["Briar"] = {
+		{ Slot = "Q", Stage = 1, DamageType = 1,
+			Damage = function(source, target, level) return ({ 60, 100, 140, 180, 220 })[level] + 0.8 * source.bonus_attack_damage end },
+		{ Slot = "E", Stage = 1, DamageType = 2,
+			Damage = function(source, target, level) return ({ 80, 115, 150, 185, 220 })[level] + source.ability_power + source.bonus_attack_damage end },
+		{ Slot = "R", Stage = 1, DamageType = 1,
+			Damage = function(source, target, level) return ({ 150, 325, 500 })[level] + 1.1 * source.ability_power + 1.1 * source.bonus_attack_damage end },
+	},	
 
 	["Belveth"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
@@ -1092,7 +1101,7 @@ local DamageLibTable = {
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.85 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 70, 90, 110 })[level] + 0.4 * source.ability_power +
+			Damage = function(source, target, level) return ({ 70, 90, 110 })[level] + 0.6 * source.ability_power +
 					0.02 * source.max_mana
 			end },
 		{ Slot = "R", Stage = 2, DamageType = 2,
@@ -2714,7 +2723,7 @@ local CalcPassiveDmg = {
 	{Id = "JarvanIV", -- AAdmg value
 		Damage = function(source, target)
             if not target:has_buff("jarvanivmartialcadencecheck") then return 0 end
-			local Dmg = math.min(400, math.max(20, 0.08 * target.health))
+			local Dmg = math.min(400, math.max(20, 0.06 * target.health))
 			return target:calculate_phys_damage(Dmg)
 		end
 	},
@@ -3653,7 +3662,7 @@ local CalcItemDmg = {
 		ItemDamage = function(source, target)
 			if source:get_buff("itemstatikshankcharge").stacks2 == 100 then
 				local Dmg1 = ({100, 100, 100, 100, 100, 106, 112, 118, 124, 130, 136, 143, 149, 155, 161, 167, 173, 180})[source.level]
-				local Dmg2 = ({250, 250, 250, 250, 250, 250, 250, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340, 350})[source.level]
+				local Dmg2 = 200
 				if target.is_minion then
 					return Dmg2 + 0.15 * source.ability_power
 				else
