@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 92
+local Version = 93
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -1265,7 +1265,7 @@ local DamageLibTable = {
 			Damage = function(source, target, level) return ({ 55, 80, 105, 130, 155 })[level] + 1.15 * source.bonus_attack_damage end }, --Q1
 		{ Slot = "Q", Stage = 2, DamageType = 1,
 			Damage = function(source, target, level) return (({ 55, 80, 105, 130, 155 })[level] + 1.15 * source.bonus_attack_damage) * --Q2
-					(1 + ((100 - target:health_percentage()) / 100)
+					(1 + ((100 - target:health_percentage()) / 100))
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 35, 60, 85, 110, 135 })[level] + source.total_attack_damage end },
