@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 93
+local Version = 94
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -333,17 +333,6 @@ local function HasPoison(unit)
 	return false
 end
 
-local function KSante_WDmg(source, target)
-	local lvl = source:get_spell_slot(SLOT_W).level
-	local Dmg = ({ 25, 35, 45, 55, 65 })[lvl] + 0.5 * source.total_attack_damage +
-		({ 0.02, 0.0225, 0.025, 0.0275, 0.03 })[lvl] * target.max_health
-	if source:has_buff("KSanteRTransform") then
-		Dmg = ({ 110, 170, 230, 290, 350 })[lvl] + 0.5 * source.total_attack_damage +
-			({ 0.07, 0.0725, 0.075, 0.0775, 0.08 })[lvl] * target.max_health
-	end
-	return Dmg
-end
-
 local function IsRekSaiBurrowed(source)
 	return source:get_spell_slot(SLOT_W).spell_data.spell_name == "RekSaiWBurrowed"
 end
@@ -377,7 +366,7 @@ local function Azir_WResult(level)
 	end	
 end
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 13.19 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 13.20 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -425,7 +414,7 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return ({ 5, 25, 45, 65, 85 })[level] + 0.8 * source.total_attack_damage end }, -- Dmg one Pass
 		{ Slot = "E", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 30, 45, 60, 75, 90 })[level] + 0.175 * source.bonus_attack_damage +
+			Damage = function(source, target, level) return ({ 25, 45, 55, 70, 85 })[level] + 0.175 * source.bonus_attack_damage +
 					0.3 * source.bonus_attack_speed
 			end }, -- per Shot
 		{ Slot = "R", Stage = 1, DamageType = 1,
@@ -588,7 +577,7 @@ local DamageLibTable = {
 					source.bonus_attack_damage
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 8, 11, 14, 17, 20 })[level] + 0.06 * source.total_attack_damage end }, --Per Hit
+			Damage = function(source, target, level) return ({ 6, 7, 8, 9, 10 })[level] + 0.08 * source.total_attack_damage end }, --Per Hit
 		{ Slot = "R", Stage = 1, DamageType = 3,
 			Damage = function(source, target, level) return ({ 150, 200, 250 })[level] + source.ability_power +
 					(0.25 * (target.max_health - target.health))
@@ -1045,12 +1034,12 @@ local DamageLibTable = {
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 120, 170, 220, 270 })[level] + source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 24, 36, 48 })[level] +
-					({ 20, 24, 28 })[level] / 100 * (target.max_health - target.health) + 0.12 * source.bonus_attack_damage
+			Damage = function(source, target, level) return ({ 32, 47, 62 })[level] +
+					(({ 0.25, 0.3, 0.35 })[level] * (target.max_health - target.health)) + 0.165 * source.bonus_attack_damage
 			end },
 		{ Slot = "R", Stage = 2, DamageType = 1,
-			Damage = function(source, target, level) return ({ 300, 450, 600 })[level] +
-					({ 25, 30, 35 })[level] / 100 * (target.max_health - target.health) + 1.5 * source.bonus_attack_damage
+			Damage = function(source, target, level) return ({ 325, 475, 625 })[level] +
+					(({ 0.25, 0.3, 0.35 })[level] * (target.max_health - target.health)) + 1.65 * source.bonus_attack_damage
 			end },
 	},
 
@@ -1240,15 +1229,17 @@ local DamageLibTable = {
 
 	["KSante"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 50, 75, 100, 125, 150 })[level] + 0.4 * source.total_attack_damage
-					+ 0.3 * source.bonus_armor + 0.3 * source.bonus_mr
+			Damage = function(source, target, level) return ({ 30, 60, 90, 120, 150 })[level] + 0.4 * source.total_attack_damage +
+					 0.3 * source.bonus_armor + 0.3 * source.bonus_mr
 			end },
 		{ Slot = "W", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return KSante_WDmg(source, target) end },
-		{ Slot = "R", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 35, 70, 105 })[level] + 0.2 * source.total_attack_damage end },
-		{ Slot = "R", Stage = 2, DamageType = 1,
-			Damage = function(source, target, level) return ({ 150, 250, 350 })[level] + 0.2 * source.total_attack_damage end }, --BonusDmg through terrain
+			Damage = function(source, target, level) return ({ 20, 40, 60, 80, 100 })[level] + 0.5 * source.total_attack_damage +
+					 0.3 * source.bonus_armor + 0.3 * source.bonus_mr + ({ 0.06, 0.07, 0.08, 0.09, 0.1 })[level] * target.max_health
+			end },
+		{ Slot = "R", Stage = 1, DamageType = 2,
+			Damage = function(source, target, level) return ({ 70, 110, 150 })[level] + 0.65 * source.ability_power end },
+		{ Slot = "R", Stage = 2, DamageType = 2,
+			Damage = function(source, target, level) return ({ 70, 110, 150 })[level] + 0.65 * source.ability_power end }, --BonusDmg through terrain
 	},
 
 	["Leblanc"] = {
@@ -1435,9 +1426,9 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 135, 190, 245, 300 })[level] + 0.9 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 60, 110, 160, 210, 260 })[level] + 0.07 * source.ability_power end }, -- minimum fullDmg
+			Damage = function(source, target, level) return ({ 60, 110, 160, 210, 260 })[level] + 0.85 * source.ability_power end }, -- minimum fullDmg
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 150, 225, 300 })[level] + 0.7 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 175, 250, 325 })[level] + 0.8 * source.ability_power end },
 	},
 
 	["Nami"] = {
@@ -3531,7 +3522,7 @@ local CalcItemDmg = {
 		ItemDamage = function(source, target)
             if target.is_hero then
 				local DiffHP = math.abs(source.max_health - target.max_health)
-				return 0.0075 * DiffHP / 100 * source.total_attack_damage
+				return 0.0078 * DiffHP / 100 * source.total_attack_damage
 			end	
 			return 0
 		end
@@ -3759,7 +3750,7 @@ local CalcPerkDmg = {
 			if not target.is_hero then return 0 end
 			local buff = target:get_buff("ASSETS/Perks/Styles/Precision/PressTheAttack/PressTheAttackDamageAmp.lua")
 			if buff and buff.is_valid then 
-				return (0.08 + 0.04 / 17 * (source.level - 1))
+				return 0.08
 			end			
 			return 0
 		end
@@ -3806,7 +3797,7 @@ local CalcPerkDmg = {
 			if not target.is_hero then return 0 end
 			local buff = source:get_buff("ASSETS/Perks/Styles/Inspiration/FirstStrike/FirstStrike.lua")
 			if buff and buff.is_valid then 
-				return 0.09
+				return 0.08
 			end			
 			return 0
 		end
@@ -3831,7 +3822,7 @@ local CalcPerkDmg = {
 			if source:has_buff("ASSETS/Perks/Styles/Domination/DarkHarvest/DarkHarvestCooldown.lua") then return 0 end
 			local buff = source:get_buff("ASSETS/Perks/Styles/Domination/DarkHarvest/DarkHarvest.lua")
 			if buff and buff.is_valid then 
-				local Dmg = (20 + 40 / 17 * (source.level - 1)) + 0.25 * source.bonus_attack_damage + 0.15 * source.ability_power + 5 * buff.stacks2
+				local Dmg = (20 + 60 / 17 * (source.level - 1)) + 0.1 * source.bonus_attack_damage + 0.05 * source.ability_power + 5 * buff.stacks2
 				return source.bonus_attack_damage >= source.ability_power and target:calculate_phys_damage(Dmg) or target:calculate_magic_damage(Dmg)
 			end			
 			return 0
