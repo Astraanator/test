@@ -148,7 +148,7 @@ end
 
 
 -- [ AutoUpdate ]
-local Version = 97
+local Version = 98
 do
 	local function AutoUpdate()
 		local file_name = "PKDamageLib.lua"
@@ -326,6 +326,22 @@ local function GetBuffData(unit, buffname)
 	return { type = 0, name = "", startTime = 0, expireTime = 0, duration = 0, stacks = 0, count = 0 }
 end
 
+local immobileBuffTypes = {5, 8, 11, 12, 22, 23, 25, 30}
+local function IsImmobileTarget(unit)
+    for _, buffType in ipairs(immobileBuffTypes) do
+        if unit:has_buff_type(buffType) then
+            return true
+        end
+    end
+    return false
+end
+
+local function HweiIncreasedDmg(source)
+	local lvl = source:get_spell_slot(SLOT_W).level
+	local Dmg = source:has_buff("HweiWEBuffCounter") and ({ 25, 35, 45, 55, 65 })[lvl] + 0.2 * source.ability_power or 0
+	return Dmg
+end
+
 local function HasPoison(unit)
 	if unit:has_buff_type(24) then
 		return true
@@ -367,7 +383,7 @@ local function Azir_WResult(level)
 end
 
 
--->>>>>>>>>>>>>>>>>>>> Game.Version 13.23 <<<<<<<<<<<<<<<<<<<<<<<<<--
+-->>>>>>>>>>>>>>>>>>>> Game.Version 13.24 <<<<<<<<<<<<<<<<<<<<<<<<<--
 
 local DamageLibTable = {
 	["Aatrox"] = {
@@ -529,7 +545,7 @@ local DamageLibTable = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 60, 80, 100, 120, 140 })[level] + 0.35 * source.ability_power end },
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 50, 65, 80, 95, 118 })[level] + 0.55 * source.ability_power + Azir_WResult(source.level) end },
+			Damage = function(source, target, level) return ({ 50, 67, 84, 101, 118 })[level] + 0.55 * source.ability_power + Azir_WResult(source.level) end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 60, 100, 140, 180, 220 })[level] + 0.4 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
@@ -563,11 +579,11 @@ local DamageLibTable = {
 	
 	["Briar"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 60, 95, 130, 165, 200 })[level] + 0.8 * source.bonus_attack_damage end },
+			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.8 * source.bonus_attack_damage end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 80, 115, 150, 185, 220 })[level] + source.ability_power + source.bonus_attack_damage end },
-		{ Slot = "R", Stage = 1, DamageType = 1,
-			Damage = function(source, target, level) return ({ 150, 300, 450 })[level] + 1.1 * source.ability_power + 0.75 * source.bonus_attack_damage end },
+		{ Slot = "R", Stage = 1, DamageType = 2,
+			Damage = function(source, target, level) return ({ 150, 300, 450 })[level] + 1.2 * source.ability_power + 0.5 * source.bonus_attack_damage end },
 	},	
 
 	["Belveth"] = {
@@ -928,6 +944,79 @@ local DamageLibTable = {
 			end },
 	},
 
+	["Hwei"] = {
+		{ Slot = "Q", Stage = 1, DamageType = 2,	-- Stage 1 returns the current spell dmg
+			Damage = function(source, target, level) 
+				local Spell = source:get_spell_slot(SLOT_Q).spell_data.spell_name == "HweiQ" and "Q" or
+							  source:get_spell_slot(SLOT_Q).spell_data.spell_name == "HweiQQ" and "QQ" or
+							  source:get_spell_slot(SLOT_Q).spell_data.spell_name == "HweiWQ" and "WQ" or
+							  source:get_spell_slot(SLOT_Q).spell_data.spell_name == "HweiEQ" and "EQ" 
+				local Dmg = Spell == "Q" and 0 or 
+							Spell == "QQ" and ({ 60, 90, 120, 150, 180 })[level] + 0.7 * source.ability_power + ({ 0.04, 0.05, 0.06, 0.07, 0.08 })[level] * target.max_health or
+							Spell == "WQ" and 0 or
+							Spell == "EQ" and ({ 60, 90, 120, 150, 180 })[level] + 0.6 * source.ability_power
+			return Dmg+HweiIncreasedDmg(source) end },
+	
+		{ Slot = "Q", Stage = 2, DamageType = 2,	-- QQ
+			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.7 * source.ability_power + 
+					 ({ 0.04, 0.05, 0.06, 0.07, 0.08 })[level] * target.max_health + HweiIncreasedDmg(source)
+			end },
+		{ Slot = "Q", Stage = 3, DamageType = 2,	-- EQ
+			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.6 * source.ability_power + HweiIncreasedDmg(source) end },		
+				
+		{ Slot = "W", Stage = 1, DamageType = 2,   -- Stage 1 returns the current spell dmg
+			Damage = function(source, target, level)
+				local missHp = (target.max_health - target.health) / target.max_health
+				local calc = ({ 0.02, 0.02375, 0.0275, 0.03125, 0.035 })[level]
+				local ExtraDmg = IsImmobileTarget(target) and missHp * calc * 100 or 1
+			
+				local Spell = source:get_spell_slot(SLOT_W).spell_data.spell_name == "HweiW" and "W" or
+							  source:get_spell_slot(SLOT_W).spell_data.spell_name == "HweiQW" and "QW" or
+							  source:get_spell_slot(SLOT_W).spell_data.spell_name == "HweiWW" and "WW" or
+							  source:get_spell_slot(SLOT_W).spell_data.spell_name == "HweiEW" and "EW" 
+
+				local Dmg = Spell == "W" and 0 or 
+							Spell == "QW" and (ExtraDmg * (({ 80, 100, 120, 140, 160 })[level] + 0.25 * source.ability_power)) or
+							Spell == "WW" and 0 or
+							Spell == "EW" and ({ 60, 90, 120, 150, 180 })[level] + 0.6 * source.ability_power
+			return Dmg+HweiIncreasedDmg(source) end },		
+		
+		{ Slot = "W", Stage = 2, DamageType = 2,	-- QW
+			Damage = function(source, target, level) 
+				local missHp = (target.max_health - target.health) / target.max_health
+				local calc = ({ 0.02, 0.02375, 0.0275, 0.03125, 0.035 })[level]
+				local ExtraDmg = IsImmobileTarget(target) and missHp * calc * 100 or 1			
+			
+			return (ExtraDmg * (({ 80, 100, 120, 140, 160 })[level] + 0.25 * source.ability_power)) + HweiIncreasedDmg(source) end },
+			
+		{ Slot = "W", Stage = 3, DamageType = 2,	-- EW
+			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.6 * source.ability_power + HweiIncreasedDmg(source) end },
+		
+		{ Slot = "E", Stage = 1, DamageType = 2,  -- Stage 1 returns the current spell dmg
+			Damage = function(source, target, level)
+				local Spell = source:get_spell_slot(SLOT_E).spell_data.spell_name == "HweiE" and "E" or
+							  source:get_spell_slot(SLOT_E).spell_data.spell_name == "HweiQE" and "QE" or
+							  source:get_spell_slot(SLOT_E).spell_data.spell_name == "HweiWE" and "WE" or
+							  source:get_spell_slot(SLOT_E).spell_data.spell_name == "HweiEE" and "EE" 
+				local Dmg = Spell == "E" and 0 or 
+							Spell == "QE" and ({ 20, 40, 60, 80, 100 })[level] + 0.3 * source.ability_power + HweiIncreasedDmg(source) or
+							Spell == "WE" and ({ 25, 35, 45, 55, 65 })[level] + 0.2 * source.ability_power or
+							Spell == "EE" and ({ 60, 90, 120, 150, 180 })[level] + 0.6 * source.ability_power + HweiIncreasedDmg(source)
+			return Dmg end },		
+
+		{ Slot = "E", Stage = 2, DamageType = 2,	-- QE
+			Damage = function(source, target, level) return ({ 20, 40, 60, 80, 100 })[level] + 0.3 * source.ability_power + HweiIncreasedDmg(source) end },
+			
+		{ Slot = "E", Stage = 3, DamageType = 2,	-- WE
+			Damage = function(source, target, level) return ({ 25, 35, 45, 55, 65 })[level] + 0.2 * source.ability_power end },
+
+		{ Slot = "E", Stage = 4, DamageType = 2,	-- EE
+			Damage = function(source, target, level) return ({ 60, 90, 120, 150, 180 })[level] + 0.6 * source.ability_power + HweiIncreasedDmg(source) end },			
+		
+		{ Slot = "R", Stage = 1, DamageType = 2,
+			Damage = function(source, target, level) return ({ 200, 300, 400 })[level] + 0.8 * source.ability_power + HweiIncreasedDmg(source) end },
+	},	
+
 	["Illaoi"] = {
 		{ Slot = "W", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return 0.04 * source.total_attack_damage / 100 +
@@ -1235,7 +1324,7 @@ local DamageLibTable = {
 			end },
 		{ Slot = "W", Stage = 1, DamageType = 1,
 			Damage = function(source, target, level) return ({ 20, 40, 60, 80, 100 })[level] + 0.5 * source.total_attack_damage +
-					 0.3 * source.bonus_armor + 0.3 * source.bonus_mr + ({ 0.06, 0.07, 0.08, 0.09, 0.1 })[level] * target.max_health
+					 0.5 * source.bonus_armor + 0.5 * source.bonus_mr + ({ 0.06, 0.07, 0.08, 0.09, 0.1 })[level] * target.max_health
 			end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 70, 110, 150 })[level] + 0.65 * source.ability_power end },
@@ -1273,7 +1362,7 @@ local DamageLibTable = {
 		{ Slot = "E", Stage = 1, DamageType = 2,
 			Damage = function(source, target, level) return ({ 50, 90, 130, 170, 210 })[level] + 0.4 * source.ability_power end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 100, 175, 250 })[level] + 0.8 * source.ability_power end },
+			Damage = function(source, target, level) return ({ 150, 225, 300 })[level] + 0.8 * source.ability_power end },
 	},
 
 	["Lissandra"] = {
@@ -1416,7 +1505,7 @@ local DamageLibTable = {
 
 	["Mordekaiser"] = {
 		{ Slot = "Q", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 75, 95, 115, 135, 155 })[level] + 0.6 * source.ability_power +
+			Damage = function(source, target, level) return ({ 75, 95, 115, 135, 155 })[level] + 0.7 * source.ability_power +
 					({ 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 51, 61, 71, 81, 91, 107, 123, 139 })[source.level]
 			end },
 		{ Slot = "E", Stage = 1, DamageType = 2,
@@ -2415,7 +2504,7 @@ local DamageLibTable = {
 					(({ 1.04, 1.08, 1.12, 1.16, 1.2 })[level] * source.total_attack_damage)
 			end }, -- Full Dmg
 		{ Slot = "W", Stage = 1, DamageType = 2,
-			Damage = function(source, target, level) return ({ 20, 60, 100, 140, 180 })[level] + 1.3 * source.total_attack_damage +
+			Damage = function(source, target, level) return ({ 30, 70, 110, 150, 190 })[level] + 1.3 * source.total_attack_damage +
 					0.25 * source.ability_power
 			end },
 		{ Slot = "R", Stage = 1, DamageType = 2,
